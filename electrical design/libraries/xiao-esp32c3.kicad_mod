@@ -1,0 +1,90 @@
+(footprint "xiao-esp32c3" (version 20221018) (generator pcbnew)
+  (layer "F.Cu")
+  (attr smd)
+  (fp_text reference ">NAME" (at 0 -7.366) (layer "F.SilkS") hide
+      (effects (font (size 0.889 0.889) (thickness 0.1016)))
+    (tstamp 899a999b-cb66-426d-b8f2-08c4e89ab50c)
+  )
+  (fp_text value ">VALUE" (at 0 -5.842) (layer "F.SilkS") hide
+      (effects (font (size 0.6096 0.6096) (thickness 0.0762)))
+    (tstamp 9c46e766-45c2-42f7-bbc9-04af0b310b97)
+  )
+  (fp_line (start -8.75 -8.5) (end -8.75 8.5)
+    (stroke (width 0.2) (type solid)) (layer "F.SilkS") (tstamp 76e67661-3569-4855-8aa0-a8f324160c70))
+  (fp_line (start -6.75 10.5) (end 6.75 10.5)
+    (stroke (width 0.2) (type solid)) (layer "F.SilkS") (tstamp 2d28d28a-aeac-4d27-9bc4-552c76ff3caf))
+  (fp_line (start -4.5 -12) (end 4.5 -12)
+    (stroke (width 0.2) (type solid)) (layer "F.SilkS") (tstamp 406783d0-0e28-4ecb-86b6-3d703ac4a1da))
+  (fp_line (start -4.5 -10.5) (end -6.75 -10.5)
+    (stroke (width 0.2) (type solid)) (layer "F.SilkS") (tstamp 5652b400-a72d-424e-8896-e0d007869d42))
+  (fp_line (start -4.5 -4.7) (end -4.5 -12)
+    (stroke (width 0.2) (type solid)) (layer "F.SilkS") (tstamp f03e3ade-bd32-4fc9-a244-9de8346ce8e5))
+  (fp_line (start 0 -12) (end -4.5 -12)
+    (stroke (width 0.2) (type solid)) (layer "F.SilkS") (tstamp a313e9ec-b549-45ed-a0f4-59fa6e0379c1))
+  (fp_line (start 4.5 -12) (end 4.5 -4.7)
+    (stroke (width 0.2) (type solid)) (layer "F.SilkS") (tstamp 9f9cb312-6775-4c06-81ad-cb1c2d335d7a))
+  (fp_line (start 4.5 -4.7) (end -4.5 -4.7)
+    (stroke (width 0.2) (type solid)) (layer "F.SilkS") (tstamp 6f3adac8-3dc8-4710-b84a-2f256d856ee2))
+  (fp_line (start 6.75 -10.5) (end 4.5 -10.5)
+    (stroke (width 0.2) (type solid)) (layer "F.SilkS") (tstamp be00a5f1-a18b-4685-b867-9cb570d10bd0))
+  (fp_line (start 8.75 8.5) (end 8.75 -8.5)
+    (stroke (width 0.2) (type solid)) (layer "F.SilkS") (tstamp 4630d7b6-f3d7-45c3-8176-2a2e66d69e64))
+  (fp_arc (start -8.75 -8.5) (mid -8.164214 -9.914214) (end -6.75 -10.5)
+    (stroke (width 0.2) (type solid)) (layer "F.SilkS") (tstamp 2fa7d6bc-ea8d-464e-a1c2-3f43fd19af09))
+  (fp_arc (start -6.75 10.5) (mid -8.164214 9.914214) (end -8.75 8.5)
+    (stroke (width 0.2) (type solid)) (layer "F.SilkS") (tstamp 4d7e0209-55ec-47e2-909c-4f956625171d))
+  (fp_arc (start 6.75 -10.5) (mid 8.164214 -9.914214) (end 8.75 -8.5)
+    (stroke (width 0.2) (type solid)) (layer "F.SilkS") (tstamp ff225dc2-f7e2-468c-aec7-c5e3302aaa8c))
+  (fp_arc (start 8.75 8.5) (mid 8.164214 9.914214) (end 6.75 10.5)
+    (stroke (width 0.2) (type solid)) (layer "F.SilkS") (tstamp 9a9404cc-3913-4037-b77f-0051f4f36b54))
+  (pad "0" thru_hole roundrect (at -7.62 -7.62 180) (size 1.5 1.5) (drill 1) (layers "*.Cu" "*.Mask") (roundrect_rratio 0.1)
+    (thermal_bridge_angle 45) (tstamp 565401e9-3d62-41e3-a9bd-bb0c635260f6))
+  (pad "1" thru_hole roundrect (at -7.62 -5.08 180) (size 1.5 1.5) (drill 1) (layers "*.Cu" "*.Mask") (roundrect_rratio 0.1)
+    (thermal_bridge_angle 45) (tstamp bab50e56-dfce-4923-8f46-0bcf37d2dbef))
+  (pad "2" thru_hole roundrect (at -7.62 -2.54 180) (size 1.5 1.5) (drill 1) (layers "*.Cu" "*.Mask") (roundrect_rratio 0.1)
+    (thermal_bridge_angle 45) (tstamp 31e8b225-7c5c-4f25-9efd-89b92e842ba3))
+  (pad "3" thru_hole roundrect (at -7.62 0 180) (size 1.5 1.5) (drill 1) (layers "*.Cu" "*.Mask") (roundrect_rratio 0.1)
+    (thermal_bridge_angle 45) (tstamp cf5b7bc6-c3e5-4daf-898b-e8c9b599b52b))
+  (pad "4" thru_hole roundrect (at -7.62 2.54 180) (size 1.5 1.5) (drill 1) (layers "*.Cu" "*.Mask") (roundrect_rratio 0.1)
+    (thermal_bridge_angle 45) (tstamp 7abd0e67-fc23-47f6-be14-3db1dc79ab98))
+  (pad "5" thru_hole roundrect (at -7.62 5.08 180) (size 1.5 1.5) (drill 1) (layers "*.Cu" "*.Mask") (roundrect_rratio 0.1)
+    (thermal_bridge_angle 45) (tstamp 69f6a95d-d9d0-4467-bd38-faff24f10a74))
+  (pad "6" thru_hole roundrect (at -7.62 7.62 180) (size 1.5 1.5) (drill 1) (layers "*.Cu" "*.Mask") (roundrect_rratio 0.1) (tstamp 5491fcf5-0def-4790-8690-085b85b9b29b))
+  (pad "7" thru_hole roundrect (at 7.62 7.62) (size 1.5 1.5) (drill 1) (layers "*.Cu" "*.Mask") (roundrect_rratio 0.1)
+    (thermal_bridge_angle 45) (tstamp c24fbe07-1558-439e-b51f-e6d0390ebdb5))
+  (pad "8" thru_hole roundrect (at 7.62 5.08) (size 1.5 1.5) (drill 1) (layers "*.Cu" "*.Mask") (roundrect_rratio 0.1)
+    (thermal_bridge_angle 45) (tstamp 0db8024c-b76e-4ac5-a979-ab97439b7534))
+  (pad "9" thru_hole roundrect (at 7.62 2.54) (size 1.5 1.5) (drill 1) (layers "*.Cu" "*.Mask") (roundrect_rratio 0.1)
+    (thermal_bridge_angle 45) (tstamp 867e10f5-f927-432c-9983-422a43f4b845))
+  (pad "10" thru_hole roundrect (at 7.62 0) (size 1.5 1.5) (drill 1) (layers "*.Cu" "*.Mask") (roundrect_rratio 0.1)
+    (thermal_bridge_angle 45) (tstamp 92de8a1b-a13d-465f-adba-b22131b8590e))
+  (pad "11" thru_hole roundrect (at 7.62 -2.54) (size 1.5 1.5) (drill 1) (layers "*.Cu" "*.Mask") (roundrect_rratio 0.1)
+    (thermal_bridge_angle 45) (tstamp 1c557e0c-a5cf-4cee-b144-5328fdb98af2))
+  (pad "12" thru_hole roundrect (at 7.62 -5.08) (size 1.5 1.5) (drill 1) (layers "*.Cu" "*.Mask") (roundrect_rratio 0.1)
+    (thermal_bridge_angle 45) (tstamp 10b04e54-a474-4903-ac08-b2a7455a83a8))
+  (pad "13" thru_hole roundrect (at 7.62 -7.62) (size 1.5 1.5) (drill 1) (layers "*.Cu" "*.Mask") (roundrect_rratio 0.1)
+    (thermal_bridge_angle 45) (tstamp bf57c133-ff91-4a9e-aea1-9fed4a048c80))
+  (group "" (id cfc958cf-c433-41c2-a9e3-8f31d669ad64)
+    (members
+      2d28d28a-aeac-4d27-9bc4-552c76ff3caf
+      2fa7d6bc-ea8d-464e-a1c2-3f43fd19af09
+      406783d0-0e28-4ecb-86b6-3d703ac4a1da
+      4630d7b6-f3d7-45c3-8176-2a2e66d69e64
+      4d7e0209-55ec-47e2-909c-4f956625171d
+      5652b400-a72d-424e-8896-e0d007869d42
+      6f3adac8-3dc8-4710-b84a-2f256d856ee2
+      76e67661-3569-4855-8aa0-a8f324160c70
+      9a9404cc-3913-4037-b77f-0051f4f36b54
+      9f9cb312-6775-4c06-81ad-cb1c2d335d7a
+      a313e9ec-b549-45ed-a0f4-59fa6e0379c1
+      be00a5f1-a18b-4685-b867-9cb570d10bd0
+      f03e3ade-bd32-4fc9-a244-9de8346ce8e5
+      ff225dc2-f7e2-468c-aec7-c5e3302aaa8c
+    )
+  )
+  (model "${KIPRJMOD}/2024-Elec/open/2024l3/3dmodels/SeeedStudio ESP32-C3 THT.step"
+    (offset (xyz 6 -1.7 10))
+    (scale (xyz 1 1 1))
+    (rotate (xyz -90 0 -90))
+  )
+)
