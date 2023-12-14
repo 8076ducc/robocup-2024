@@ -3202,7 +3202,7 @@
         (effects (font (size 0.6096 0.6096) (thickness 0.127)))
       (tstamp d0ba8154-bd2f-45da-9ddd-8dd97f94815a)
     )
-    (fp_text value "SW_DPDT_x2" (at 2.921 0) (layer "F.SilkS")
+    (fp_text value "SW_DPDT_x2" (at 2.921 0) (layer "F.Fab")
         (effects (font (size 0.6096 0.6096) (thickness 0.127)))
       (tstamp 72d403b4-ae14-4397-9a1e-119f2f18bfbc)
     )
