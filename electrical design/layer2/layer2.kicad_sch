@@ -345,6 +345,15 @@
   )
 
 
+  (label "BATT" (at 34.925 123.19 180) (fields_autoplaced)
+    (effects (font (size 1.27 1.27)) (justify right bottom))
+    (uuid 47a389bc-a7a8-47b3-819b-5115ff490f59)
+  )
+  (label "BATT" (at 34.925 118.11 180) (fields_autoplaced)
+    (effects (font (size 1.27 1.27)) (justify right bottom))
+    (uuid b6aa3579-6894-4fe6-b117-48b30ba6f4d4)
+  )
+
   (symbol (lib_id "Connector:Conn_01x01_Female") (at 38.1 60.96 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 00166dec-96b0-43e5-9670-1ca49ac6a7ff)
@@ -421,6 +430,31 @@
       (project "layer2"
         (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
           (reference "#PWR02") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:Conn_01x01_Female") (at 40.005 123.19 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 03409250-13ab-4bd9-9ff1-9a6dfcc13149)
+    (property "Reference" "J19" (at 41.275 121.9199 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "Conn_01x01_Female" (at 41.275 124.4599 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "Connector_Wire:SolderWire-2.5sqmm_1x01_D2.4mm_OD4.4mm" (at 40.005 123.19 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 40.005 123.19 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid eed1565f-3565-4a51-9f71-85e8169c3f84))
+    (instances
+      (project "layer2"
+        (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
+          (reference "J19") (unit 1)
         )
       )
     )
@@ -1856,6 +1890,31 @@
       (project "layer2"
         (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
           (reference "H24") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:Conn_01x01_Female") (at 40.005 118.11 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid f1aa437c-8794-42a6-b6fd-3d1822ef2938)
+    (property "Reference" "J18" (at 41.275 116.8399 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "Conn_01x01_Female" (at 41.275 119.3799 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "Connector_Wire:SolderWire-2.5sqmm_1x01_D2.4mm_OD4.4mm" (at 40.005 118.11 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 40.005 118.11 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid ed48990f-e25f-4f89-98ae-ee7f216d0db6))
+    (instances
+      (project "layer2"
+        (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
+          (reference "J18") (unit 1)
         )
       )
     )
