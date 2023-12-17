@@ -139,9 +139,9 @@
   (pad "G1" thru_hole circle (at -7.62 -16.51) (size 1.53 1.53) (drill 1.02) (layers "*.Cu" "*.Mask") (tstamp 9966fc99-3bb5-404b-b11d-d784c8b502b9))
   (pad "G3" thru_hole circle (at 7.62 -13.97) (size 1.53 1.53) (drill 1.02) (layers "*.Cu" "*.Mask") (tstamp 72713fb3-e8c2-4e46-b631-39cd67f2fcdd))
   (pad "VIN" thru_hole circle (at 7.62 -16.51) (size 1.53 1.53) (drill 1.02) (layers "*.Cu" "*.Mask") (tstamp 5acad836-1c8c-48da-bfd4-f06ccab6971b))
-  (model "${KIPRJMOD}/3dmodels/teensy4.step"
-    (offset (xyz 0 0 10))
+  (model "${KICAD_USER_3DMODEL_DIR}/Teensy40/Teensy_4.0_Assembly.STEP"
+    (offset (xyz 9.4 -33.2 -1.54))
     (scale (xyz 1 1 1))
-    (rotate (xyz -90 0 0))
+    (rotate (xyz -90 0 90))
   )
 )
