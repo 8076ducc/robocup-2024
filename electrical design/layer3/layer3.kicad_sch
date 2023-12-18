@@ -3130,7 +3130,7 @@
     (property "Value" "XH2.54 2P" (at 239.395 102.235 0)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Connector_Wire:SolderWire-0.5sqmm_1x02_P4.6mm_D0.9mm_OD2.1mm" (at 238.76 104.775 0)
+    (property "Footprint" "Connector_JST:JST_XH_B2B-XH-A_1x02_P2.50mm_Vertical" (at 238.76 104.775 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 238.76 104.775 0)
