@@ -9,6 +9,10 @@ void setup() {
   while (!LAYER1) {}
   digitalWrite(LED, HIGH);
 
+  LIDAR.begin(9600);
+  while (!LIDAR) {}
+  digitalWrite(LED, LOW);
+
   #ifdef DEBUG
   Serial.begin(9600);
   while (!Serial) {}
@@ -17,11 +21,20 @@ void setup() {
 }
 
 void loop() {
-  if ((millis() / 1000) < 3) {
-    move(1, 0, 0);
-  } else {
-    delay(100);
-    move(1, 90, 0);
+
+  LIDAR.println("Hello, world!");
+
+  if (LAYER1.available()) {
+    // int received = LAYER1.parseInt();
+    #ifdef DEBUG
+    Serial.println(char(LAYER1.available()));
+    #endif
   }
-  
+
+  // if ((millis() / 1000) < 3) {
+  //   move(1, 0, 0);
+  // } else {
+  //   delay(100);
+  //   move(1, 90, 0);
+  // } 
 }

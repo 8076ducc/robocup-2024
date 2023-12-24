@@ -1,9 +1,11 @@
 #include <main.h>
-#include <light_ring.cpp>
+// #include <light_ring.cpp>
 
 void setup() {
   pinMode(LED, OUTPUT);
   digitalWrite(LED, HIGH);
+  delay(1000);
+  // digitalWrite(LED, LOW);
 
   pinMode(S0, OUTPUT);
   pinMode(S1, OUTPUT);
@@ -16,18 +18,34 @@ void setup() {
 
   pinMode(KICKER, OUTPUT);
 
-  TEENSY.begin(115200);
+  // Serial.begin(9600);
+  // while (!Serial) {}
+  // Serial.println("Serial connection established.");
+
+  TEENSY.begin(9600);
+  // digitalWrite(LED, HIGH);
+  // delay(1000);
+  // digitalWrite(LED, LOW);
+  while (!TEENSY) {}
+  TEENSY.println("Teensy connection established.");
+  // digitalWrite(LED, HIGH);
+  // delay(1000);
+  // digitalWrite(LED, LOW);
 }
 
 void loop() {
-  detectLight();
-  detectBall();
-  if (TEENSY.available()) {
-    char command = TEENSY.read();
-    if (command == 'k') {
-      kick();
-    }
-  }
+  // detectLight();
+  // detectBall();
+  // if (TEENSY.available()) {
+  //   char command = TEENSY.read();
+  //   if (command == 'k') {
+  //     kick();
+  //   }
+  // }
+  // TEENSY.println("1");
+  digitalWrite(LED, HIGH);
+  TEENSY.println("Teensy connection established.");
+  // TEENSY.println("Teensy connection established.");
 }
 
 void detectBall() {
