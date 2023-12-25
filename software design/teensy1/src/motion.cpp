@@ -1,17 +1,12 @@
 #include <main.h>
-#include <motion.h>
 
 float prev_fl_out = 0;
 float prev_fr_out = 0;
 float prev_bl_out = 0;
 float prev_br_out = 0;
 
-float degToRad(float deg) {
-    return deg * M_PI / 180;
-}
-
-void motorOut(int motor, float speed) {
-    int INA, dir, pwm;
+void Robot::motorOut(int motor, float speed) {
+    int INA = 0, dir = 0, pwm = 0;
 
     switch (motor) {
         case 1:
@@ -38,7 +33,7 @@ void motorOut(int motor, float speed) {
 }
 
 
-void move(float speed, float angle, float angVel, float angSpeed=-1.0) {
+void Robot::move(float speed, float angle, float angVel) {
     float x_speed = sinf(degToRad(angle))*sinf(wheel_angle);
     float y_speed = cosf(degToRad(angle))*cosf(wheel_angle);
 
