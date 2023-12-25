@@ -21,13 +21,12 @@ void kick() {
 void setup() {
   light_ring.setup();
   pinMode(LIGHTGATE, INPUT);
-
   pinMode(KICKER, OUTPUT);
 
   #ifdef DEBUG
-  Serial.begin(9600);
+  Serial.begin(115200);
   while (!Serial) {}
-  Serial.println("Serial connection established.");
+  Serial.println("Debug serial connection established.");
   #endif
 
   TEENSY.begin(115200);
