@@ -5,6 +5,32 @@ float prev_fr_out = 0;
 float prev_bl_out = 0;
 float prev_br_out = 0;
 
+void Robot::setUpMotors() {
+    pinModeFast(M1_INA, OUTPUT);
+    pinModeFast(M2_INA, OUTPUT);
+    pinModeFast(M3_INA, OUTPUT);
+    pinModeFast(M4_INA, OUTPUT);
+
+    pinMode(M1_PWM, OUTPUT);
+    pinMode(M2_PWM, OUTPUT);
+    pinMode(M3_PWM, OUTPUT);
+    pinMode(M4_PWM, OUTPUT);
+
+    pinMode(M1_CS, INPUT);
+    pinMode(M2_CS, INPUT);
+    pinMode(M3_CS, INPUT);
+    pinMode(M4_CS, INPUT);
+}
+
+void Robot::setUpDribbler() {
+    pinMode(DRIBBLER_PWM, OUTPUT);
+
+    analogWriteFrequency(DRIBBLER_PWM, 4000); 
+  
+    analogWrite(DRIBBLER_PWM, 128);
+    delay(3000);
+}
+
 void Robot::motorOut(int motor, float speed) {
     int INA = 0, dir = 0, pwm = 0;
 
@@ -31,7 +57,6 @@ void Robot::motorOut(int motor, float speed) {
     analogWrite(pwm, abs(speed) > min_speed ? abs(speed) : 0);
     digitalWriteFast(INA, dir);
 }
-
 
 void Robot::move(float speed, float angle, float angVel) {
     float x_speed = sinf(degToRad(angle))*sinf(wheel_angle);
@@ -75,4 +100,13 @@ void Robot::move(float speed, float angle, float angVel) {
     motorOut(2, round(fr_out));
     motorOut(3, round(bl_out));
     motorOut(4, round(br_out));
+}
+
+void Robot::moveToTargetPose() {
+    float x_diff = target_pose.x - current_pose.x;
+    float y_diff = target_pose.y - current_pose.y;
+    float angle = atan2(y_diff, x_diff);
+    float distance = sqrt(x_diff*x_diff + y_diff*y_diff);
+
+    move(distance, angle, 0);
 }

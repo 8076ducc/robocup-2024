@@ -10,6 +10,7 @@
 
 #include <Arduino.h>
 #include <cmath>
+#include <digitalWriteFast.h>
 
 #define LED 13
 
@@ -49,8 +50,11 @@ class Pose {
 
 class Robot {
     public:
+        void setUpMotors();
+        void setUpDribbler();
         void move(float speed, float angle, float angVel);
         void motorOut(int motor, float speed);
+        void moveToTargetPose();
 
         Pose current_pose;
         Pose target_pose;
@@ -60,6 +64,8 @@ class Ball {
     public:
         Pose current_pose;
         Pose projected_pose;
+
+        bool in_catchment;
 };
 
 extern Robot robot;

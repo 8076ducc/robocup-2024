@@ -9,21 +9,32 @@ float degToRad(float deg) {
 }
 
 void setup() {
-  pinMode(LED, OUTPUT);
-  digitalWrite(LED, HIGH);
+  pinModeFast(LED, OUTPUT);
+  digitalWriteFast(LED, HIGH);
 
-  LAYER1.begin(115200);
-  while (!LAYER1) {}
-  digitalWrite(LED, LOW);
+  robot.setUpMotors();
+  robot.setUpDribbler();
 
-  LIDAR.begin(115200);
-  while (!LIDAR) {}
-  digitalWrite(LED, HIGH);
+  pinMode(LIDAR_PWM, OUTPUT);
 
   #ifdef DEBUG
   Serial.begin(115200);
   while (!Serial) {}
-  Serial.println("Serial ready.");
+  Serial.println("Debug serial connection established.");
+  #endif
+
+  LAYER1.begin(115200);
+  while (!LAYER1) {}
+  digitalWriteFast(LED, LOW);
+  #ifdef DEBUG
+  Serial.println("Layer 1 serial connection established.");
+  #endif
+
+  LIDAR.begin(115200);
+  while (!LIDAR) {}
+  digitalWriteFast(LED, HIGH);
+  #ifdef DEBUG
+  Serial.println("LIDAR serial connection established.");
   #endif
 }
 
