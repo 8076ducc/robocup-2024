@@ -4,6 +4,9 @@
 #define main.h
 
 #define DEBUG
+#define STRATEGY 1
+// #define WHITE_BOT
+// #define BLACK_BOT
 
 #include <Arduino.h>
 #include <cmath>
@@ -31,5 +34,15 @@
 #define LIDAR Serial2
 #define IMU Serial3
 #define TEENSY Serial5
+
+const int wheel_angle = 50 * M_PI / 180.0;
+const int min_speed = 25;
+const int max_speed = 1;
+const int max_accel = 0.5;
+
+int robot_pos[2] = {0, 0};
+int robot_bearing = 0;
+int ball_pos[2] = {0, 0};
+bool have_ball = false;
 
 #endif

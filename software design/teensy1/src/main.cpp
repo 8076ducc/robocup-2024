@@ -1,17 +1,18 @@
 #include "main.h"
 #include "motion.h"
+#include "serial.cpp"
 
 void setup() {
   pinMode(LED, OUTPUT);
-  digitalWrite(LED, LOW);
+  digitalWrite(LED, HIGH);
 
   LAYER1.begin(9600);
   while (!LAYER1) {}
-  digitalWrite(LED, HIGH);
+  digitalWrite(LED, LOW);
 
   LIDAR.begin(9600);
   while (!LIDAR) {}
-  digitalWrite(LED, LOW);
+  digitalWrite(LED, HIGH);
 
   #ifdef DEBUG
   Serial.begin(9600);
@@ -21,20 +22,7 @@ void setup() {
 }
 
 void loop() {
-
-  LIDAR.println("Hello, world!");
-
   if (LAYER1.available()) {
-    // int received = LAYER1.parseInt();
-    #ifdef DEBUG
-    Serial.println(char(LAYER1.available()));
-    #endif
+    processLayer1Serial();
   }
-
-  // if ((millis() / 1000) < 3) {
-  //   move(1, 0, 0);
-  // } else {
-  //   delay(100);
-  //   move(1, 90, 0);
-  // } 
 }

@@ -6,6 +6,10 @@ float prev_fr_out = 0;
 float prev_bl_out = 0;
 float prev_br_out = 0;
 
+float degToRad(float deg) {
+    return deg * M_PI / 180;
+}
+
 void motorOut(int motor, float speed) {
     int INA, dir, pwm;
 
@@ -29,17 +33,14 @@ void motorOut(int motor, float speed) {
     }
     
     // stop motor from stalling out if speed is below minimum threshold
-    analogWrite(pwm, abs(speed) > MIN_SPEED ? abs(speed) : 0);
+    analogWrite(pwm, abs(speed) > min_speed ? abs(speed) : 0);
     digitalWriteFast(INA, dir);
 }
 
 
 void move(float speed, float angle, float angVel, float angSpeed=-1.0) {
-
-    float rad_ang = angle * M_PI / 180;
-
-    float x_speed = sinf(rad_ang)*sinf(WHEEL_ANGLE);
-    float y_speed = cosf(rad_ang)*cosf(WHEEL_ANGLE);
+    float x_speed = sinf(degToRad(angle))*sinf(wheel_angle);
+    float y_speed = cosf(degToRad(angle))*cosf(wheel_angle);
 
     float fl = (x_speed + y_speed) * speed;
     float fr = (-x_speed + y_speed) * speed;
@@ -47,16 +48,16 @@ void move(float speed, float angle, float angVel, float angSpeed=-1.0) {
     float br = (x_speed + y_speed) * speed;
 
     // calculate new speeds
-    float new_fl_out = MAX_SPEED * fl * 255;
-    float new_fr_out = MAX_SPEED * fr * 255;
-    float new_bl_out = MAX_SPEED * bl * 255;
-    float new_br_out = MAX_SPEED * br * 255;
+    float new_fl_out = max_speed * fl * 255;
+    float new_fr_out = max_speed * fr * 255;
+    float new_bl_out = max_speed * bl * 255;
+    float new_br_out = max_speed * br * 255;
 
     // check if the acceleration exceeds the maximum threshold
-    float fl_out = abs(new_fl_out) - abs(prev_fl_out) < MAX_ACCEL ? new_fl_out : prev_fl_out + MAX_ACCEL;
-    float fr_out = abs(new_fr_out) - abs(prev_fr_out) < MAX_ACCEL ? new_fr_out : prev_fr_out + MAX_ACCEL;
-    float bl_out = abs(new_bl_out) - abs(prev_bl_out) < MAX_ACCEL ? new_bl_out : prev_bl_out + MAX_ACCEL;
-    float br_out = abs(new_br_out) - abs(prev_br_out) < MAX_ACCEL ? new_br_out : prev_br_out + MAX_ACCEL;
+    float fl_out = abs(new_fl_out) - abs(prev_fl_out) < max_accel ? new_fl_out : prev_fl_out + max_accel;
+    float fr_out = abs(new_fr_out) - abs(prev_fr_out) < max_accel ? new_fr_out : prev_fr_out + max_accel;
+    float bl_out = abs(new_bl_out) - abs(prev_bl_out) < max_accel ? new_bl_out : prev_bl_out + max_accel;
+    float br_out = abs(new_br_out) - abs(prev_br_out) < max_accel ? new_br_out : prev_br_out + max_accel;
 
     // update previous speeds
     prev_fl_out = fl_out;

@@ -32,8 +32,8 @@ void detectLight() {
     }
     
     float approach_angle = (line_end - line_start) < 16 ? (line_start + (line_end - line_start) / 2) * ldr_angle : 360 - ((line_end - line_start) * ldr_angle) - ((32 - line_end) * ldr_angle);
-    TEENSY.print("l");
-    TEENSY.println(approach_angle);
+    TEENSY.print("l,");
+    TEENSY.println(approach_angle > 180 ? approach_angle + 180 : approach_angle - 180);
 }
 
 void CalibLight() {
