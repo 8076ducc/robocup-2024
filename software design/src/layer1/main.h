@@ -9,9 +9,10 @@
 #include <Arduino.h>
 #include <digitalWriteFast.h>
 #include <math.h>
-// #include <PacketSerial.h>
+#include <PacketSerial.h>
 
-#define LED D9
+// shared project headerfiles
+#include <serial.h>
 
 #define S0 D2
 #define S1 D3
@@ -22,9 +23,9 @@
 #define MUX2 D1
 #define LIGHTGATE D9
 
-#define KICKER D10
+#define KICKER D9
 
-#define TEENSY Serial0
+#define TEENSYSERIAL Serial0
 
 const int ball_threshold = 0;
 

@@ -3,7 +3,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#define DEBUG
+// #define DEBUG
 #define STRATEGY 1
 // #define WHITE_BOT
 // #define BLACK_BOT
@@ -11,30 +11,29 @@
 #include <Arduino.h>
 #include <cmath>
 #include <digitalWriteFast.h>
+#include <PacketSerial.h>
+
+// shared project headerfiles
+#include <serial.h>
 
 #define LED 13
 
-#define M1_PWM 2
-#define M2_PWM 3
-#define M3_PWM 4
-#define M4_PWM 5
+#define FL_PWM 2
+#define FR_PWM 3
+#define BL_PWM 4
+#define BR_PWM 5
 #define LIDAR_PWM 6
 #define DRIBBLER_PWM 23
 
-#define M1_INA 9
-#define M2_INA 10
-#define M3_INA 11
-#define M4_INA 12
+#define FL_INA 9
+#define FR_INA 10
+#define BL_INA 11
+#define BR_INA 12
 
-#define M1_CS 16
-#define M2_CS 17
-#define M3_CS 18
-#define M4_CS 19
-
-#define LAYER1 Serial1
-#define LIDAR Serial2
-#define IMU Serial3
-#define TEENSY Serial5
+#define FL_CS 16
+#define FR_CS 17
+#define BL_CS 18
+#define BR_CS 19
 
 const int wheel_angle = 50 * M_PI / 180.0;
 const int min_speed = 25;
@@ -68,8 +67,15 @@ class Ball {
         bool in_catchment;
 };
 
+extern PacketSerial LAYER1;
+extern PacketSerial LIDAR;
+extern PacketSerial IMU;
+extern PacketSerial TEENSY;
+
 extern Robot robot;
 extern Ball ball;
+
+void onPacketReceived(const byte *buf, size_t size);
 
 float degToRad(float deg);
 

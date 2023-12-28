@@ -1,4 +1,4 @@
-#include <light_ring.h>
+#include "light_ring.h"
 
 void LightRing::setup() {
     pinModeFast(S0, OUTPUT);
@@ -97,7 +97,13 @@ void LightRing::read() {
         }
     }
     
+    if (line_start == 0 && line_end == 0) {
+        txData.data.on_line = false;
+        return;
+    }
     float approach_angle = (line_end - line_start) < 16 ? (line_start + (line_end - line_start) / 2) * ldr_angle : 360 - ((line_end - line_start) * ldr_angle) - ((32 - line_end) * ldr_angle);
-    TEENSY.print("l,");
-    TEENSY.println(approach_angle > 180 ? approach_angle + 180 : approach_angle - 180);
+
+    txData.data.on_line = true;
+    txData.data.target_angle = approach_angle > 180 ? approach_angle + 180 : approach_angle - 180;
+    txData.data.chord_length = 1.0;
 }

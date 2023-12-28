@@ -1,7 +1,7 @@
 #ifndef LIGHT_RING_H
 #define LIGHT_RING_H
 
-#include <main.h>
+#include "main.h"
 
 class LightRing {
     public:

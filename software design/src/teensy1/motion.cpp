@@ -6,20 +6,20 @@ float prev_bl_out = 0;
 float prev_br_out = 0;
 
 void Robot::setUpMotors() {
-    pinModeFast(M1_INA, OUTPUT);
-    pinModeFast(M2_INA, OUTPUT);
-    pinModeFast(M3_INA, OUTPUT);
-    pinModeFast(M4_INA, OUTPUT);
+    pinModeFast(FL_INA, OUTPUT);
+    pinModeFast(FR_INA, OUTPUT);
+    pinModeFast(BL_INA, OUTPUT);
+    pinModeFast(BR_INA, OUTPUT);
 
-    pinMode(M1_PWM, OUTPUT);
-    pinMode(M2_PWM, OUTPUT);
-    pinMode(M3_PWM, OUTPUT);
-    pinMode(M4_PWM, OUTPUT);
+    pinMode(FL_PWM, OUTPUT);
+    pinMode(FR_PWM, OUTPUT);
+    pinMode(BL_PWM, OUTPUT);
+    pinMode(BR_PWM, OUTPUT);
 
-    pinMode(M1_CS, INPUT);
-    pinMode(M2_CS, INPUT);
-    pinMode(M3_CS, INPUT);
-    pinMode(M4_CS, INPUT);
+    pinMode(FL_CS, INPUT);
+    pinMode(FR_CS, INPUT);
+    pinMode(BL_CS, INPUT);
+    pinMode(BR_CS, INPUT);
 }
 
 void Robot::setUpDribbler() {
@@ -36,21 +36,21 @@ void Robot::motorOut(int motor, float speed) {
 
     switch (motor) {
         case 1:
-            INA = M1_INA;
+            INA = FL_INA;
             dir = speed > 0 ?  HIGH : LOW;
-            pwm = M1_PWM;
+            pwm = FL_PWM;
         case 2:
-            INA = M2_INA;
+            INA = FR_INA;
             dir = speed > 0 ?  LOW : HIGH;
-            pwm = M2_PWM;
+            pwm = FR_PWM;
         case 3:
-            INA = M3_INA;
+            INA = BL_INA;
             dir = speed > 0 ?  HIGH : LOW;
-            pwm = M3_PWM;
+            pwm = BL_PWM;
         case 4:
-            INA = M4_INA;
+            INA = BR_INA;
             dir = speed > 0 ?  LOW : HIGH;
-            pwm = M4_PWM;
+            pwm = BR_PWM;
     }
     
     // stop motor from stalling out if speed is below minimum threshold
