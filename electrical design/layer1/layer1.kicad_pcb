@@ -2921,7 +2921,7 @@
         (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 1a9d7e95-a3bb-46fe-b5aa-a5f3ce8631da)
     )
-    (fp_text value "Conn_01x05_Pin" (at 0 3.3) (layer "F.Fab")
+    (fp_text value "SH1.0 5P" (at 0 3.3) (layer "F.Fab")
         (effects (font (size 1 1) (thickness 0.15)))
       (tstamp 73081ec1-6aeb-48ce-9d93-687fdd2fc565)
     )
@@ -4195,7 +4195,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 38fd8a11-db59-48a3-937f-a488fe621e4f)
     )
-    (fp_text value "10mA" (at 4.190476 0 101.25) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 101.25) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 95445810-e610-47c7-b578-722b3bb73f85)
     )
@@ -4419,7 +4419,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 414ced61-351c-4509-8c48-62fdbb80dfb2)
     )
-    (fp_text value "10mA" (at 4.190476 0 112.5) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 112.5) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 05e65b06-4a6d-49f9-a6e8-c5bc53ef3e2a)
     )
@@ -5025,7 +5025,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 477159c8-6842-4fdb-8985-f042f4e62500)
     )
-    (fp_text value "10mA" (at 4.190476 0 146.25) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 146.25) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 5ab73428-d0c8-4ba7-be53-e4ec8278507c)
     )
@@ -5415,7 +5415,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 7296ed8a-f395-42da-8e4c-397103a895a7)
     )
-    (fp_text value "10mA" (at 4.190476 0 45) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 45) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 5317c000-e159-4745-b124-22c7cf8aaa42)
     )
@@ -5523,7 +5523,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 4f83de49-5808-4aa1-bd69-ab1f6ad0ad3d)
     )
-    (fp_text value "10mA" (at 4.190476 0 33.75) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 33.75) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp d575f245-53c4-44bd-9a1e-edd3b26a8474)
     )
@@ -5577,7 +5577,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 462300d8-5235-4268-b945-a065aa4bccf1)
     )
-    (fp_text value "10mA" (at 4.190476 0 168.75) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 168.75) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp b87a01ba-9438-409e-8ee0-7b599746cffd)
     )
@@ -5851,7 +5851,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp e57bcf50-81ce-4f5a-839b-106d5a693317)
     )
-    (fp_text value "10mA" (at 4.190476 0 157.5) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 157.5) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 2d21e9d4-5f95-4bd5-bafa-7195b8da2940)
     )
@@ -6241,7 +6241,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 2057fbe6-d532-4a1b-98f4-f179ea789e61)
     )
-    (fp_text value "10mA" (at 4.190476 0 168.75) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 168.75) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp b5f605e1-49c8-4f58-bd9c-3029f8ec3336)
     )
@@ -6349,7 +6349,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp c7e381d8-ee41-45c6-90eb-5d8a70d113f4)
     )
-    (fp_text value "10mA" (at 4.190476 0 135) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 135) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 19f19d0e-cc7c-4e6f-8815-01b2911ca0dc)
     )
@@ -6403,7 +6403,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 8b558536-1bde-44d3-be26-2bd38243611d)
     )
-    (fp_text value "10mA" (at 4.190476 0 90) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 90) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp e683e21c-f9c0-4c58-9e8b-7f102dc7d513)
     )
@@ -6569,7 +6569,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 19e8cd29-dd25-43f1-974f-f3cb2499abd7)
     )
-    (fp_text value "10mA" (at 4.190476 0 90) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 90) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 4f2d18f2-0648-4ba5-95f6-438a018721c4)
     )
@@ -6623,7 +6623,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 678d05c5-bf8a-4def-b363-497fd128ef14)
     )
-    (fp_text value "10mA" (at 4.190476 0 33.75) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 33.75) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 0f6ca307-e918-4afe-a653-ae77ef17a39b)
     )
@@ -6792,7 +6792,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp dd287ecc-48c7-4569-84ef-5639ce72358e)
     )
-    (fp_text value "10mA" (at 4.190476 0 123.75) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 123.75) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 500a323d-22a9-445d-94a4-e107a0e1ae23)
     )
@@ -7008,7 +7008,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 5c40247e-5f02-469b-86e7-d7bb4f416cca)
     )
-    (fp_text value "10mA" (at 4.190476 0 56.25) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 56.25) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 861f715d-bebd-4107-920a-f8f72fbe705d)
     )
@@ -7452,7 +7452,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 97737cd9-39cd-4111-89eb-7bacb5f150c7)
     )
-    (fp_text value "10mA" (at 4.190476 0 123.75) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 123.75) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 8d711ce0-ff64-43c7-8903-fc34fceb7a16)
     )
@@ -7506,7 +7506,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 4644daa9-effe-4f77-8b42-beed7545b295)
     )
-    (fp_text value "10mA" (at 4.190476 0 67.5) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 67.5) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp c840e0de-0c8d-42c7-adc3-1d713a3859ea)
     )
@@ -8120,7 +8120,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp a51da19e-9a50-4dca-8d6f-5dbd75fb204b)
     )
-    (fp_text value "10mA" (at 4.190476 0 101.25) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 101.25) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 9be2511d-ade2-4226-92b7-3aaaf18f4666)
     )
@@ -8286,7 +8286,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 7bb456e2-7bbc-4e01-ac2e-b307b9041d17)
     )
-    (fp_text value "10mA" (at 4.190476 0 11.25) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 11.25) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 74b4bc2b-6fd1-4944-93b1-54d0f94622c2)
     )
@@ -8452,7 +8452,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 9401c2ec-6cbf-417d-84b9-8770850dc7b2)
     )
-    (fp_text value "10mA" (at 4.190476 0 45) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 45) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 68b94f1b-fbf3-49d2-af60-1ff7c3d86e32)
     )
@@ -8622,7 +8622,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 1343725e-9684-4f2f-a5e1-c30ef0b6ffdb)
     )
-    (fp_text value "10mA" (at 4.190476 0 22.5) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 22.5) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 0f3c1f1f-bc5c-40a5-8d11-b338ec9f5c1a)
     )
@@ -8842,7 +8842,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp d3dc734e-87c0-4648-97d5-049adaf22b9b)
     )
-    (fp_text value "10mA" (at 4.190476 0 11.25) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 11.25) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 291dcb04-9602-44a1-ad42-4379a9874dc3)
     )
@@ -9780,7 +9780,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 89003258-54a3-4ec2-adbc-e25c47830bcf)
     )
-    (fp_text value "10mA" (at 4.190476 0 78.75) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 78.75) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp fb4c815c-f261-421d-9723-e6ffdb5464e1)
     )
@@ -9946,7 +9946,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 3776ed17-29da-4dcb-90b3-a7606449a11d)
     )
-    (fp_text value "10mA" (at 4.190476 0 146.25) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 146.25) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp d04fd522-7fd2-4a18-b694-09dc0d7512b3)
     )
@@ -10563,7 +10563,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp d6dba6ae-d838-4f62-a9da-a0ad16ee06ec)
     )
-    (fp_text value "10mA" (at 4.190476 0 157.5) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 157.5) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp f139fe69-369a-4a56-969c-b0699ff1607e)
     )
@@ -10617,7 +10617,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp db562cff-25e0-4ced-9d77-451c7914fdb3)
     )
-    (fp_text value "10mA" (at 4.190476 0 56.25) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 56.25) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 5bcad39e-9d7f-4cf3-9d1f-70451be55889)
     )
@@ -10783,7 +10783,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 3dd7ba6d-58d0-4668-bf89-3ae2dc7e4cfb)
     )
-    (fp_text value "10mA" (at 4.190476 0 67.5) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 67.5) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 37b10a54-1933-4673-b918-2b0302ac4470)
     )
@@ -11238,7 +11238,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp a2e0e0a1-0dba-47c1-bf56-d1a776ce1ccf)
     )
-    (fp_text value "10mA" (at 4.190476 0 22.5) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 22.5) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 8f621e89-adc5-4274-97d0-1dbb419d12eb)
     )
@@ -11292,7 +11292,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 9d1ef6fd-6f67-4e97-87be-f7bbf4ac7873)
     )
-    (fp_text value "10mA" (at 4.190476 0 112.5) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 112.5) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp abb0297c-ab02-4d6b-8068-38ab7c867fc3)
     )
@@ -11346,7 +11346,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 55311643-d7b8-4a29-b19e-bce86aa84e1d)
     )
-    (fp_text value "10mA" (at 4.190476 0 78.75) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 78.75) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp e50d54c8-69a5-436e-84c9-b61c59cc4992)
     )
@@ -11624,7 +11624,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp f9bf1da2-2389-4a89-a6c0-582e5adbfa70)
     )
-    (fp_text value "10mA" (at 4.190476 0 135) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0 135) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp 1197e144-1321-4472-9d11-a7ce82c3b545)
     )
@@ -12647,7 +12647,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp cfd9f318-341d-4688-a5f7-9f02b76cbe65)
     )
-    (fp_text value "10mA" (at 4.190476 0) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp e5732a90-7446-4a2b-afb4-0f17831210f3)
     )
@@ -13257,7 +13257,7 @@
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp bf32c67f-19b9-4ad3-99c8-4cf50cb9a4cc)
     )
-    (fp_text value "10mA" (at 4.190476 0) (layer "B.SilkS") hide
+    (fp_text value "10µH" (at 4.190476 0) (layer "B.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
       (tstamp b384bc24-1d37-4d77-87b9-cfacae7b8987)
     )
