@@ -10,6 +10,11 @@
 
 #include <Arduino.h>
 #include <cmath>
+#include <digitalWriteFast.h>
+#include <PacketSerial.h>
+
+// shared project header files
+#include <serial.h>
 
 #define LED 13
 
@@ -18,23 +23,10 @@
 #define DIP_3 4
 #define DIP_4 5
 
-#define CAM1 Serial1
-#define CAM2 Serial2
-#define LIDAR Serial3
-#define BT Serial4
-#define TEENSY Serial5
-
 const int wheel_angle = 50 * M_PI / 180.0;
 const int min_speed = 25;
 const int max_speed = 1;
 const int max_accel = 0.5;
-
-class Pose {
-    public:
-        int x;
-        int y;
-        int bearing;
-};
 
 class Robot {
     public:
@@ -51,7 +43,16 @@ class Ball {
         Pose projected_pose;
 };
 
+//global variables
+
+extern PacketSerial Cam1Serial;
+extern PacketSerial Cam2Serial;
+extern PacketSerial BtSerial;
+extern PacketSerial TeensySerial;
+
 extern Robot robot;
 extern Ball ball;
+
+void onPacketReceived(const byte *buf, size_t size);
 
 #endif

@@ -11,7 +11,7 @@
 #include <math.h>
 #include <PacketSerial.h>
 
-// shared project headerfiles
+// shared project header files
 #include <serial.h>
 
 #define S0 D2
@@ -25,8 +25,8 @@
 
 #define KICKER D9
 
-#define TEENSYSERIAL Serial0
-
 const int ball_threshold = 0;
+extern Layer1TxDataUnion txData;
+extern Layer1RxDataUnion rxData;
 
 #endif

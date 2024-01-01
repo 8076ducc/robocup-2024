@@ -1,7 +1,7 @@
 #include "main.h"
 #include "light_ring.h"
 
-PacketSerial TEENSY;
+PacketSerial TeensySerial;
 
 Layer1TxDataUnion txData;
 Layer1RxDataUnion rxData;
@@ -9,7 +9,7 @@ Layer1RxDataUnion rxData;
 LightRing light_ring;
 
 void detectBall() {
-  if ((analogRead(LIGHTGATE) > ball_threshold) != ball_detected) {
+  if (analogRead(LIGHTGATE) > ball_threshold) {
     txData.data.ball_detected = true;
   } else {
     txData.data.ball_detected = false;
@@ -24,21 +24,18 @@ void kick() {
 
 void onPacketReceived(const byte *buf, size_t size) {
     // Read the payload
-    Layer1TxDataUnion payload;
+    Layer1RxDataUnion data_received;
     // Don't continue if the payload is invalid
-    if (size != sizeof(payload)) return;
-    std::copy(buf, buf + size, std::begin(payload.bytes));
-
-    Serial.print(payload.data.on_line);
+    if (size != sizeof(data_received)) return;
+    std::copy(buf, buf + size, std::begin(data_received.bytes));
 }
 
 void setup() {
   light_ring.setup();
-  // pinMode(LIGHTGATE, INPUT);
+  pinMode(LIGHTGATE, INPUT);
   pinMode(KICKER, OUTPUT);
 
   pinMode(D9, OUTPUT);
-  analogWrite(D9, 255);
 
   #ifdef DEBUG
   Serial.begin(115200);
@@ -48,12 +45,12 @@ void setup() {
 
   Serial0.begin(115200);
   while (!Serial0) {}
-  TEENSY.setStream(&Serial0);
-  TEENSY.setPacketHandler(&onPacketReceived);
+  TeensySerial.setStream(&Serial0);
+  TeensySerial.setPacketHandler(&onPacketReceived);
 }
 
 void loop() {
-  TEENSY.update();
+  // TeensySerial.update();
   #ifdef DEBUG
   // light_ring.calibrate();
   #else
@@ -69,5 +66,10 @@ void loop() {
   // delay(5000);
   #endif
 
-  TEENSY.send(txData.bytes, sizeof(txData.bytes));
+  // TeensySerial.send(txData.bytes, sizeof(txData.bytes));
+
+  digitalWrite(D9, HIGH);
+  delay(100);
+  digitalWrite(D9, LOW);
+  delay(5000);
 }

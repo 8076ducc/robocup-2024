@@ -9,12 +9,14 @@
 // #define BLACK_BOT
 
 #include <Arduino.h>
+#include <bits/stdc++.h>
 #include <cmath>
 #include <digitalWriteFast.h>
 #include <PacketSerial.h>
 
-// shared project headerfiles
+// shared project header files
 #include <serial.h>
+#include <utils.h>
 
 #define LED 13
 
@@ -35,29 +37,39 @@
 #define BL_CS 18
 #define BR_CS 19
 
-const int wheel_angle = 50 * M_PI / 180.0;
-const int min_speed = 25;
-const int max_speed = 1;
-const int max_accel = 0.5;
 
-class Pose {
+class Base {
     public:
-        int x;
-        int y;
-        int bearing;
+        void setUpMotors();
+        void move(float speed, float angle, float angVel);
+        void motorOut(int motor, float speed);
+        double getAggregateSpeed(int motor);
+
+        const int wheel_angle = 50 * M_PI / 180.0;
+        const int min_speed = 25;
+        const double ema_constant = 1;
+
+        double prev_fl_out;
+        double prev_fr_out;
+        double prev_bl_out;
+        double prev_br_out;
 };
+
 
 class Robot {
     public:
-        void setUpMotors();
         void setUpDribbler();
-        void move(float speed, float angle, float angVel);
-        void motorOut(int motor, float speed);
         void moveToTargetPose();
+        void setUpSerial();
+        
+        Base base;
 
         Pose current_pose;
         Pose target_pose;
+
+        bool on_line;
 };
+
 
 class Ball {
     public:
@@ -67,15 +79,14 @@ class Ball {
         bool in_catchment;
 };
 
-extern PacketSerial LAYER1;
-extern PacketSerial LIDAR;
-extern PacketSerial IMU;
-extern PacketSerial TEENSY;
+
+// g;obal variables
+extern PacketSerial Layer1Serial;
+extern PacketSerial ImuSerial;
+extern PacketSerial TeensySerial;
 
 extern Robot robot;
 extern Ball ball;
-
-void onPacketReceived(const byte *buf, size_t size);
 
 float degToRad(float deg);
 
