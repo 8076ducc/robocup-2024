@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef MAIN_H
 #define MAIN_H
 
@@ -6,13 +8,7 @@
 // #define WHITE_BOT
 // #define BLACK_BOT
 
-#include <Arduino.h>
-#include <digitalWriteFast.h>
-#include <math.h>
-#include <PacketSerial.h>
-
-// shared project header files
-#include <serial.h>
+#include <common.h>
 
 #define S0 D2
 #define S1 D3

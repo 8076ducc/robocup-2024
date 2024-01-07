@@ -4,6 +4,10 @@ PacketSerial Layer1Serial;
 PacketSerial ImuSerial;
 PacketSerial TeensySerial;
 
+Layer1RxDataUnion layer_1_rx_data;
+ImuRxDataUnion imu_rx_data;
+Teensy1TxDataUnion teensy_1_tx_data;
+
 Robot robot;
 Ball ball;
 
@@ -21,10 +25,22 @@ void setup() {
   robot.setUpDribbler();
 
   pinMode(LIDAR_PWM, OUTPUT);
+  lidarSetup();
+  digitalWriteFast(LED, LOW);
 }
 
 void loop() {
+  #ifdef DEBUG
+  // if ((millis() / 5000) % 2 > 0) {
+  //   robot.base.move(0.4, 0);
+  // } else {
+  //   robot.base.move(0.4, 180);
+    
+  // }
+  processLidar();
+  #else
   Layer1Serial.update();
   ImuSerial.update();
   TeensySerial.update();
+  #endif
 }

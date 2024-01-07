@@ -70,6 +70,6 @@ class LightRing {
         };
 };
 
-const float ldr_angle = 11.25;
+const double ldr_angle = 11.25;
 
 #endif

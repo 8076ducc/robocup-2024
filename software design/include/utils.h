@@ -5,9 +5,9 @@
 
 class Pose {
     public:
-        int x;
-        int y;
-        int bearing;
+        double x;
+        double y;
+        double bearing;
 };
 
 #endif

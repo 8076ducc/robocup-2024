@@ -15,6 +15,18 @@ void LightRing::setup() {
     pinMode(MUX2, INPUT);
 }
 
+void LightRing::printThresholds() {
+    Serial.println("Thresholds:");
+    int threshold;
+    for (int i = 0; i < 32; i++) {
+        threshold = (ldr_max_readings[i] + ldr_min_readings[i]) / 2;
+        Serial.print(threshold);
+        Serial.print(", // ");
+        Serial.println(i);
+    }
+    Serial.println();
+}
+
 void LightRing::calibrate() {
     Serial.println("Calibrating...");
 
@@ -46,25 +58,19 @@ void LightRing::calibrate() {
             }
         }
 
-        for (int i = 0; i < 32; i++) {
-            Serial.print(i);
-            Serial.print(": | ");
-            Serial.print(ldr_min_readings[i]);
-            Serial.print(" | ");
-            Serial.println(ldr_max_readings[i]);
-        }
+        Serial.println(ldr_readings[0]);
 
-        Serial.println();
-        
-        Serial.println("Thresholds:");
-        int threshold;
-        for (int i = 0; i < 32; i++) {
-            threshold = (ldr_max_readings[i] + ldr_min_readings[i]) / 2;
-            Serial.print(threshold);
-            Serial.print(", // ");
-            Serial.println(i);
-        }
-        Serial.println();
+        // for (int i = 0; i < 32; i++) {
+        //     Serial.print(i);
+        //     Serial.print(": | ");
+        //     Serial.print(ldr_min_readings[i]);
+        //     Serial.print(" | ");
+        //     Serial.println(ldr_max_readings[i]);
+        // }
+
+        // Serial.println();
+
+        // printThresholds();
     }
 }
 

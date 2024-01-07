@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef SHARED_H
 #define SHARED_H
 
@@ -54,6 +56,7 @@ struct Teensy1TxData {
 };
 
 struct Teensy1RxData {
+    Pose current_pose;
     Pose target_pose;
 };
 

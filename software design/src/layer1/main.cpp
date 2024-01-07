@@ -3,16 +3,15 @@
 
 PacketSerial TeensySerial;
 
-Layer1TxDataUnion txData;
-Layer1RxDataUnion rxData;
+Layer1TxDataUnion tx_data;
 
 LightRing light_ring;
 
 void detectBall() {
   if (analogRead(LIGHTGATE) > ball_threshold) {
-    txData.data.ball_detected = true;
+    tx_data.data.ball_in_catchment = true;
   } else {
-    txData.data.ball_detected = false;
+    tx_data.data.ball_in_catchment = false;
   }
 }
 
@@ -22,7 +21,7 @@ void kick() {
     digitalWrite(KICKER, LOW);
 }
 
-void onPacketReceived(const byte *buf, size_t size) {
+void onTeensyReceived(const byte *buf, size_t size) {
     // Read the payload
     Layer1RxDataUnion data_received;
     // Don't continue if the payload is invalid
@@ -46,30 +45,25 @@ void setup() {
   Serial0.begin(115200);
   while (!Serial0) {}
   TeensySerial.setStream(&Serial0);
-  TeensySerial.setPacketHandler(&onPacketReceived);
+  TeensySerial.setPacketHandler(&onTeensyReceived);
 }
 
 void loop() {
-  // TeensySerial.update();
+  TeensySerial.update();
   #ifdef DEBUG
-  // light_ring.calibrate();
+  light_ring.calibrate();
   #else
-  // light_ring.read();
-  // detectBall();
-  // if (TEENSY.available()) {
-  //   char command = TEENSY.read();
-  //   if (command == 'k') {
-  //     kick();
-  //   }
-  // }
-  // kick();
-  // delay(5000);
+  light_ring.read();
+  detectBall();
+  if (TEENSY.available()) {
+    char command = TEENSY.read();
+    if (command == 'k') {
+      kick();
+    }
+  }
+  kick();
+  delay(5000);
   #endif
 
-  // TeensySerial.send(txData.bytes, sizeof(txData.bytes));
-
-  digitalWrite(D9, HIGH);
-  delay(100);
-  digitalWrite(D9, LOW);
-  delay(5000);
+  TeensySerial.send(tx_data.bytes, sizeof(tx_data.bytes));
 }

@@ -8,13 +8,7 @@
 // #define WHITE_BOT
 // #define BLACK_BOT
 
-#include <Arduino.h>
-#include <cmath>
-#include <digitalWriteFast.h>
-#include <PacketSerial.h>
-
-// shared project header files
-#include <serial.h>
+#include <common.h>
 
 #define LED 13
 
@@ -23,25 +17,26 @@
 #define DIP_3 4
 #define DIP_4 5
 
-const int wheel_angle = 50 * M_PI / 180.0;
-const int min_speed = 25;
-const int max_speed = 1;
-const int max_accel = 0.5;
-
 class Robot {
     public:
-        void move(float speed, float angle, float angVel);
-        void motorOut(int motor, float speed);
-
+        void setUpSerial();
+        
         Pose current_pose;
         Pose target_pose;
-};
-
-class Ball {
-    public:
-        Pose current_pose;
         Pose projected_pose;
 };
+
+struct Ball {
+    Pose current_pose;
+    Pose projected_pose;
+    
+    bool in_catchment;
+    bool in_alliance_catchment;
+};
+
+class Strategy {
+    void chaseBall();
+}
 
 //global variables
 
@@ -52,7 +47,6 @@ extern PacketSerial TeensySerial;
 
 extern Robot robot;
 extern Ball ball;
-
-void onPacketReceived(const byte *buf, size_t size);
+extern Strategy strategy;
 
 #endif

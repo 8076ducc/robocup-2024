@@ -1,15 +1,8 @@
 #include "main.h"
-// Basic demo for readings from Adafruit BNO08x
-#include <Adafruit_BNO08x.h>
 
-// For SPI mode, we need a CS pin
-#define BNO08X_CS 10
-#define BNO08X_INT 9
+PacketSerial TeensySerial;
 
-// For SPI mode, we also need a RESET 
-//#define BNO08X_RESET 5
-// but not for I2C or UART
-#define BNO08X_RESET -1
+ImuTxDataUnion tx_data;
 
 Adafruit_BNO08x  bno08x;
 sh2_SensorValue_t sensorValue;
