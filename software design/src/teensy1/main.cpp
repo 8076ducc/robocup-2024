@@ -19,14 +19,16 @@ void setup() {
   pinModeFast(LED, OUTPUT);
   digitalWriteFast(LED, HIGH);
 
+  Serial.begin(115200);
+  while (!Serial) {}
+  Serial.println("Debug serial connection established.");
+
   robot.setUpSerial();
   
   robot.base.setUpMotors();
   robot.setUpDribbler();
 
-  pinMode(LIDAR_PWM, OUTPUT);
   lidarSetup();
-  digitalWriteFast(LED, LOW);
 }
 
 void loop() {
@@ -37,10 +39,20 @@ void loop() {
   //   robot.base.move(0.4, 180);
     
   // }
-  processLidar();
   #else
   Layer1Serial.update();
   ImuSerial.update();
   TeensySerial.update();
+
+  processLidar();
+
+  if (robot.on_line) {
+    robot.base.move(0.5, robot.target_angle);
+  } else {
+    robot.base.move(0.5, 0);
+  }
+
+  Layer1Serial.send(layer_1_rx_data.bytes, sizeof(layer_1_rx_data.bytes));
+  TeensySerial.send(teensy_1_tx_data.bytes, sizeof(teensy_1_tx_data.bytes));
   #endif
 }

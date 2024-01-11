@@ -16,10 +16,11 @@ void setReports(void) {
 }
 
 void setup(void) {
+  #ifdef SERIAL_DEBUG
   Serial.begin(115200);
-  while (!Serial) delay(10);     // will pause Zero, Leonardo, etc until serial console opens
-
-  Serial.println("Adafruit BNO08x test!");
+  while (!Serial) {}
+  Serial.println("Debug serial connection established.");
+  #endif
 
   // Try to initialize!
   if (!bno08x.begin_I2C()) {

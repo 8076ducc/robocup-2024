@@ -7,7 +7,14 @@ void onLayer1Received(const byte *buf, size_t size) {
     if (size != sizeof(data_received)) return;
     
     std::copy(buf, buf + size, std::begin(data_received.bytes));
+
+    Serial.print("Received: ");
+    Serial.print(data_received.data.on_line);
+    Serial.print(", ");
+    Serial.println(data_received.data.target_angle);
+
     robot.on_line = data_received.data.on_line;
+    robot.target_angle = data_received.data.target_angle;
     ball.in_catchment = data_received.data.ball_in_catchment;
 }
 
@@ -28,10 +35,15 @@ void onTeensyReceived(const byte *buf, size_t size) {
     if (size != sizeof(data_received)) return;
 
     std::copy(buf, buf + size, std::begin(data_received.bytes));
+
+    robot.current_pose.x = data_received.data.current_pose.x;
+    robot.current_pose.y = data_received.data.current_pose.y;
+    robot.target_pose = data_received.data.target_pose;
+    layer_1_rx_data.data.kick = data_received.data.kick;
 }
 
 void Robot::setUpSerial() {
-    #ifdef DEBUG
+    #ifdef SERIAL_DEBUG
     Serial.begin(115200);
     while (!Serial) {}
     Serial.println("Debug serial connection established.");
@@ -41,7 +53,7 @@ void Robot::setUpSerial() {
     while (!Serial1) {}
     Layer1Serial.setStream(&Serial1);
     Layer1Serial.setPacketHandler(&onLayer1Received);
-    #ifdef DEBUG
+    #ifdef SERIAL_DEBUG
     Serial.println("Layer 1 serial connection established.");
     #endif
 
@@ -49,7 +61,7 @@ void Robot::setUpSerial() {
     while (!Serial3) {}
     ImuSerial.setStream(&Serial3);
     ImuSerial.setPacketHandler(&onImuReceived);
-    #ifdef DEBUG
+    #ifdef SERIAL_DEBUG
     Serial.println("IMU serial connection established.");
     #endif
 
@@ -57,7 +69,7 @@ void Robot::setUpSerial() {
     while (!Serial5) {}
     TeensySerial.setStream(&Serial5);
     TeensySerial.setPacketHandler(&onTeensyReceived);
-    #ifdef DEBUG
+    #ifdef SERIAL_DEBUG
     Serial.println("Teensy serial connection established.");
     #endif
 }

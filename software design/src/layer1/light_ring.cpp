@@ -47,30 +47,28 @@ void LightRing::calibrate() {
 
             if (ldr_readings[i] > ldr_max_readings[i]) {
                 ldr_max_readings[i] = ldr_readings[i];
-            } else if (ldr_readings[i] < ldr_min_readings[i]) {
+            } else if (ldr_min_readings[i] == 0 || ldr_readings[i] < ldr_min_readings[i]) {
                 ldr_min_readings[i] = ldr_readings[i];
             }
 
             if (ldr_readings[i + 16] > ldr_max_readings[i + 16]) {
                 ldr_max_readings[i + 16] = ldr_readings[i + 16];
-            } else if (ldr_readings[i + 16] < ldr_min_readings[i + 16]) {
+            } else if (ldr_min_readings[i + 16] == 0 || ldr_readings[i + 16] < ldr_min_readings[i + 16]) {
                 ldr_min_readings[i + 16] = ldr_readings[i + 16];
             }
         }
 
-        Serial.println(ldr_readings[0]);
+        for (int i = 0; i < 32; i++) {
+            Serial.print(i);
+            Serial.print(": | ");
+            Serial.print(ldr_min_readings[i]);
+            Serial.print(" | ");
+            Serial.println(ldr_max_readings[i]);
+        }
 
-        // for (int i = 0; i < 32; i++) {
-        //     Serial.print(i);
-        //     Serial.print(": | ");
-        //     Serial.print(ldr_min_readings[i]);
-        //     Serial.print(" | ");
-        //     Serial.println(ldr_max_readings[i]);
-        // }
+        Serial.println();
 
-        // Serial.println();
-
-        // printThresholds();
+        printThresholds();
     }
 }
 
@@ -87,7 +85,7 @@ void LightRing::read() {
         ldr_readings[i + 16] = analogRead(MUX2);
 
         if (ldr_readings[i] > ldr_thresholds[i]) {
-            if (i < line_start) {
+            if ((line_start != 0 && i < line_start) || (line_start == 0 && ldr_readings[0] < ldr_thresholds[0])) {
                 line_start = i;
             } else if (i > line_end) {
                 line_end = i;
@@ -104,12 +102,28 @@ void LightRing::read() {
     }
     
     if (line_start == 0 && line_end == 0) {
-        txData.data.on_line = false;
+        tx_data.data.on_line = false;
+        Serial.println("no line");
         return;
     }
+
+    if (line_start > 0 && line_end == 0) {
+        line_end = line_start;
+    }
+
+    
     float approach_angle = (line_end - line_start) < 16 ? (line_start + (line_end - line_start) / 2) * ldr_angle : 360 - ((line_end - line_start) * ldr_angle) - ((32 - line_end) * ldr_angle);
 
-    txData.data.on_line = true;
-    txData.data.target_angle = approach_angle > 180 ? approach_angle + 180 : approach_angle - 180;
-    txData.data.chord_length = 1.0;
+    #ifdef SERIAL_DEBUG
+    Serial.print("Line start: ");
+    Serial.println(line_start);
+    Serial.print(" Line end: ");
+    Serial.println(line_end);
+    Serial.print(" Approach angle: ");
+    Serial.println(approach_angle);
+    #endif
+
+    tx_data.data.on_line = true;
+    tx_data.data.target_angle = approach_angle < 180 ? approach_angle + 180 : approach_angle - 180;
+    tx_data.data.chord_length = 1.0;
 }

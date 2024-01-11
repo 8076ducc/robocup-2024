@@ -43,9 +43,6 @@ void Base::motorOut(int motor, float speed) {
             break;
     }
     
-    Serial.print("  pwm: ");
-    Serial.println(speed);
-    
     // stop motor from stalling out if speed is below minimum threshold
     analogWrite(pwm, abs(speed) > min_speed ? abs(speed) : 0);
     digitalWriteFast(INA, dir);
@@ -53,8 +50,8 @@ void Base::motorOut(int motor, float speed) {
 
 
 void Base::move(float vel, float angle) {
-    double x_vel = sinf(degToRad(angle)) * sinf(wheel_angle) * vel;
-    double y_vel = cosf(degToRad(angle)) * cosf(wheel_angle) * vel;
+    double x_vel = sin(degToRad(angle)) * sin(wheel_angle) * vel;
+    double y_vel = cos(degToRad(angle)) * cos(wheel_angle) * vel;
     double ang_vel;
 
     if (angle - robot.current_pose.bearing > 180) {
@@ -64,8 +61,8 @@ void Base::move(float vel, float angle) {
     }
 
     double fl = (x_vel + y_vel) + ang_vel;
-    double fr = (x_vel - y_vel) - ang_vel;
-    double bl = (x_vel - y_vel) - ang_vel;
+    double fr = (y_vel - x_vel) - ang_vel;
+    double bl = (y_vel - x_vel) - ang_vel;
     double br = (x_vel + y_vel) + ang_vel;
 
     // calculate new speeds

@@ -30,17 +30,15 @@ void onTeensyReceived(const byte *buf, size_t size) {
 }
 
 void setup() {
-  light_ring.setup();
-  pinMode(LIGHTGATE, INPUT);
-  pinMode(KICKER, OUTPUT);
-
-  pinMode(D9, OUTPUT);
-
-  #ifdef DEBUG
+  #ifdef SERIAL_DEBUG
   Serial.begin(115200);
   while (!Serial) {}
   Serial.println("Debug serial connection established.");
   #endif
+
+  light_ring.setup();
+  pinMode(LIGHTGATE, INPUT);
+  pinMode(KICKER, OUTPUT);
 
   Serial0.begin(115200);
   while (!Serial0) {}
@@ -49,21 +47,15 @@ void setup() {
 }
 
 void loop() {
-  TeensySerial.update();
   #ifdef DEBUG
   light_ring.calibrate();
   #else
+  TeensySerial.update();
   light_ring.read();
-  detectBall();
-  if (TEENSY.available()) {
-    char command = TEENSY.read();
-    if (command == 'k') {
-      kick();
-    }
-  }
-  kick();
-  delay(5000);
-  #endif
-
+  // detectBall();
+  // if (rx_data.data.kick) {
+  //   kick();
+  // }
   TeensySerial.send(tx_data.bytes, sizeof(tx_data.bytes));
+  #endif
 }

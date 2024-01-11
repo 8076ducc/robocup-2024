@@ -58,6 +58,8 @@ struct Teensy1TxData {
 struct Teensy1RxData {
     Pose current_pose;
     Pose target_pose;
+
+    bool kick;
 };
 
 union BtTxDataUnion {

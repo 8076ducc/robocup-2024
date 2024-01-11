@@ -3,8 +3,8 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#define DEBUG
-#define STRATEGY 1
+// #define DEBUG
+// #define SERIAL_DEBUG
 // #define WHITE_BOT
 // #define BLACK_BOT
 
@@ -19,10 +19,12 @@
 #define MUX2 D1
 #define LIGHTGATE D9
 
-#define KICKER D9
+#define KICKER D10
+
+// global variables
 
 const int ball_threshold = 0;
-extern Layer1TxDataUnion txData;
-extern Layer1RxDataUnion rxData;
+extern Layer1TxDataUnion tx_data;
+extern Layer1RxDataUnion rx_data;
 
 #endif

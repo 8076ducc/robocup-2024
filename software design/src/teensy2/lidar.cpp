@@ -1,16 +1,20 @@
 #include "main.h"
 #include <RPLidar.h>
 
-RPLidar lidar;
+// RPLidar lidar;
 
-// void setup() {
+// void setUpLidar() {
 //   Serial3.begin(256000);
 //   lidar.begin(Serial3);
 // }
 
-// void loop() {
+// void processLidar() {
 //   if (IS_OK(lidar.waitPoint())) {
 //     float distance = lidar.getCurrentPoint().distance;
 //     float angle    = lidar.getCurrentPoint().angle;
+
+//     Serial.print(distance);
+//     Serial.print(" ");
+//     Serial.println(angle);
 //   }
 // }

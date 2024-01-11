@@ -3,8 +3,8 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#define DEBUG
-#define SERIAL_DEBUG
+// #define DEBUG
+// #define SERIAL_DEBUG
 #define STRATEGY 1
 // #define WHITE_BOT
 // #define BLACK_BOT
@@ -40,7 +40,7 @@ class Base {
 
         const double wheel_angle = 50 * M_PI / 180.0;
         const int min_speed = 25;
-        const double ema_constant = 0.00001;
+        const double ema_constant = 0.01;
 
         double prev_fl_out = 0;
         double prev_fr_out = 0;
@@ -61,6 +61,7 @@ class Robot {
         Pose target_pose;
 
         bool on_line;
+        double target_angle;
 };
 
 struct Ball {
@@ -76,6 +77,10 @@ struct Ball {
 extern PacketSerial Layer1Serial;
 extern PacketSerial ImuSerial;
 extern PacketSerial TeensySerial;
+
+extern Layer1RxDataUnion layer_1_rx_data;
+extern ImuRxDataUnion imu_rx_data;
+extern Teensy1TxDataUnion teensy_1_tx_data;
 
 extern Robot robot;
 extern Ball ball;

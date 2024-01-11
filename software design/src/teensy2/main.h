@@ -36,7 +36,7 @@ struct Ball {
 
 class Strategy {
     void chaseBall();
-}
+};
 
 //global variables
 
@@ -48,5 +48,8 @@ extern PacketSerial TeensySerial;
 extern Robot robot;
 extern Ball ball;
 extern Strategy strategy;
+
+void setUpLidar();
+void processLidar();
 
 #endif
