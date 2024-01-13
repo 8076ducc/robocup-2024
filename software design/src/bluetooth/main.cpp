@@ -1,5 +1,7 @@
 #include "main.h"
 
+#define SERIAL_DEBUG
+
 void setup() {
   #ifdef SERIAL_DEBUG
   Serial.begin(115200);
@@ -9,5 +11,4 @@ void setup() {
 }
 
 void loop() {
-  
 }

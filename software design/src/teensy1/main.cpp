@@ -15,6 +15,8 @@ float degToRad(float deg) {
     return deg * M_PI / 180;
 }
 
+double front, left, back, right, last_front, last_left, last_back, last_right;
+
 void setup() {
   pinModeFast(LED, OUTPUT);
   digitalWriteFast(LED, HIGH);
@@ -46,11 +48,29 @@ void loop() {
 
   processLidar();
 
-  if (robot.on_line) {
-    robot.base.move(0.5, robot.target_angle);
-  } else {
-    robot.base.move(0.5, 0);
-  }
+  robot.current_pose.y = (2430 / (front + back)) * front;
+  robot.current_pose.x = (2430 / (left + right)) * left;
+
+  Serial.print("(");
+  Serial.print(robot.current_pose.x);
+  Serial.print(", ");
+  Serial.print(robot.current_pose.y);
+  Serial.println(")");
+
+  // Serial.print("Front: ");
+  // Serial.print(front);
+  // Serial.print(" Left: ");
+  // Serial.print(left);
+  // Serial.print(" Back: ");
+  // Serial.print(back);
+  // Serial.print(" Right: ");
+  // Serial.println(right);
+
+  // if (robot.on_line) {
+  //   robot.base.move(0.5, robot.target_angle);
+  // } else {
+  //   robot.base.move(0.5, 0);
+  // }
 
   Layer1Serial.send(layer_1_rx_data.bytes, sizeof(layer_1_rx_data.bytes));
   TeensySerial.send(teensy_1_tx_data.bytes, sizeof(teensy_1_tx_data.bytes));

@@ -51,7 +51,8 @@ void loop() {
   light_ring.calibrate();
   #else
   TeensySerial.update();
-  light_ring.read();
+  // light_ring.read();
+  light_ring.calibrate();
   // detectBall();
   // if (rx_data.data.kick) {
   //   kick();

@@ -8,10 +8,10 @@ void onLayer1Received(const byte *buf, size_t size) {
     
     std::copy(buf, buf + size, std::begin(data_received.bytes));
 
-    Serial.print("Received: ");
-    Serial.print(data_received.data.on_line);
-    Serial.print(", ");
-    Serial.println(data_received.data.target_angle);
+    // Serial.print("Received: ");
+    // Serial.print(data_received.data.on_line);
+    // Serial.print(", ");
+    // Serial.println(data_received.data.target_angle);
 
     robot.on_line = data_received.data.on_line;
     robot.target_angle = data_received.data.target_angle;

@@ -4,12 +4,14 @@
 #define MAIN_H
 
 // #define DEBUG
-// #define SERIAL_DEBUG
+#define SERIAL_DEBUG
 #define STRATEGY 1
 // #define WHITE_BOT
 // #define BLACK_BOT
 
 #include <common.h>
+#include <RPLidar.h>
+
 
 #define LED 13
 
@@ -84,6 +86,9 @@ extern Teensy1TxDataUnion teensy_1_tx_data;
 
 extern Robot robot;
 extern Ball ball;
+extern RPLidar lidar;
+
+extern double front, left, back, right, last_front, last_left, last_back, last_right;
 
 float degToRad(float deg);
 void lidarSetup();
