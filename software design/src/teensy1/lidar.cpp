@@ -65,9 +65,9 @@ void getRobotPose() {
 
   double front_dist = abs(A * x1 + B * y1 + C) / sqrt(pow(A, 2) + pow(B, 2));
 
-  A = left_wall.slope;
-  B = 1;
-  C = left_wall.intercept;
+  A = 1;
+  B = -left_wall.slope;
+  C = -left_wall.intercept;
 
   x1 = 0;
   y1 = 0;
@@ -83,9 +83,9 @@ void getRobotPose() {
 
   double back_dist = abs(A * x1 + B * y1 + C) / sqrt(pow(A, 2) + pow(B, 2));
   
-  A = right_wall.slope;
-  B = 1;
-  C = right_wall.intercept;
+  A = 1;
+  B = -right_wall.slope;
+  C = -right_wall.intercept;
 
   x1 = 0;
   y1 = 0;
@@ -116,30 +116,32 @@ void getRobotPose() {
   // Serial.println(")");
 }
 
+// void tofLidar() {
+//     if (((abs(0 - angle) < 1) && distance !=0) && (last_front == 0 || abs(distance - last_front) < 300)) {
+//       front = distance * cos(degToRad(90 - angle));
+//       last_front = front;
+//     } else if ((abs(90 - angle) < 1 && distance !=0) && (last_right == 0 || abs(distance - last_right) < 300)) {
+//       right = distance * cos(degToRad(180 - angle));
+//       last_right = right;
+//     } else if ((abs(180 - angle) < 1 && distance !=0) && (last_back == 0 || abs (distance - last_back) < 300)) {
+//       back = distance * cos(degToRad(270 - angle));
+//       last_back = back;
+//     } else if ((abs(270 - angle) < 1 && distance !=0) && (last_left == 0 || abs (distance - last_left) < 300)) {
+//       left = distance * cos(degToRad(360 - angle));
+//       last_left = left;
+//     }
+// }
+
 void processLidar() {
   if (IS_OK(lidar.waitPoint())) {
     lidar_loop_count += 1;
 
     float distance = lidar.getCurrentPoint().distance;
-    float angle = lidar.getCurrentPoint().angle;
+    float angle = lidar.getCurrentPoint().angle + robot.current_pose.bearing;
     byte quality = lidar.getCurrentPoint().quality;
 
     double x = distance * sin(degToRad(angle));
     double y = distance * cos(degToRad(angle));
-
-    // if (((abs(0 - angle) < 1) && distance !=0) && (last_front == 0 || abs(distance - last_front) < 300)) {
-    //   front = distance * cos(degToRad(90 - angle));
-    //   last_front = front;
-    // } else if ((abs(90 - angle) < 1 && distance !=0) && (last_right == 0 || abs(distance - last_right) < 300)) {
-    //   right = distance * cos(degToRad(180 - angle));
-    //   last_right = right;
-    // } else if ((abs(180 - angle) < 1 && distance !=0) && (last_back == 0 || abs (distance - last_back) < 300)) {
-    //   back = distance * cos(degToRad(270 - angle));
-    //   last_back = back;
-    // } else if ((abs(270 - angle) < 1 && distance !=0) && (last_left == 0 || abs (distance - last_left) < 300)) {
-    //   left = distance * cos(degToRad(360 - angle));
-    //   last_left = left;
-    // }
 
     if (quality != 0 && distance < 2430 && distance != 0) {
       int side = getClosestEdge(x, y);

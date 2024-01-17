@@ -107,8 +107,8 @@ extern Line left_wall;
 extern Line back_wall;
 extern Line right_wall;
 
-const double y_bounds [2] = {-1215, 1215};
-const double x_bounds [2] = {-910, 910};
+const double y_bounds = 1215;
+const double x_bounds = 910;
 
 // extern double front, left, back, right, last_front, last_left, last_back, last_right;
 
