@@ -88,7 +88,7 @@ extern Robot robot;
 extern Ball ball;
 extern RPLidar lidar;
 
-extern double front, left, back, right, last_front, last_left, last_back, last_right;
+// extern double front, left, back, right, last_front, last_left, last_back, last_right;
 
 float degToRad(float deg);
 void lidarSetup();

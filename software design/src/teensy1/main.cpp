@@ -49,13 +49,13 @@ void loop() {
   processLidar();
 
   robot.current_pose.y = (2430 / (front + back)) * front;
-  robot.current_pose.x = (2430 / (left + right)) * left;
+  robot.current_pose.x = (1820 / (left + right)) * left;
 
-  Serial.print("(");
-  Serial.print(robot.current_pose.x);
-  Serial.print(", ");
-  Serial.print(robot.current_pose.y);
-  Serial.println(")");
+  // Serial.print("(");
+  // Serial.print(robot.current_pose.x);
+  // Serial.print(", ");
+  // Serial.print(robot.current_pose.y);
+  // Serial.println(")");
 
   // Serial.print("Front: ");
   // Serial.print(front);

@@ -5,6 +5,7 @@
 
 #include <Arduino.h>
 #include <iterator>
+#include <vector>
 #include <math.h>
 #include <digitalWriteFast.h>
 #include <PacketSerial.h>
