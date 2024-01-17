@@ -15,8 +15,6 @@ float degToRad(float deg) {
     return deg * M_PI / 180;
 }
 
-double front, left, back, right, last_front, last_left, last_back, last_right;
-
 void setup() {
   pinModeFast(LED, OUTPUT);
   digitalWriteFast(LED, HIGH);
@@ -47,9 +45,6 @@ void loop() {
   TeensySerial.update();
 
   processLidar();
-
-  robot.current_pose.y = (2430 / (front + back)) * front;
-  robot.current_pose.x = (1820 / (left + right)) * left;
 
   // Serial.print("(");
   // Serial.print(robot.current_pose.x);

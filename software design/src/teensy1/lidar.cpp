@@ -3,52 +3,12 @@
 
 RPLidar lidar;
 
+Line front_wall, left_wall, back_wall, right_wall;
+
 void lidarSetup() {
   lidar.begin(Serial2);
   pinMode(LIDAR_PWM, OUTPUT);
 }
-
-// Function to calculate the mean of a vector
-double mean(std::vector<double> v) {
-    double sum = 0.0;
-    for (int i = 0; i < v.size(); i++) {
-        sum += v[i];
-    }
-    return sum / v.size();
-}
-
-class Line {
-  public:
-    std::vector<double> x;
-    std::vector<double> y;
-
-    double slope;
-    double intercept;
-
-    // Function to calculate the slope and intercept of a linear regression line
-    void linearRegression();
-};
-
-void Line::linearRegression() {
-  double x_mean = mean(x);
-  double y_mean = mean(y);
-  double numerator = 0.0;
-  double denominator = 0.0;
-  for (int i = 0; i < x.size(); i++) {
-      numerator += (x[i] - x_mean) * (y[i] - y_mean);
-      denominator += pow(x[i] - x_mean, 2);
-  }
-  slope = numerator / denominator;
-  intercept = y_mean - slope * x_mean;
-}
-
-Line front_wall;
-Line left_wall;
-Line back_wall;
-Line right_wall;
-
-const double y_bounds [2] = {-1215, 1215};
-const double x_bounds [2] = {-910, 910};
 
 int getClosestEdge(double x, double y) {
   double distance_to_front, distance_to_left, distance_to_back, distance_to_right;
@@ -91,70 +51,74 @@ std::vector<double> front_x, front_y, left_x, left_y, back_x, back_y, right_x, r
 int lidar_loop_count = 0;
 
 void getRobotPose() {
-  front_wall.linearRegression();
-  left_wall.linearRegression();
-  back_wall.linearRegression();
-  right_wall.linearRegression();
+  front_wall.horizontalLinearRegression();
+  left_wall.verticalLinearRegression();
+  back_wall.horizontalLinearRegression();
+  right_wall.verticalLinearRegression();
 
-  // get the points of intercept
-  double a1 = front_wall.slope;
-  double b1 = 1;
-  double c1 = front_wall.intercept;
+  double A = front_wall.slope;
+  double B = 1;
+  double C = front_wall.intercept;
 
-  double a2 = left_wall.slope;
-  double b2 = 1;
-  double c2 = left_wall.intercept;
+  double x1 = 0;
+  double y1 = 0;
+
+  double front_dist = abs(A * x1 + B * y1 + C) / sqrt(pow(A, 2) + pow(B, 2));
+
+  A = left_wall.slope;
+  B = 1;
+  C = left_wall.intercept;
+
+  x1 = 0;
+  y1 = 0;
+
+  double left_dist = abs(A * x1 + B * y1 + C) / sqrt(pow(A, 2) + pow(B, 2));
+
+  A = back_wall.slope;
+  B = 1;
+  C = back_wall.intercept;
+
+  x1 = 0;
+  y1 = 0;
+
+  double back_dist = abs(A * x1 + B * y1 + C) / sqrt(pow(A, 2) + pow(B, 2));
   
-  double front_left_x = (((b1 * c2) - (b2 * c1)) / ((a1 * b2) - (a2 * b1)));
-  double front_left_y = (((a2 * c1) - (a1 * c2)) / ((a1 * b2) - (a2 * b1)));
+  A = right_wall.slope;
+  B = 1;
+  C = right_wall.intercept;
 
-  double a1 = left_wall.slope;
-  double b1 = 1;
-  double c1 = left_wall.intercept;
+  x1 = 0;
+  y1 = 0;
 
-  double a2 = back_wall.slope;
-  double b2 = 1;
-  double c2 = back_wall.intercept;
-
-  double left_back_x = (left_c - back_c) / (back_m - left_m);
-  double left_back_y = left_m * left_back_x + left_c;
-
-  double a1 = back_wall.slope;
-  double b1 = 1;
-  double c1 = back_wall.intercept;
-
-  double a2 = right_wall.slope;
-  double b2 = 1;
-  double c2 = right_wall.intercept;
-
-  double back_right_x = (back_c - right_c) / (right_m - back_m);
-  double back_right_y = back_m * back_right_x + back_c;
-
-  double a1 = right_wall.slope;
-  double b1 = 1;
-  double c1 = right_wall.intercept;
-
-  double a2 = front_wall.slope;
-  double b2 = 1;
-  double c2 = front_wall.intercept;
-
-  double front_right_x = (front_c - right_c) / (right_m - front_m);
-  double front_right_y = front_m * front_right_x + front_c;
+  double right_dist = abs(A * x1 + B * y1 + C) / sqrt(pow(A, 2) + pow(B, 2));
 
   // get the robot's pose
-  double x = (2430 / (fronty + back)) * front;
-  double y = (front_left_y + front_right_y + left_back_y + back_right_y) / 4;
+  if (right_wall.x.size() < 5) {
+    robot.current_pose.y = 1820 - left_dist;
+  } else if (left_wall.x.size() < 5) {
+    robot.current_pose.y = 1820 - right_dist;
+  } else {
+    robot.current_pose.y = (1820 / (left_dist + right_dist)) * left_dist;
+  }
+  
+  if (front_wall.x.size() < 5) {
+    robot.current_pose.x = 2430 - back_dist;
+  } else if (back_wall.x.size() < 5) {
+    robot.current_pose.x = 2430 - front_dist;
+  } else {
+    robot.current_pose.x = (2430 / (front_dist + back_dist)) * front_dist;
+  }
 
-  Serial.print("(");
-  Serial.print(x);
-  Serial.print(", ");
-  Serial.print(y);
-  Serial.println(")");
+  // Serial.print("(");
+  // Serial.print(robot.current_pose.x);
+  // Serial.print(", ");
+  // Serial.print(robot.current_pose.y);
+  // Serial.println(")");
 }
 
 void processLidar() {
   if (IS_OK(lidar.waitPoint())) {
-    loop += 1;
+    lidar_loop_count += 1;
 
     float distance = lidar.getCurrentPoint().distance;
     float angle = lidar.getCurrentPoint().angle;
@@ -177,25 +141,45 @@ void processLidar() {
     //   last_left = left;
     // }
 
-    if (quality != 0 && distance < 2430) {
-      side = getClosestEdge(x, y)
+    if (quality != 0 && distance < 2430 && distance != 0) {
+      int side = getClosestEdge(x, y);
 
       switch (side) {
         case 0:
           front_wall.x.push_back(x);
           front_wall.y.push_back(y);
+          // Serial.print("(");
+          // Serial.print(x);
+          // Serial.print(", ");
+          // Serial.print(y);
+          // Serial.println(")");
           break;
         case 1:
           left_wall.x.push_back(x);
           left_wall.y.push_back(y);
+          // Serial.print("(");
+          // Serial.print(x);
+          // Serial.print(", ");
+          // Serial.print(y);
+          // Serial.println(")");
           break;
         case 2:
           back_wall.x.push_back(x);
           back_wall.y.push_back(y);
+          // Serial.print("(");
+          // Serial.print(x);
+          // Serial.print(", ");
+          // Serial.print(y);
+          // Serial.println(")");
           break;
         case 3:
           right_wall.x.push_back(x);
           right_wall.y.push_back(y);
+          Serial.print("(");
+          Serial.print(x);
+          Serial.print(", ");
+          Serial.print(y);
+          Serial.println(")");
           break;
       }
 
@@ -208,16 +192,19 @@ void processLidar() {
       #endif
     }
 
-    if (loop == 1600) {
-      loop = 0;
-      front_x.clear();
-      front_y.clear();
-      left_x.clear();
-      left_y.clear();
-      back_x.clear();
-      back_y.clear();
-      right_x.clear();
-      right_y.clear();
+    if (lidar_loop_count == 480) {
+      getRobotPose();
+      lidar_loop_count = 0;
+      front_wall.x.clear();
+      front_wall.y.clear();
+      left_wall.x.clear();
+      left_wall.y.clear();
+      back_wall.x.clear();
+      back_wall.y.clear();
+      right_wall.x.clear();
+      right_wall.y.clear();
+
+      delay(5000);
     }
   } else {
     analogWrite(LIDAR_PWM, 0); //stop the rplidar motor

@@ -74,6 +74,20 @@ struct Ball {
     bool in_alliance_catchment;
 };
 
+class Line {
+  public:
+    std::vector<double> x;
+    std::vector<double> y;
+
+    double slope;
+    double intercept;
+
+    // Function to calculate the slope and intercept of a linear regression line
+    void horizontalLinearRegression();
+    void verticalLinearRegression();
+    void orthogonalLinearRegression();
+};
+
 
 // g;obal variables
 extern PacketSerial Layer1Serial;
@@ -87,6 +101,14 @@ extern Teensy1TxDataUnion teensy_1_tx_data;
 extern Robot robot;
 extern Ball ball;
 extern RPLidar lidar;
+
+extern Line front_wall;
+extern Line left_wall;
+extern Line back_wall;
+extern Line right_wall;
+
+const double y_bounds [2] = {-1215, 1215};
+const double x_bounds [2] = {-910, 910};
 
 // extern double front, left, back, right, last_front, last_left, last_back, last_right;
 
