@@ -53,6 +53,7 @@ struct Layer1RxData {
 };
 
 struct Teensy1TxData {
+    double bearing;
 };
 
 struct Teensy1RxData {

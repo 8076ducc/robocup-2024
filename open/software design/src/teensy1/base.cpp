@@ -11,6 +11,12 @@ void Base::setUpMotors() {
     pinMode(BL_PWM, OUTPUT);
     pinMode(BR_PWM, OUTPUT);
 
+    analogWriteResolution(13);
+    analogWriteFrequency(FL_PWM, 18310.55);
+    analogWriteFrequency(FR_PWM, 18310.55);
+    analogWriteFrequency(BL_PWM, 18310.55);
+    analogWriteFrequency(BR_PWM, 18310.55);
+
     pinMode(FL_CS, INPUT);
     pinMode(FR_CS, INPUT);
     pinMode(BL_CS, INPUT);
@@ -23,22 +29,22 @@ void Base::motorOut(int motor, float speed) {
     switch (motor) {
         case 1:
             INA = FL_INA;
-            dir = speed > 0 ?  HIGH : LOW;
+            dir = speed > 0 ?  LOW : HIGH;
             pwm = FL_PWM;
             break;
         case 2:
             INA = FR_INA;
-            dir = speed > 0 ?  LOW : HIGH;
+            dir = speed > 0 ?  HIGH : LOW;
             pwm = FR_PWM;
             break;
         case 3:
             INA = BL_INA;
-            dir = speed > 0 ?  HIGH : LOW;
+            dir = speed > 0 ?  LOW : HIGH;
             pwm = BL_PWM;
             break;
         case 4:
             INA = BR_INA;
-            dir = speed > 0 ?  LOW : HIGH;
+            dir = speed > 0 ?  HIGH : LOW;
             pwm = BR_PWM;
             break;
     }
@@ -66,16 +72,16 @@ void Base::move(float vel, float angle) {
     double br = (x_vel + y_vel) + ang_vel;
 
     // calculate new speeds
-    double new_fl_out = fl * 255;
-    double new_fr_out = fr * 255;
-    double new_bl_out = bl * 255;
-    double new_br_out = br * 255;
+    double new_fl_out = fl * max_pwm;
+    double new_fr_out = fr * max_pwm;
+    double new_bl_out = bl * max_pwm;
+    double new_br_out = br * max_pwm;
 
     // calculate exponential moving average
-    double fl_out = (new_fl_out * ema_constant) + (prev_fl_out * (1 - ema_constant));
-    double fr_out = (new_fr_out * ema_constant) + (prev_fr_out * (1 - ema_constant));
-    double bl_out = (new_bl_out * ema_constant) + (prev_bl_out * (1 - ema_constant));
-    double br_out = (new_br_out * ema_constant) + (prev_br_out * (1 - ema_constant));
+    double fl_out = fl_scale * (new_fl_out * ema_constant) + (prev_fl_out * (1 - ema_constant));
+    double fr_out = fr_scale * (new_fr_out * ema_constant) + (prev_fr_out * (1 - ema_constant));
+    double bl_out = bl_scale * (new_bl_out * ema_constant) + (prev_bl_out * (1 - ema_constant));
+    double br_out = br_scale * (new_br_out * ema_constant) + (prev_br_out * (1 - ema_constant));
 
     // update previous speeds
     prev_fl_out = fl_out;

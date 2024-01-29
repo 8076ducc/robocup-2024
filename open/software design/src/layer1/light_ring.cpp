@@ -60,6 +60,12 @@ void LightRing::calibrate() {
 
         for (int i = 0; i < 32; i++) {
             Serial.print(i);
+            Serial.print(": ");
+            Serial.print(ldr_readings[i]);
+        }
+
+        for (int i = 0; i < 32; i++) {
+            Serial.print(i);
             Serial.print(": | ");
             Serial.print(ldr_min_readings[i]);
             Serial.print(" | ");

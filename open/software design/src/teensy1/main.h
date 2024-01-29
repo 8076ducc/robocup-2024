@@ -4,7 +4,7 @@
 #define MAIN_H
 
 // #define DEBUG
-#define SERIAL_DEBUG
+// #define SERIAL_DEBUG
 #define STRATEGY 1
 // #define WHITE_BOT
 // #define BLACK_BOT
@@ -15,20 +15,20 @@
 
 #define LED 13
 
-#define FL_PWM 2
-#define FR_PWM 3
+#define FL_PWM 3
+#define FR_PWM 2
 #define BL_PWM 4
 #define BR_PWM 5
 #define LIDAR_PWM 6
 #define DRIBBLER_PWM 23
 
-#define FL_INA 9
-#define FR_INA 10
+#define FL_INA 10
+#define FR_INA 9
 #define BL_INA 11
 #define BR_INA 12
 
-#define FL_CS 16
-#define FR_CS 17
+#define FL_CS 17
+#define FR_CS 16
 #define BL_CS 18
 #define BR_CS 19
 
@@ -41,8 +41,25 @@ class Base {
         double getAggregateSpeed(int motor);
 
         const double wheel_angle = 50 * M_PI / 180.0;
-        const int min_speed = 25;
+        const int max_pwm = 8192;
+        const int min_speed = 800;
         const double ema_constant = 0.01;
+
+        const int fl_voltage = 2.515;
+        const int fr_voltage = 2.408;
+        const int bl_voltage = 2.282;
+        const int br_voltage = 2.470;
+        const int fastest_motor = fl_voltage;
+
+        // const int fl_scale = fastest_motor / fl_voltage;
+        // const int fr_scale = fastest_motor / fr_voltage;
+        // const int bl_scale = fastest_motor / bl_voltage;
+        // const int br_scale = fastest_motor / br_voltage;
+
+        const int fl_scale = 1;
+        const int fr_scale = 1;
+        const int bl_scale = 1;
+        const int br_scale = 1;
 
         double prev_fl_out = 0;
         double prev_fr_out = 0;
@@ -107,8 +124,8 @@ extern Line left_wall;
 extern Line back_wall;
 extern Line right_wall;
 
-const double y_bounds = 1215;
-const double x_bounds = 910;
+const double y_bounds [2] = {-1215, 1215};
+const double x_bounds [2] = {-910, 910};
 
 // extern double front, left, back, right, last_front, last_left, last_back, last_right;
 

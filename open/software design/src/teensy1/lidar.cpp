@@ -7,7 +7,7 @@ Line front_wall, left_wall, back_wall, right_wall;
 
 void lidarSetup() {
   lidar.begin(Serial2);
-  pinMode(LIDAR_PWM, OUTPUT);
+  pinModeFast(LIDAR_PWM, OUTPUT);
 }
 
 int getClosestEdge(double x, double y) {
@@ -92,18 +92,26 @@ void getRobotPose() {
 
   double right_dist = abs(A * x1 + B * y1 + C) / sqrt(pow(A, 2) + pow(B, 2));
 
+  Serial.print(front_dist);
+  Serial.print(", ");
+  Serial.print(left_dist);
+  Serial.print(", ");
+  Serial.print(back_dist);
+  Serial.print(", ");
+  Serial.println(right_dist);
+
   // get the robot's pose
-  if (right_wall.x.size() < 5) {
+  if (right_wall.x.size() < 2) {
     robot.current_pose.y = 1820 - left_dist;
-  } else if (left_wall.x.size() < 5) {
+  } else if (left_wall.x.size() < 2) {
     robot.current_pose.y = 1820 - right_dist;
   } else {
     robot.current_pose.y = (1820 / (left_dist + right_dist)) * left_dist;
   }
   
-  if (front_wall.x.size() < 5) {
+  if (front_wall.x.size() < 2) {
     robot.current_pose.x = 2430 - back_dist;
-  } else if (back_wall.x.size() < 5) {
+  } else if (back_wall.x.size() < 2) {
     robot.current_pose.x = 2430 - front_dist;
   } else {
     robot.current_pose.x = (2430 / (front_dist + back_dist)) * front_dist;
@@ -116,21 +124,23 @@ void getRobotPose() {
   // Serial.println(")");
 }
 
-// void tofLidar() {
-//     if (((abs(0 - angle) < 1) && distance !=0) && (last_front == 0 || abs(distance - last_front) < 300)) {
-//       front = distance * cos(degToRad(90 - angle));
-//       last_front = front;
-//     } else if ((abs(90 - angle) < 1 && distance !=0) && (last_right == 0 || abs(distance - last_right) < 300)) {
-//       right = distance * cos(degToRad(180 - angle));
-//       last_right = right;
-//     } else if ((abs(180 - angle) < 1 && distance !=0) && (last_back == 0 || abs (distance - last_back) < 300)) {
-//       back = distance * cos(degToRad(270 - angle));
-//       last_back = back;
-//     } else if ((abs(270 - angle) < 1 && distance !=0) && (last_left == 0 || abs (distance - last_left) < 300)) {
-//       left = distance * cos(degToRad(360 - angle));
-//       last_left = left;
-//     }
-// }
+double front, left, back, right, last_front, last_left, last_back, last_right;
+
+void tofLidar(double angle, double distance) {
+    if (((abs(0 - angle) < 1) && distance !=0) && (last_front == 0 || abs(distance - last_front) < 300)) {
+      front = distance * cos(degToRad(90 - angle));
+      last_front = front;
+    } else if ((abs(90 - angle) < 1 && distance !=0) && (last_right == 0 || abs(distance - last_right) < 300)) {
+      right = distance * cos(degToRad(180 - angle));
+      last_right = right;
+    } else if ((abs(180 - angle) < 1 && distance !=0) && (last_back == 0 || abs (distance - last_back) < 300)) {
+      back = distance * cos(degToRad(270 - angle));
+      last_back = back;
+    } else if ((abs(270 - angle) < 1 && distance !=0) && (last_left == 0 || abs (distance - last_left) < 300)) {
+      left = distance * cos(degToRad(360 - angle));
+      last_left = left;
+    }
+}
 
 void processLidar() {
   if (IS_OK(lidar.waitPoint())) {
@@ -177,11 +187,11 @@ void processLidar() {
         case 3:
           right_wall.x.push_back(x);
           right_wall.y.push_back(y);
-          Serial.print("(");
-          Serial.print(x);
-          Serial.print(", ");
-          Serial.print(y);
-          Serial.println(")");
+          // Serial.print("(");
+          // Serial.print(x);
+          // Serial.print(", ");
+          // Serial.print(y);
+          // Serial.println(")");
           break;
       }
 
@@ -205,11 +215,9 @@ void processLidar() {
       back_wall.y.clear();
       right_wall.x.clear();
       right_wall.y.clear();
-
-      delay(5000);
     }
   } else {
-    analogWrite(LIDAR_PWM, 0); //stop the rplidar motor
+    digitalWriteFast(LIDAR_PWM, LOW); //stop the rplidar motor
 
     #ifdef SERIAL_DEBUG
     Serial.println("Connecting to RPLIDAR A2M12...");
@@ -223,7 +231,7 @@ void processLidar() {
        lidar_loop_count = 0;
        
        // start motor rotating at max allowed speed
-       analogWrite(LIDAR_PWM, 255);
+       digitalWriteFast(LIDAR_PWM, HIGH);
        delay(1000);
     }
   }
