@@ -8,5 +8,7 @@
 
 #include <common.h>
 #include <Adafruit_BNO08x.h>
+// #include <ArduinoEigen.h>
+#include <ArduinoEigenDense.h>
 
 #endif

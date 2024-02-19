@@ -17,28 +17,31 @@
 #define DIP_3 4
 #define DIP_4 5
 
-class Robot {
-    public:
-        void setUpSerial();
-        
-        Pose current_pose;
-        Pose target_pose;
-        Pose projected_pose;
+class Robot
+{
+public:
+    void setUpSerial();
+
+    Pose current_pose;
+    Pose target_pose;
+    Pose projected_pose;
 };
 
-struct Ball {
+struct Ball
+{
     Pose current_pose;
     Pose projected_pose;
-    
+
     bool in_catchment;
     bool in_alliance_catchment;
 };
 
-class Strategy {
+class Strategy
+{
     void chaseBall();
 };
 
-//global variables
+// global variables
 
 extern PacketSerial Cam1Serial;
 extern PacketSerial Cam2Serial;

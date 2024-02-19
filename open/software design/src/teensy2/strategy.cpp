@@ -1,5 +1,5 @@
 #include "main.h"
 
-void Strategy::chaseBall() {
-    
+void Strategy::chaseBall()
+{
 }

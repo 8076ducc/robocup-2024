@@ -2,13 +2,17 @@
 
 #define SERIAL_DEBUG
 
-void setup() {
-  #ifdef SERIAL_DEBUG
+void setup()
+{
+#ifdef SERIAL_DEBUG
   Serial.begin(115200);
-  while (!Serial) {}
+  while (!Serial)
+  {
+  }
   Serial.println("Debug serial connection established.");
-  #endif
+#endif
 }
 
-void loop() {
+void loop()
+{
 }

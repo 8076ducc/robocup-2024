@@ -30,7 +30,8 @@
 
 RPLidar lidar;
 
-void setup() {
+void setup()
+{
   // Serial.begin(256000);
   // while (!Serial) {
   // }
@@ -42,34 +43,38 @@ void setup() {
   lidar.begin(LIDAR);
 }
 
-void loop() {
-  if (IS_OK(lidar.waitPoint())) {
-    float distance = lidar.getCurrentPoint().distance; //distance value in mm unit
-    float angle    = lidar.getCurrentPoint().angle; //anglue value in degree
-    bool  startBit = lidar.getCurrentPoint().startBit; //whether this point is belong to a new scan
-    byte  quality  = lidar.getCurrentPoint().quality; //quality of the current measurement
-    
-    //perform data processing here... 
+void loop()
+{
+  if (IS_OK(lidar.waitPoint()))
+  {
+    float distance = lidar.getCurrentPoint().distance; // distance value in mm unit
+    float angle = lidar.getCurrentPoint().angle;       // anglue value in degree
+    bool startBit = lidar.getCurrentPoint().startBit;  // whether this point is belong to a new scan
+    byte quality = lidar.getCurrentPoint().quality;    // quality of the current measurement
+
+    // perform data processing here...
     Serial.print("Angle: ");
     Serial.print(angle);
     Serial.print(" Distance: ");
     Serial.println(distance);
-    
-  } else {
+  }
+  else
+  {
     Serial.println("trying");
 
     analogWrite(6, 0);
-    
-    // try to detect RPLIDAR... 
-    
+
+    // try to detect RPLIDAR...
+
     rplidar_response_device_info_t info;
-    if (IS_OK(lidar.getDeviceInfo(info, 100))) {
-       // detected...
-       lidar.startScan();
-       
-       // start motor rotating at max allowed speed
-       delay(1000);
-       Serial.println("Started");
+    if (IS_OK(lidar.getDeviceInfo(info, 100)))
+    {
+      // detected...
+      lidar.startScan();
+
+      // start motor rotating at max allowed speed
+      delay(1000);
+      Serial.println("Started");
     }
   }
 }

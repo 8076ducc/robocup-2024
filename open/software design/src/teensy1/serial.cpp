@@ -1,11 +1,13 @@
 #include "main.h"
 
-void onLayer1Received(const byte *buf, size_t size) {
+void onLayer1Received(const byte *buf, size_t size)
+{
     Layer1TxDataUnion data_received;
-    
+
     // Don't continue if the payload is invalid
-    if (size != sizeof(data_received)) return;
-    
+    if (size != sizeof(data_received))
+        return;
+
     std::copy(buf, buf + size, std::begin(data_received.bytes));
 
     // Serial.print("Received: ");
@@ -18,21 +20,25 @@ void onLayer1Received(const byte *buf, size_t size) {
     ball.in_catchment = data_received.data.ball_in_catchment;
 }
 
-void onImuReceived(const byte *buf, size_t size) {
+void onImuReceived(const byte *buf, size_t size)
+{
     ImuTxDataUnion data_received;
 
     // Don't continue if the payload is invalid
-    if (size != sizeof(data_received)) return;
+    if (size != sizeof(data_received))
+        return;
 
     std::copy(buf, buf + size, std::begin(data_received.bytes));
     robot.current_pose.bearing = data_received.data.bearing;
 }
 
-void onTeensyReceived(const byte *buf, size_t size) {
+void onTeensyReceived(const byte *buf, size_t size)
+{
     Teensy1RxDataUnion data_received;
 
     // Don't continue if the payload is invalid
-    if (size != sizeof(data_received)) return;
+    if (size != sizeof(data_received))
+        return;
 
     std::copy(buf, buf + size, std::begin(data_received.bytes));
 
@@ -42,34 +48,56 @@ void onTeensyReceived(const byte *buf, size_t size) {
     layer_1_rx_data.data.kick = data_received.data.kick;
 }
 
-void Robot::setUpSerial() {
-    #ifdef SERIAL_DEBUG
+void Robot::setUpSerial()
+{
+#ifdef SERIAL_DEBUG
     Serial.begin(115200);
-    while (!Serial) {}
+    while (!Serial)
+    {
+    }
     Serial.println("Debug serial connection established.");
-    #endif
+#endif
 
     Serial1.begin(115200);
-    while (!Serial1) {}
+    while (!Serial1)
+    {
+    }
     Layer1Serial.setStream(&Serial1);
     Layer1Serial.setPacketHandler(&onLayer1Received);
-    #ifdef SERIAL_DEBUG
+#ifdef SERIAL_DEBUG
     Serial.println("Layer 1 serial connection established.");
-    #endif
+#endif
 
     Serial3.begin(115200);
-    while (!Serial3) {}
+    while (!Serial3)
+    {
+    }
     ImuSerial.setStream(&Serial3);
     ImuSerial.setPacketHandler(&onImuReceived);
-    #ifdef SERIAL_DEBUG
+#ifdef SERIAL_DEBUG
     Serial.println("IMU serial connection established.");
-    #endif
+#endif
 
     Serial5.begin(115200);
-    while (!Serial5) {}
+    while (!Serial5)
+    {
+    }
     TeensySerial.setStream(&Serial5);
     TeensySerial.setPacketHandler(&onTeensyReceived);
-    #ifdef SERIAL_DEBUG
+#ifdef SERIAL_DEBUG
     Serial.println("Teensy serial connection established.");
-    #endif
+#endif
+}
+
+void Robot::updateSerial()
+{
+    Layer1Serial.update();
+    ImuSerial.update();
+    TeensySerial.update();
+}
+
+void Robot::sendSerial()
+{
+    Layer1Serial.send(layer_1_rx_data.bytes, sizeof(layer_1_rx_data.bytes));
+    TeensySerial.send(teensy_1_tx_data.bytes, sizeof(teensy_1_tx_data.bytes));
 }

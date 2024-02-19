@@ -12,7 +12,6 @@
 #include <common.h>
 #include <RPLidar.h>
 
-
 #define LED 13
 
 #define FL_PWM 3
@@ -32,67 +31,73 @@
 #define BL_CS 18
 #define BR_CS 19
 
+class Base
+{
+public:
+    void setUpMotors();
+    void move(double vel, double angle, double bearing);
+    void motorOut(int motor, double speed);
+    double getAggregateSpeed(int motor);
 
-class Base {
-    public:
-        void setUpMotors();
-        void move(float vel, float angle);
-        void motorOut(int motor, float speed);
-        double getAggregateSpeed(int motor);
+    const double wheel_angle = 50 * M_PI / 180.0;
+    const int max_pwm = 8192;
+    const int min_speed = 800;
+    const double ema_constant = 0.03;
 
-        const double wheel_angle = 50 * M_PI / 180.0;
-        const int max_pwm = 8192;
-        const int min_speed = 800;
-        const double ema_constant = 0.01;
+    const double fl_voltage = 2.500;
+    const double fr_voltage = 2.300;
+    const double bl_voltage = 2.282;
+    const double br_voltage = 2.480;
+    const double fastest_motor = fl_voltage;
 
-        const int fl_voltage = 2.515;
-        const int fr_voltage = 2.408;
-        const int bl_voltage = 2.282;
-        const int br_voltage = 2.470;
-        const int fastest_motor = fl_voltage;
+    // const double fl_scale = fastest_motor / fl_voltage;
+    // const double fr_scale = fastest_motor / fr_voltage;
+    // const double bl_scale = fastest_motor / bl_voltage;
+    // const double br_scale = fastest_motor / br_voltage;
 
-        // const int fl_scale = fastest_motor / fl_voltage;
-        // const int fr_scale = fastest_motor / fr_voltage;
-        // const int bl_scale = fastest_motor / bl_voltage;
-        // const int br_scale = fastest_motor / br_voltage;
+    const int fl_scale = 1;
+    const int fr_scale = 1;
+    const int bl_scale = 1;
+    const int br_scale = 1;
 
-        const int fl_scale = 1;
-        const int fr_scale = 1;
-        const int bl_scale = 1;
-        const int br_scale = 1;
-
-        double prev_fl_out = 0;
-        double prev_fr_out = 0;
-        double prev_bl_out = 0;
-        double prev_br_out = 0;
+    double prev_fl_out = 0;
+    double prev_fr_out = 0;
+    double prev_bl_out = 0;
+    double prev_br_out = 0;
 };
 
+class Robot
+{
+public:
+    void setUpDribbler();
+    void moveToTargetPose();
+    void setUpSerial();
+    void updateSerial();
+    void sendSerial();
 
-class Robot {
-    public:
-        void setUpDribbler();
-        void moveToTargetPose();
-        void setUpSerial();
-        
-        Base base;
+    Base base;
 
-        Pose current_pose;
-        Pose target_pose;
+    Pose current_pose;
+    Pose target_pose;
 
-        bool on_line;
-        double target_angle;
+    double x_diff, y_diff, angle_diff, prev_distance;
+
+    bool on_line;
+    double target_angle;
 };
 
-struct Ball {
+struct Ball
+{
     Pose current_pose;
     Pose projected_pose;
-    
+
     bool in_catchment;
     bool in_alliance_catchment;
 };
 
-class Line {
-  public:
+class Line
+{
+public:
     std::vector<double> x;
     std::vector<double> y;
 
@@ -104,7 +109,6 @@ class Line {
     void verticalLinearRegression();
     void orthogonalLinearRegression();
 };
-
 
 // g;obal variables
 extern PacketSerial Layer1Serial;
@@ -124,12 +128,11 @@ extern Line left_wall;
 extern Line back_wall;
 extern Line right_wall;
 
-const double y_bounds [2] = {-1215, 1215};
-const double x_bounds [2] = {-910, 910};
+const double y_bounds[2] = {-1215, 1215};
+const double x_bounds[2] = {-910, 910};
 
 // extern double front, left, back, right, last_front, last_left, last_back, last_right;
 
-float degToRad(float deg);
 void lidarSetup();
 void processLidar();
 
