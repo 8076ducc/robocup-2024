@@ -1,0 +1,4 @@
+(version 1)
+(rule "Clearance to cutout"
+  (constraint clearance (min 1.7mm))
+  (condition "A.Layer=='Edge.Cuts' && A.memberOf('screwholes')"))
