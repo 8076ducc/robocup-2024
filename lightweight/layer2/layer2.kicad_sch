@@ -783,37 +783,6 @@
     )
   )
 
-  (symbol (lib_id "Connector:Conn_01x02_Female") (at 31.75 94.615 180) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid 0aa3410d-3fd0-4224-8a33-fa639b50d8be)
-    (property "Reference" "J1" (at 32.385 86.36 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Value" "XT30UPB-F" (at 32.385 88.9 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Footprint" "Connector_AMASS:AMASS_XT30UPB-F_1x02_P5.0mm_Vertical" (at 31.75 94.615 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "~" (at 31.75 94.615 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid e4930a22-d54d-4dab-9c25-9b39eb925871))
-    (pin "2" (uuid 9d0e7bdb-79c1-4069-adc8-bb7f6babeeae))
-    (instances
-      (project "layer1"
-        (path "/32d54464-fd6f-441d-9cef-d3e4fabf9fe1"
-          (reference "J1") (unit 1)
-        )
-      )
-      (project "layer2"
-        (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
-          (reference "J13") (unit 1)
-        )
-      )
-    )
-  )
-
   (symbol (lib_id "Connector:Conn_01x01_Female") (at 38.1 66.04 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 0b5e38f3-d203-4b8a-84c4-df95f5811368)
@@ -1294,37 +1263,6 @@
     )
   )
 
-  (symbol (lib_id "Device:R") (at 40.64 107.315 90) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid 61638b3b-7cfb-491d-81ef-7866b70c4fcd)
-    (property "Reference" "R1" (at 40.64 100.965 90)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Value" "10k" (at 40.64 103.505 90)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Footprint" "Resistor_SMD:R_0603_1608Metric" (at 40.64 109.093 90)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "~" (at 40.64 107.315 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "2" (uuid 37c4a17a-a615-4105-a119-0ae7e4893b77))
-    (pin "1" (uuid d606e532-2416-4bed-a423-80fa66834098))
-    (instances
-      (project "layer2"
-        (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
-          (reference "R1") (unit 1)
-        )
-      )
-      (project "layer3"
-        (path "/e63e39d7-6ac0-4ffd-8aa3-1841a4541b55"
-          (reference "R8") (unit 1)
-        )
-      )
-    )
-  )
-
   (symbol (lib_id "Connector:Conn_01x01_Female") (at 38.1 30.48 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 6163ad6c-d112-431d-93aa-d68351b03d57)
@@ -1444,31 +1382,6 @@
       (project "layer2"
         (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
           (reference "H7") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "power:+3V3") (at 44.45 107.315 270) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid 716f6942-4886-4e25-8661-9c58ee70075d)
-    (property "Reference" "#PWR015" (at 40.64 107.315 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "+3V3" (at 48.26 107.315 90)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "" (at 44.45 107.315 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 44.45 107.315 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid cc5bac82-4191-461e-9686-5344c152d063))
-    (instances
-      (project "layer2"
-        (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
-          (reference "#PWR015") (unit 1)
         )
       )
     )
@@ -1650,36 +1563,6 @@
     )
   )
 
-  (symbol (lib_name "+12V_1") (lib_id "power:+12V") (at 36.83 104.775 270) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid 8f423e58-a17d-483d-9136-b0e50386c89a)
-    (property "Reference" "#PWR017" (at 33.02 104.775 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "+12V" (at 40.005 105.41 90)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "" (at 36.83 104.775 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 36.83 104.775 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid cc44cb16-c959-4fce-b388-4df630f3db88))
-    (instances
-      (project "layer1"
-        (path "/32d54464-fd6f-441d-9cef-d3e4fabf9fe1"
-          (reference "#PWR017") (unit 1)
-        )
-      )
-      (project "layer2"
-        (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
-          (reference "#PWR05") (unit 1)
-        )
-      )
-    )
-  )
-
   (symbol (lib_id "Mechanical:MountingHole") (at 80.01 50.8 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 90cbe4db-35f0-449d-91b3-6269b0759742)
@@ -1822,33 +1705,6 @@
       (project "layer2"
         (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
           (reference "H19") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "Connector:Conn_01x03_Pin") (at 31.75 104.775 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid ac43201f-495e-4103-87f5-cf5d276a9227)
-    (property "Reference" "J12" (at 32.385 97.79 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Value" "XH2.54 3P" (at 32.385 100.33 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Footprint" "Connector_JST:JST_XH_B3B-XH-A_1x03_P2.50mm_Vertical" (at 31.75 104.775 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "~" (at 31.75 104.775 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "2" (uuid b0c55f11-7c72-4a20-9b2a-1c1598c5e720))
-    (pin "1" (uuid 59d4a949-2f8b-4066-a5a0-8da9fdfe2fe2))
-    (pin "3" (uuid e6534b1a-5766-4de5-a9ea-37de19f5264c))
-    (instances
-      (project "layer2"
-        (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
-          (reference "J12") (unit 1)
         )
       )
     )
@@ -2030,36 +1886,6 @@
     )
   )
 
-  (symbol (lib_name "+12V_1") (lib_id "power:+12V") (at 36.83 92.075 270) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid ceabb3fb-4ef0-4dcd-9d7b-0d9fb5859663)
-    (property "Reference" "#PWR017" (at 33.02 92.075 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "+12V" (at 40.005 92.71 90)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "" (at 36.83 92.075 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 36.83 92.075 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 55c51b2d-821a-4550-b86f-bf6842bc7e95))
-    (instances
-      (project "layer1"
-        (path "/32d54464-fd6f-441d-9cef-d3e4fabf9fe1"
-          (reference "#PWR017") (unit 1)
-        )
-      )
-      (project "layer2"
-        (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
-          (reference "#PWR03") (unit 1)
-        )
-      )
-    )
-  )
-
   (symbol (lib_id "power:+12V") (at 33.02 25.4 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid d45e6fbc-f73e-4aaa-8355-bb4424c122b8)
@@ -2153,56 +1979,6 @@
       (project "layer2"
         (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
           (reference "H26") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "power:GND") (at 36.83 94.615 90) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid e4e59f76-29a4-4c75-b5e0-56195684017a)
-    (property "Reference" "#PWR04" (at 43.18 94.615 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "GND" (at 40.64 94.615 90)
-      (effects (font (size 1.27 1.27)) (justify right))
-    )
-    (property "Footprint" "" (at 36.83 94.615 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 36.83 94.615 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 620d2add-8e0d-4547-b97e-79eb35e86e40))
-    (instances
-      (project "layer2"
-        (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
-          (reference "#PWR04") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "power:GND") (at 36.83 102.235 90) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid ee29f7de-cd68-42aa-b86b-2f67ec4fc426)
-    (property "Reference" "#PWR06" (at 43.18 102.235 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "GND" (at 40.64 102.235 90)
-      (effects (font (size 1.27 1.27)) (justify right))
-    )
-    (property "Footprint" "" (at 36.83 102.235 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 36.83 102.235 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 54b46064-42d1-4190-b0f3-0e61ce5e87f2))
-    (instances
-      (project "layer2"
-        (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
-          (reference "#PWR06") (unit 1)
         )
       )
     )

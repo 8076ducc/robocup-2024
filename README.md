@@ -1,6 +1,8 @@
-# RoboCupJunior Soccer Open 2024
+<img src="assets/icons/logo.png" alt="" width="80"/>
 
-This repository contains ducc's working files and source code for the 2024 RoboCupJunior Soccer Open competition.
+# ducc. Robotics: RoboCupJunior Soccer 2024
+
+This repository contains ducc's working files and source code for the 2024 RoboCupJunior Soccer Open and Soccer Lightweight competition.
 
 ## About
 
@@ -10,8 +12,9 @@ ducc is a six-man team comprising Neo Hao Jun, Isaac Tan, Zhu Yunsong, Aidan Yeo
 
 This project was built with the following tools:
 
-Mechanical: Autodesk Fusion 360
-Electrical: KiCad
+- Mechanical: Autodesk Fusion 360
+- Electrical: KiCad
+- Programming: PlatformIO
 
 ## Intellectual Property
 
