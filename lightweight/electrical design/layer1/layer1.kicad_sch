@@ -4753,30 +4753,6 @@
     )
   )
 
-  (symbol (lib_id "Mechanical:MountingHole") (at 130.81 172.72 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid 06555ac3-0ee6-4a86-ad0c-e09cac2dcd90)
-    (property "Reference" "H13" (at 133.858 171.4499 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "MountingHole" (at 133.858 173.9899 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad" (at 130.81 172.72 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "~" (at 130.81 172.72 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "layer1"
-        (path "/32d54464-fd6f-441d-9cef-d3e4fabf9fe1"
-          (reference "H13") (unit 1)
-        )
-      )
-    )
-  )
-
   (symbol (lib_id "74xx:CD74HC4067SM") (at 52.07 109.22 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 078c365a-dbc2-445e-830f-7c50a914fed5)
@@ -6057,30 +6033,6 @@
       (project "layer1"
         (path "/32d54464-fd6f-441d-9cef-d3e4fabf9fe1"
           (reference "H16") (unit 1)
-        )
-      )
-    )
-  )
-
-  (symbol (lib_id "Mechanical:MountingHole") (at 109.855 172.72 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid 2cca5513-154c-4754-acfb-9f9dd73a748a)
-    (property "Reference" "H5" (at 112.903 171.4499 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "MountingHole" (at 112.903 173.9899 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad" (at 109.855 172.72 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "~" (at 109.855 172.72 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "layer1"
-        (path "/32d54464-fd6f-441d-9cef-d3e4fabf9fe1"
-          (reference "H5") (unit 1)
         )
       )
     )

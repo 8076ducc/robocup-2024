@@ -1164,6 +1164,30 @@
     )
   )
 
+  (symbol (lib_id "Mechanical:MountingHole") (at 121.92 77.47 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 45e6c7b1-c92e-42cd-a27b-e0892cea07b5)
+    (property "Reference" "H27" (at 124.968 76.1999 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "MountingHole" (at 124.968 78.7399 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad" (at 121.92 77.47 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 121.92 77.47 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (instances
+      (project "layer2"
+        (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
+          (reference "H27") (unit 1)
+        )
+      )
+    )
+  )
+
   (symbol (lib_id "power:GND") (at 33.02 60.96 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 4a86465a-7b70-49fe-be44-af03a588adfe)
@@ -1460,6 +1484,30 @@
     )
   )
 
+  (symbol (lib_id "Mechanical:MountingHole") (at 121.92 82.55 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 86b2e9ec-f5af-4c1e-ae3d-5cdb7bc84b20)
+    (property "Reference" "H28" (at 124.968 81.2799 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "MountingHole" (at 124.968 83.8199 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad" (at 121.92 82.55 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 121.92 82.55 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (instances
+      (project "layer2"
+        (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
+          (reference "H28") (unit 1)
+        )
+      )
+    )
+  )
+
   (symbol (lib_id "Connector:Conn_01x02_Female") (at 69.215 109.22 180) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 872f8bbb-6223-4824-9bc5-fe1a4277730d)
@@ -1734,6 +1782,30 @@
     )
   )
 
+  (symbol (lib_id "Mechanical:MountingHole") (at 121.92 93.345 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid bc958f4b-88f2-4f84-b466-ddc424cf481a)
+    (property "Reference" "H30" (at 124.968 92.0749 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "MountingHole" (at 124.968 94.6149 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad" (at 121.92 93.345 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 121.92 93.345 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (instances
+      (project "layer2"
+        (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
+          (reference "H30") (unit 1)
+        )
+      )
+    )
+  )
+
   (symbol (lib_id "power:+12V") (at 33.02 35.56 90) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid bcdaa30b-0144-4f6b-b83f-4f86c6029e60)
@@ -1808,6 +1880,30 @@
       (project "layer2"
         (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
           (reference "#PWR011") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Mechanical:MountingHole") (at 121.92 88.265 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid c36523a2-b69f-42db-8e7a-278b913aaf8b)
+    (property "Reference" "H29" (at 124.968 86.9949 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "MountingHole" (at 124.968 89.5349 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "MountingHole:MountingHole_3.2mm_M3_Pad" (at 121.92 88.265 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 121.92 88.265 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (instances
+      (project "layer2"
+        (path "/c8578fbc-a4a8-4ef3-83ea-12d29e2f2e36"
+          (reference "H29") (unit 1)
         )
       )
     )
