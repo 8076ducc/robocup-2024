@@ -56,7 +56,16 @@
           "width": 0.0
         }
       ],
-      "drc_exclusions": [],
+      "drc_exclusions": [
+        "silk_over_copper|36438356|61596392|2b594aa2-9845-47ef-a892-468921289d16|00000000-0000-0000-0000-000000000000",
+        "silk_overlap|101778628|105476190|5fae538f-635c-412e-8c51-37b5443432ef|35d111f7-6950-424f-8c14-fc6ed1520da6",
+        "silk_overlap|105809523|142710000|2ccdcf8d-566c-40e9-ad70-816e12e7199c|542a7617-b4cd-4a04-9430-b929f02b6713",
+        "silk_overlap|98358152|99166666|0f4a1121-cc5d-4562-b18a-669bb5659881|0694e967-ddec-4af8-9e9a-88e59a6f734f",
+        "text_height|144206000|102755719|c425f679-0971-4376-a2fa-b70ca1e6922d|00000000-0000-0000-0000-000000000000",
+        "text_height|149921000|102755719|2bc664ce-9490-4360-b179-2b8e9ea41371|00000000-0000-0000-0000-000000000000",
+        "text_height|84380000|105000000|bae10251-2909-4503-bf8b-abf03c140ff5|00000000-0000-0000-0000-000000000000",
+        "text_height|84380000|106524000|25d64140-3387-43fb-ba4e-f7f18ea7058d|00000000-0000-0000-0000-000000000000"
+      ],
       "meta": {
         "version": 2
       },
@@ -114,7 +123,7 @@
         "allow_blind_buried_vias": false,
         "allow_microvias": false,
         "max_error": 0.005,
-        "min_clearance": 0.0,
+        "min_clearance": 0.19999999999999998,
         "min_connection": 0.0,
         "min_copper_edge_clearance": 1.0999999999999999,
         "min_hole_clearance": 0.25,
