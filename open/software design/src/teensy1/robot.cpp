@@ -15,6 +15,14 @@ void Robot::moveToTargetPose()
     x_diff = (target_pose.x - current_pose.x) == (target_pose.x - current_pose.x) ? (target_pose.x - current_pose.x) : x_diff;
     y_diff = (target_pose.y - current_pose.y) == (target_pose.y - current_pose.y) ? (target_pose.y - current_pose.y) : y_diff;
     angle_diff = atan2(x_diff, y_diff) == atan2(x_diff, y_diff) ? atan2(x_diff, y_diff) : angle_diff;
+    double actual_angle_diff = degrees(angle_diff) - robot.current_pose.bearing;
+
+    Serial.println(x_diff);
+
+    if (actual_angle_diff > 360)
+    {
+        actual_angle_diff = actual_angle_diff - 360;
+    }
 
     // if (atan2(x_diff, y_diff) == atan2(x_diff, y_diff)) {
     //     angle_diff = y_diff < 0 ? atan2(x_diff, y_diff) : atan2(x_diff, y_diff);
@@ -40,6 +48,6 @@ void Robot::moveToTargetPose()
 
     double correction = 0.0006 * distance + 0.0008 * (distance - prev_distance);
 
-    base.move(correction, degrees(angle_diff), 0);
+    base.move(correction, actual_angle_diff, target_angle);
     prev_distance = distance;
 }

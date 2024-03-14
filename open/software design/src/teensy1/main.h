@@ -77,6 +77,7 @@ public:
 
     Base base;
 
+    Pose previous_pose;
     Pose current_pose;
     Pose target_pose;
 

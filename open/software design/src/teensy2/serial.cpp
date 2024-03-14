@@ -42,6 +42,17 @@ void onTeensyReceived(const byte *buf, size_t size)
         return;
 
     std::copy(buf, buf + size, std::begin(data_received.bytes));
+
+    bt_rx_data.data.robot_pose.x = data_received.data.current_pose.x;
+    bt_rx_data.data.robot_pose.y = data_received.data.current_pose.y;
+    bt_rx_data.data.robot_pose.bearing = data_received.data.current_pose.bearing;
+
+    Serial.print("Robot pose: ");
+    Serial.print(bt_rx_data.data.robot_pose.x);
+    Serial.print(", ");
+    Serial.print(bt_rx_data.data.robot_pose.y);
+    Serial.print(", ");
+    Serial.println(bt_rx_data.data.robot_pose.bearing);
 }
 
 void Robot::setUpSerial()
@@ -93,4 +104,25 @@ void Robot::setUpSerial()
 #ifdef DEBUG
     Serial.println("Teensy serial connection established.");
 #endif
+}
+
+void Robot::updateSerial()
+{
+    Cam1Serial.update();
+    Cam2Serial.update();
+    BtSerial.update();
+    TeensySerial.update();
+}
+
+void Robot::sendSerial()
+{
+    if (Serial4.availableForWrite())
+    {
+        BtSerial.send(bt_rx_data.bytes, sizeof(bt_rx_data.bytes));
+    }
+
+    if (Serial5.availableForWrite())
+    {
+        TeensySerial.send(teensy_1_rx_data.bytes, sizeof(teensy_1_rx_data.bytes));
+    }
 }

@@ -10,12 +10,8 @@ void onLayer1Received(const byte *buf, size_t size)
 
     std::copy(buf, buf + size, std::begin(data_received.bytes));
 
-    // Serial.print("Received: ");
-    // Serial.print(data_received.data.on_line);
-    // Serial.print(", ");
-    // Serial.println(data_received.data.target_angle);
-
     robot.on_line = data_received.data.on_line;
+    Serial.print(robot.on_line);
     robot.target_angle = data_received.data.target_angle;
     ball.in_catchment = data_received.data.ball_in_catchment;
 }
@@ -42,8 +38,8 @@ void onTeensyReceived(const byte *buf, size_t size)
 
     std::copy(buf, buf + size, std::begin(data_received.bytes));
 
-    robot.current_pose.x = data_received.data.current_pose.x;
-    robot.current_pose.y = data_received.data.current_pose.y;
+    // robot.current_pose.x = data_received.data.current_pose.x;
+    // robot.current_pose.y = data_received.data.current_pose.y;
     robot.target_pose = data_received.data.target_pose;
     layer_1_rx_data.data.kick = data_received.data.kick;
 }
@@ -98,6 +94,13 @@ void Robot::updateSerial()
 
 void Robot::sendSerial()
 {
-    Layer1Serial.send(layer_1_rx_data.bytes, sizeof(layer_1_rx_data.bytes));
-    TeensySerial.send(teensy_1_tx_data.bytes, sizeof(teensy_1_tx_data.bytes));
+    if (Serial1.availableForWrite())
+    {
+        Layer1Serial.send(layer_1_rx_data.bytes, sizeof(layer_1_rx_data.bytes));
+    }
+
+    if (Serial5.availableForWrite())
+    {
+        TeensySerial.send(teensy_1_tx_data.bytes, sizeof(teensy_1_tx_data.bytes));
+    }
 }

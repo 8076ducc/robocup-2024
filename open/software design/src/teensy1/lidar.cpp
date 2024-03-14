@@ -8,7 +8,7 @@ Line front_wall, left_wall, back_wall, right_wall;
 void lidarSetup()
 {
   lidar.begin(Serial2);
-  pinModeFast(LIDAR_PWM, OUTPUT);
+  pinMode(LIDAR_PWM, OUTPUT);
 }
 
 int getClosestEdge(double x, double y)
@@ -140,32 +140,52 @@ void getRobotPose()
   // Serial.print(", ");
   // Serial.println(right_dist);
 
+  double ema_const = 0.2;
+  double current_pose_x = 0, current_pose_y = 0;
+
   // get the robot's pose
   if (right_wall.x.size() < 5 || right_dist != right_dist)
   {
-    robot.current_pose.x = left_dist;
+    current_pose_x = left_dist;
   }
   else if (left_wall.x.size() < 5 || left_dist != left_dist)
   {
-    robot.current_pose.x = 1820 - right_dist;
+    current_pose_x = 1820 - right_dist;
   }
   else
   {
-    robot.current_pose.x = (1820 / (left_dist + right_dist)) * left_dist;
+    current_pose_x = (1820 / (left_dist + right_dist)) * left_dist;
   }
 
   if (front_wall.x.size() < 5 || front_dist != front_dist)
   {
-    robot.current_pose.y = 2430 - back_dist;
+    current_pose_y = 2430 - back_dist;
   }
   else if (back_wall.x.size() < 5 || back_dist != back_dist)
   {
-    robot.current_pose.y = front_dist;
+    current_pose_y = front_dist;
   }
   else
   {
-    robot.current_pose.y = (2430 / (front_dist + back_dist)) * front_dist;
+    current_pose_y = (2430 / (front_dist + back_dist)) * front_dist;
   }
+
+  if (current_pose_x == current_pose_x)
+  {
+    robot.current_pose.x = (current_pose_x * ema_const) + (robot.previous_pose.x * (1 - ema_const));
+  }
+
+  if (current_pose_y == current_pose_y)
+  {
+    robot.current_pose.y = (current_pose_y * ema_const) + (robot.previous_pose.y * (1 - ema_const));
+  }
+
+  // Serial.print(robot.current_pose.x);
+  // Serial.print(", ");
+  // Serial.println(robot.current_pose.y);
+
+  robot.previous_pose.x = robot.current_pose.x;
+  robot.previous_pose.y = robot.current_pose.y;
 
   // Serial.print("(");
   // Serial.print(robot.current_pose.x);
@@ -245,7 +265,7 @@ void processLidar()
       // Serial.println(")");
     }
 
-    if (lidar_loop_count == 60)
+    if (lidar_loop_count == 120)
     {
       getRobotPose();
       lidar_loop_count = 0;
@@ -276,7 +296,7 @@ void processLidar()
       lidar_loop_count = 0;
 
       // start motor rotating at max allowed speed
-      digitalWriteFast(LIDAR_PWM, HIGH);
+      digitalWrite(LIDAR_PWM, HIGH);
       delay(1000);
     }
   }

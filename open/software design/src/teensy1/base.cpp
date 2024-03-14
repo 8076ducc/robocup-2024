@@ -16,7 +16,6 @@ int sgn(double x)
     }
 }
 
-
 void Base::setUpMotors()
 {
     pinModeFast(FL_INA, OUTPUT);
@@ -35,10 +34,10 @@ void Base::setUpMotors()
     analogWriteFrequency(BL_PWM, 18310.55);
     analogWriteFrequency(BR_PWM, 18310.55);
 
-    pinMode(FL_CS, INPUT);
-    pinMode(FR_CS, INPUT);
-    pinMode(BL_CS, INPUT);
-    pinMode(BR_CS, INPUT);
+    // pinMode(FL_CS, INPUT);
+    // pinMode(FR_CS, INPUT);
+    // pinMode(BL_CS, INPUT);
+    // pinMode(BR_CS, INPUT);
 }
 
 void Base::motorOut(int motor, double speed)

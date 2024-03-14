@@ -3,7 +3,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#define DEBUG
+// #define DEBUG
 #define STRATEGY 1
 // #define WHITE_BOT
 // #define BLACK_BOT
@@ -21,6 +21,8 @@ class Robot
 {
 public:
     void setUpSerial();
+    void updateSerial();
+    void sendSerial();
 
     Pose current_pose;
     Pose target_pose;
@@ -51,6 +53,11 @@ extern PacketSerial TeensySerial;
 extern Robot robot;
 extern Ball ball;
 extern Strategy strategy;
+
+extern BtRxDataUnion bt_rx_data;
+extern BtTxDataUnion bt_tx_data;
+extern Teensy1RxDataUnion teensy_1_rx_data;
+extern Teensy1TxDataUnion teensy_1_tx_data;
 
 void setUpLidar();
 void processLidar();
