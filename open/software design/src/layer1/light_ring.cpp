@@ -88,7 +88,7 @@ void LightRing::calibrate()
 
 void LightRing::read()
 {
-    int line_start = 0, line_end = 0;
+    int line_start = 31, line_end = 0;
 
     for (int i = 0; i < 16; i++)
     {
@@ -102,11 +102,11 @@ void LightRing::read()
 
         if (ldr_readings[i] > ldr_thresholds[i])
         {
-            if ((line_start != 0 && i < line_start) || (line_start == 0 && ldr_readings[0] < ldr_thresholds[0]))
+            if (i < line_start)
             {
                 line_start = i;
             }
-            else if (i > line_end)
+            if (i > line_end)
             {
                 line_end = i;
             }
@@ -118,23 +118,18 @@ void LightRing::read()
             {
                 line_start = i + 16;
             }
-            else if (i > line_end)
+            if (i > line_end)
             {
                 line_end = i + 16;
             }
         }
     }
 
-    if (line_start == 0 && line_end == 0)
+    if (line_start == 31 && line_end == 0)
     {
         tx_data.data.on_line = false;
         Serial.println("no line");
         return;
-    }
-
-    if (line_start > 0 && line_end == 0)
-    {
-        line_end = line_start;
     }
 
     double approach_angle = (line_end - line_start) < 16 ? (line_start + (line_end - line_start) / 2) * ldr_angle : 360 - ((line_end - line_start) * ldr_angle) - ((32 - line_end) * ldr_angle);
