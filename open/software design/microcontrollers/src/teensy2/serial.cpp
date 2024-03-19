@@ -2,18 +2,24 @@
 
 void onCam1Received(const byte *buf, size_t size)
 {
-    Cam1TxDataUnion data_received;
+    CamTxDataUnion data_received;
 
     // Don't continue if the payload is invalid
     if (size != sizeof(data_received))
         return;
 
     std::copy(buf, buf + size, std::begin(data_received.bytes));
+
+    Serial.print(data_received.data.ball_detected);
+    Serial.print("  Ball pose: ");
+    Serial.print(data_received.data.ball_x);
+    Serial.print(", ");
+    Serial.println(data_received.data.ball_y);
 }
 
 void onCam2Received(const byte *buf, size_t size)
 {
-    Cam2TxDataUnion data_received;
+    CamTxDataUnion data_received;
 
     // Don't continue if the payload is invalid
     if (size != sizeof(data_received))
@@ -57,13 +63,13 @@ void onTeensyReceived(const byte *buf, size_t size)
 
 void Robot::setUpSerial()
 {
-#ifdef DEBUG
+    // #ifdef DEBUG
     Serial.begin(115200);
     while (!Serial)
     {
     }
     Serial.println("Debug serial connection established.");
-#endif
+    // #endif
 
     Serial1.begin(115200);
     while (!Serial1)

@@ -18,26 +18,11 @@ Robot robot;
 
 void setup()
 {
-  // robot.setUpSerial();
-  Serial1.begin(115200);
-  while (!Serial1)
-  {
-  }
-
-  Serial.begin(115200);
-  while (!Serial)
-  {
-  }
-  Serial.println("Debug serial connection established.");
+  robot.setUpSerial();
 }
 
 void loop()
 {
-  // robot.updateSerial();
-
+  robot.updateSerial();
   // robot.sendSerial();
-  if (Serial1.available())
-  {
-    Serial.println(Serial1.read());
-  }
 }

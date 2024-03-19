@@ -20,23 +20,18 @@ struct BtRxData
     Pose robot_pose;
 };
 
-struct Cam1TxData
+struct CamTxData
 {
     bool ball_detected;
-    Pose ball_pose;
+    int ball_x;
+    int ball_y;
+    int yellow_goal_x;
+    int yellow_goal_y;
+    int blue_goal_x;
+    int blue_goal_y;
 };
 
-struct Cam1RxData
-{
-};
-
-struct Cam2TxData
-{
-    bool ball_detected;
-    Pose ball_pose;
-};
-
-struct Cam2RxData
+struct CamRxData
 {
 };
 
@@ -92,36 +87,20 @@ union BtRxDataUnion
     BtRxDataUnion() : data() {}
 };
 
-union Cam1TxDataUnion
+union CamTxDataUnion
 {
-    Cam1TxData data;
-    byte bytes[sizeof(Cam1TxData)];
+    CamTxData data;
+    byte bytes[sizeof(CamTxData)];
 
-    Cam1TxDataUnion() : data() {}
+    CamTxDataUnion() : data() {}
 };
 
-union Cam1RxDataUnion
+union CamRxDataUnion
 {
-    Cam1RxData data;
-    byte bytes[sizeof(Cam1RxData)];
+    CamRxData data;
+    byte bytes[sizeof(CamRxData)];
 
-    Cam1RxDataUnion() : data() {}
-};
-
-union Cam2TxDataUnion
-{
-    Cam2TxData data;
-    byte bytes[sizeof(Cam2TxData)];
-
-    Cam2TxDataUnion() : data() {}
-};
-
-union Cam2RxDataUnion
-{
-    Cam2RxData data;
-    byte bytes[sizeof(Cam2RxData)];
-
-    Cam2RxDataUnion() : data() {}
+    CamRxDataUnion() : data() {}
 };
 
 union ImuTxDataUnion
