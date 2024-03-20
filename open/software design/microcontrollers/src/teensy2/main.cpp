@@ -13,7 +13,7 @@ Teensy1TxDataUnion teensy_1_tx_data;
 Teensy1RxDataUnion teensy_1_rx_data;
 
 Robot robot;
-// Ball ball;
+Ball ball;
 // Strategy strategy;
 
 void setup()
@@ -24,5 +24,5 @@ void setup()
 void loop()
 {
   robot.updateSerial();
-  // robot.sendSerial();
+  robot.sendSerial();
 }

@@ -5,7 +5,7 @@ void Robot::setUpDribbler()
     pinMode(DRIBBLER_PWM, OUTPUT);
 
     analogWriteFrequency(DRIBBLER_PWM, 4000);
-
+    
     analogWrite(DRIBBLER_PWM, 128);
     delay(3000);
 }

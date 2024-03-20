@@ -12,7 +12,7 @@ void onLayer1Received(const byte *buf, size_t size)
 
     robot.on_line = data_received.data.on_line;
     Serial.print(robot.on_line);
-    robot.target_angle = data_received.data.target_angle;
+    // robot.target_angle = data_received.data.target_angle;
     ball.in_catchment = data_received.data.ball_in_catchment;
 }
 
@@ -41,7 +41,7 @@ void onTeensyReceived(const byte *buf, size_t size)
     // robot.current_pose.x = data_received.data.current_pose.x;
     // robot.current_pose.y = data_received.data.current_pose.y;
     robot.target_pose = data_received.data.target_pose;
-    layer_1_rx_data.data.kick = data_received.data.kick;
+    // layer_1_rx_data.data.kick = data_received.data.kick;
 }
 
 void Robot::setUpSerial()
