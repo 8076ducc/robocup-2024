@@ -17,6 +17,8 @@ void onCam1Received(const byte *buf, size_t size)
     std::copy(buf, buf + size, std::begin(data_received.bytes));
 }
 
+double prev_dist = 10000;
+
 void onCam2Received(const byte *buf, size_t size)
 {
     CamTxDataUnion data_received;
@@ -27,23 +29,21 @@ void onCam2Received(const byte *buf, size_t size)
 
     std::copy(buf, buf + size, std::begin(data_received.bytes));
 
-    Serial.print(data_received.data.ball_x);
-    Serial.print(", ");
-    Serial.print(data_received.data.ball_y);
-    Serial.print(", ");
+    // Serial.println("cam serial received");
 
     if (data_received.data.ball_detected)
     {
         teensy_1_rx_data.data.target_pose.x = getRegressedDistance(data_received.data.ball_x);
         teensy_1_rx_data.data.target_pose.y = getRegressedDistance(data_received.data.ball_y);
-        teensy_1_rx_data.data.target_pose.bearing = degrees(atan2(-data_received.data.ball_x, data_received.data.ball_y));
-
-        Serial.print("target pose ");
-        Serial.print(teensy_1_rx_data.data.target_pose.x);
-        Serial.print(", ");
-        Serial.print(teensy_1_rx_data.data.target_pose.y);
-        Serial.print(", ");
-        Serial.println(teensy_1_rx_data.data.target_pose.bearing);
+        double distance_from_ball = sqrt(pow(teensy_1_rx_data.data.target_pose.x, 2) + pow(teensy_1_rx_data.data.target_pose.y, 2));
+        teensy_1_rx_data.data.target_pose.bearing = degrees(atan2(data_received.data.ball_x, -data_received.data.ball_y));
+        prev_dist = distance_from_ball;
+    }
+    else if (prev_dist < 50)
+    {
+        teensy_1_rx_data.data.target_pose.x = 0;
+        teensy_1_rx_data.data.target_pose.y = 0;
+        teensy_1_rx_data.data.target_pose.bearing = 0;
     }
 }
 
@@ -72,25 +72,25 @@ void onTeensyReceived(const byte *buf, size_t size)
     bt_rx_data.data.robot_pose.y = data_received.data.current_pose.y;
     bt_rx_data.data.robot_pose.bearing = data_received.data.current_pose.bearing;
 
-    Serial.print("Robot pose: ");
-    Serial.print(bt_rx_data.data.robot_pose.x);
-    Serial.print(", ");
-    Serial.print(bt_rx_data.data.robot_pose.y);
-    Serial.print(", ");
-    Serial.println(bt_rx_data.data.robot_pose.bearing);
+    // Serial.print("Robot pose: ");
+    // Serial.print(bt_rx_data.data.robot_pose.x);
+    // Serial.print(", ");
+    // Serial.print(bt_rx_data.data.robot_pose.y);
+    // Serial.print(", ");
+    // Serial.println(bt_rx_data.data.robot_pose.bearing);
 }
 
 void Robot::setUpSerial()
 {
-    #ifdef DEBUG
+#ifdef DEBUG
     Serial.begin(115200);
     while (!Serial)
     {
     }
     Serial.println("Debug serial connection established.");
-    #endif
+#endif
 
-    Serial1.begin(115200);
+    Serial1.begin(1000000);
     while (!Serial1)
     {
     }
@@ -100,7 +100,7 @@ void Robot::setUpSerial()
     Serial.println("Layer 1 serial connection established.");
 #endif
 
-    Serial2.begin(115200);
+    Serial2.begin(1000000);
     while (!Serial2)
     {
     }
@@ -110,7 +110,7 @@ void Robot::setUpSerial()
     Serial.println("IMU serial connection established.");
 #endif
 
-    Serial4.begin(115200);
+    Serial4.begin(serial_baud);
     while (!Serial4)
     {
     }
@@ -120,7 +120,7 @@ void Robot::setUpSerial()
     Serial.println("Teensy serial connection established.");
 #endif
 
-    Serial5.begin(115200);
+    Serial5.begin(1000000);
     while (!Serial5)
     {
     }

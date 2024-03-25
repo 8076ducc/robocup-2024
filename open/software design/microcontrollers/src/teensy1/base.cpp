@@ -81,7 +81,7 @@ void Base::motorOut(int motor, double speed)
     digitalWriteFast(INA, dir);
 }
 
-double kp = 0.001;
+double kp = 0.003;
 double ki = 0.00;
 double kd = 0.005;
 double proportional = 0;

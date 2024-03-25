@@ -125,6 +125,8 @@ void LightRing::read()
         }
     }
 
+    tx_data.data.ldr_reading = ldr_readings[8];
+
     if (line_start == 31 && line_end == 0)
     {
         tx_data.data.on_line = false;
@@ -141,7 +143,8 @@ void LightRing::read()
 
     tx_data.data.on_line = true;
     tx_data.data.target_angle = target_angle;
-    tx_data.data.chord_length = 1.0;
+    tx_data.data.chord_length = min(abs(line_end - line_start), abs(line_start - line_end));
+    tx_data.data.line_centre = (line_start + line_end) / 2;
 
 #ifdef SERIAL_DEBUG
     Serial.print("Line start: ");

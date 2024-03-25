@@ -14,4 +14,6 @@
 #include <serial.h>
 #include <utils.h>
 
+const int serial_baud = 512000;
+
 #endif
