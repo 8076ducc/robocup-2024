@@ -49,6 +49,8 @@ struct Layer1TxData
     bool on_line;
     double target_angle;
     double chord_length;
+    double line_centre;
+    int ldr_reading;
     bool ball_in_catchment;
 };
 

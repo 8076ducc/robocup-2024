@@ -12,6 +12,9 @@
 #include <common.h>
 #include <RPLidar.h>
 
+#define DRIBBLER_LOWER_LIMIT 32
+#define DRIBBLER_UPPER_LIMIT 48
+
 #define LED 13
 
 #define FL_PWM 3
@@ -111,7 +114,7 @@ public:
     void orthogonalLinearRegression();
 };
 
-// g;obal variables
+// global variables
 extern PacketSerial Layer1Serial;
 extern PacketSerial ImuSerial;
 extern PacketSerial TeensySerial;
@@ -128,6 +131,11 @@ extern Line front_wall;
 extern Line left_wall;
 extern Line back_wall;
 extern Line right_wall;
+
+extern int ldr_reading;
+const int ldr_threshold = 1627;
+extern double chord_length;
+extern double line_centre;
 
 const double y_bounds[2] = {-1215, 1215};
 const double x_bounds[2] = {-910, 910};

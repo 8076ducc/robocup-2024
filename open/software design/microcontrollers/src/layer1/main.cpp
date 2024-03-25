@@ -9,7 +9,7 @@ LightRing light_ring;
 
 void detectBall()
 {
-  if (analogRead(LIGHTGATE) > ball_threshold)
+  if (analogRead(LIGHTGATE) < ball_threshold)
   {
     tx_data.data.ball_in_catchment = true;
   }
@@ -50,7 +50,7 @@ void setup()
   pinMode(LIGHTGATE, INPUT);
   pinMode(KICKER, OUTPUT);
 
-  Serial0.begin(115200);
+  Serial0.begin(serial_baud);
   while (!Serial0)
   {
   }
@@ -65,7 +65,7 @@ void loop()
 #else
   TeensySerial.update();
   light_ring.read();
-  // detectBall();
+  detectBall();
   // if (rx_data.data.kick) {
   //   kick();
   // }

@@ -77,12 +77,15 @@ void readIMUHeading()
 
 void setup()
 {
-
+#ifdef SERIAL_DEBUG
     Serial.begin(115200);
-    //   while (!Serial) {};
+    while (!Serial)
+    {
+    };
     Serial.println("Starting IMU");
+#endif
 
-    Serial0.begin(115200, SERIAL_8N1, 6, 5);
+    Serial0.begin(serial_baud, SERIAL_8N1, 6, 5);
     while (!Serial0)
     {
     }
