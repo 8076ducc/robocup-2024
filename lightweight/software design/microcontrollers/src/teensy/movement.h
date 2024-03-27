@@ -1,4 +1,4 @@
-//#define ballBearing, ballDist
+#define ballBearing, ballDist
 void trackBall() {
     float ballOffset, OffsetMult;
     if (ballBearing <= 180)
