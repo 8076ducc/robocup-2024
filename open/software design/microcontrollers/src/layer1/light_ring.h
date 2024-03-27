@@ -11,6 +11,9 @@ public:
     void printThresholds();
     void read();
 
+    int line_start_ldr;
+    int line_end_ldr;
+
     int ldr_readings[32];
 
     int ldr_min_readings[32];

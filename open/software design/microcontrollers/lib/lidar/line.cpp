@@ -1,4 +1,4 @@
-#include "main.h"
+#include "line.h"
 
 double mean(std::vector<double> v)
 {

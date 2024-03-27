@@ -1,22 +1,6 @@
 #include "main.h"
 
-int sgn(double x)
-{
-    if (x > 0)
-    {
-        return 1;
-    }
-    else if (x < 0)
-    {
-        return -1;
-    }
-    else
-    {
-        return 0;
-    }
-}
-
-void Base::setUpMotors()
+void Base::setUp()
 {
     pinModeFast(FL_INA, OUTPUT);
     pinModeFast(FR_INA, OUTPUT);
@@ -81,7 +65,7 @@ void Base::motorOut(int motor, double speed)
     digitalWriteFast(INA, dir);
 }
 
-double kp = 0.003;
+double kp = 0.001;
 double ki = 0.00;
 double kd = 0.005;
 double proportional = 0;
@@ -92,15 +76,19 @@ double turn_angle = 0;
 
 void Base::move(double vel, double angle, double bearing)
 {
-    double x_vel = sin(radians(angle)) * sin(wheel_angle) * vel;
-    double y_vel = cos(radians(angle)) * cos(wheel_angle) * vel;
+    double x_vel = sin(radians(angle)) * sin(wheel_angle);
+    double y_vel = cos(radians(angle)) * cos(wheel_angle);
     double ang_vel = 0;
 
     double turn_angle = bearing - robot.current_pose.bearing;
 
-    if (turn_angle > 180 || turn_angle < -180)
+    if (turn_angle > 180)
     {
-        turn_angle = turn_angle > 180 ? turn_angle - 360 : turn_angle + 360;
+        turn_angle -= 360;
+    }
+    else if (turn_angle < -180)
+    {
+        turn_angle += 360;
     }
 
     proportional = kp * turn_angle;
@@ -116,19 +104,24 @@ void Base::move(double vel, double angle, double bearing)
 
     if (abs(a) > abs(b))
     {
-        a_scaled = sgn(a) * 1;
-        b_scaled = sgn(b) * abs(b / a) * 1;
+        a_scaled = sgn(a) * vel;
+        b_scaled = sgn(b) * abs(b / a) * vel;
     }
     else
     {
-        a_scaled = sgn(a) * abs(a / b) * 1;
-        b_scaled = sgn(b) * 1;
+        a_scaled = sgn(a) * abs(a / b) * vel;
+        b_scaled = sgn(b) * vel;
     }
 
-    double fl = a + ang_vel;
-    double fr = b - ang_vel;
-    double bl = b + ang_vel;
-    double br = a - ang_vel;
+    // double fl = a * vel + ang_vel;
+    // double fr = b * vel - ang_vel;
+    // double bl = b * vel + ang_vel;
+    // double br = a * vel - ang_vel;
+
+    double fl = a_scaled + ang_vel;
+    double fr = b_scaled - ang_vel;
+    double bl = b_scaled + ang_vel;
+    double br = a_scaled - ang_vel;
 
     // calculate new speeds
     double new_fl_out = fl * max_pwm;

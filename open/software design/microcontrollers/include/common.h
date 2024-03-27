@@ -13,7 +13,6 @@
 // shared project header files
 #include <serial.h>
 #include <utils.h>
-
-const int serial_baud = 512000;
+#include <functions.h>
 
 #endif

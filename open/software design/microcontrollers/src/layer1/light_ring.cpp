@@ -125,12 +125,14 @@ void LightRing::read()
         }
     }
 
-    tx_data.data.ldr_reading = ldr_readings[8];
+    // tx_data.data.line_start_reading = ldr_readings[rx_data.line_start];
+    // tx_data.data.line_start_threshold = ldr_thresholds[rx_data.line_end];
+    // tx_data.data.line_end_reading = ldr_readings[rx_data.line_end];
+    // tx_data.data.line_end_threshold = ldr_thresholds[rx_data.line_end];
 
     if (line_start == 31 && line_end == 0)
     {
         tx_data.data.on_line = false;
-        Serial.println("no line");
         return;
     }
 

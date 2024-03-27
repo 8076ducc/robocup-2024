@@ -10,12 +10,9 @@
 // #define BLACK_BOT
 
 #include <common.h>
-#include <RPLidar.h>
 
 #define DRIBBLER_LOWER_LIMIT 32
 #define DRIBBLER_UPPER_LIMIT 48
-
-#define LED 13
 
 #define FL_PWM 3
 #define FR_PWM 2
@@ -37,7 +34,7 @@
 class Base
 {
 public:
-    void setUpMotors();
+    void setUp();
     void move(double vel, double angle, double bearing);
     void motorOut(int motor, double speed);
     double getAggregateSpeed(int motor);
@@ -69,16 +66,29 @@ public:
     double prev_br_out = 0;
 };
 
+class Dribbler
+{
+public:
+    void setUp();
+    void setSpeed(int speed);
+};
+
 class Robot
 {
 public:
-    void setUpDribbler();
     void moveToTargetPose();
     void setUpSerial();
     void updateSerial();
     void sendSerial();
 
+    void defendGoal();
+    void rotateToBall();
+    void orbitToBall();
+    void rotateScore();
+    void orbitScore();
+
     Base base;
+    Dribbler dribbler;
 
     Pose previous_pose;
     Pose current_pose;
@@ -86,32 +96,12 @@ public:
 
     double x_diff, y_diff, angle_diff, prev_distance;
 
+    int chord_length;
+
+    double line_centre;
+
     bool on_line;
     double target_angle;
-};
-
-struct Ball
-{
-    Pose current_pose;
-    Pose projected_pose;
-
-    bool in_catchment;
-    bool in_alliance_catchment;
-};
-
-class Line
-{
-public:
-    std::vector<double> x;
-    std::vector<double> y;
-
-    double slope;
-    double intercept;
-
-    // Function to calculate the slope and intercept of a linear regression line
-    void horizontalLinearRegression();
-    void verticalLinearRegression();
-    void orthogonalLinearRegression();
 };
 
 // global variables
@@ -125,22 +115,14 @@ extern Teensy1TxDataUnion teensy_1_tx_data;
 
 extern Robot robot;
 extern Ball ball;
-extern RPLidar lidar;
+// extern RPLidar lidar;
+extern Goal yellow_goal;
+extern Goal blue_goal;
 
-extern Line front_wall;
-extern Line left_wall;
-extern Line back_wall;
-extern Line right_wall;
-
-extern int ldr_reading;
-const int ldr_threshold = 1627;
-extern double chord_length;
-extern double line_centre;
-
-const double y_bounds[2] = {-1215, 1215};
-const double x_bounds[2] = {-910, 910};
-
-// extern double front, left, back, right, last_front, last_left, last_back, last_right;
+// extern Line front_wall;
+// extern Line left_wall;
+// extern Line back_wall;
+// extern Line right_wall;
 
 void lidarSetup();
 void processLidar();

@@ -25,6 +25,6 @@
 
 const int ball_threshold = 3500;
 extern Layer1TxDataUnion tx_data;
-extern Layer1RxDataUnion rx_data;
+extern Layer1RxData rx_data;
 
 #endif

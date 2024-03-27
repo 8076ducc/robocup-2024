@@ -4,11 +4,13 @@
 PacketSerial TeensySerial;
 
 Layer1TxDataUnion tx_data;
+Layer1RxData rx_data;
 
 LightRing light_ring;
 
 void detectBall()
 {
+  Serial.println(analogRead(LIGHTGATE));
   if (analogRead(LIGHTGATE) < ball_threshold)
   {
     tx_data.data.ball_in_catchment = true;
@@ -22,7 +24,7 @@ void detectBall()
 void kick()
 {
   digitalWrite(KICKER, HIGH);
-  delay(100);
+  delay(180);
   digitalWrite(KICKER, LOW);
 }
 
@@ -34,12 +36,19 @@ void onTeensyReceived(const byte *buf, size_t size)
   if (size != sizeof(data_received))
     return;
   std::copy(buf, buf + size, std::begin(data_received.bytes));
+
+  if (data_received.data.kick)
+  {
+    kick();
+  }
+  rx_data.line_start = data_received.data.line_start;
+  rx_data.line_end = data_received.data.line_end;
 }
 
 void setup()
 {
 #ifdef SERIAL_DEBUG
-  Serial.begin(115200);
+  Serial.begin(serial_monitor_baud);
   while (!Serial)
   {
   }
@@ -50,7 +59,7 @@ void setup()
   pinMode(LIGHTGATE, INPUT);
   pinMode(KICKER, OUTPUT);
 
-  Serial0.begin(serial_baud);
+  Serial0.begin(layer_1_serial_baud);
   while (!Serial0)
   {
   }
@@ -66,9 +75,6 @@ void loop()
   TeensySerial.update();
   light_ring.read();
   detectBall();
-  // if (rx_data.data.kick) {
-  //   kick();
-  // }
   TeensySerial.send(tx_data.bytes, sizeof(tx_data.bytes));
 #endif
 }

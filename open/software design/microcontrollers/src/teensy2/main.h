@@ -24,23 +24,14 @@ public:
     void updateSerial();
     void sendSerial();
 
+    void setUpLidar();
+    void processLidar();
+    void getRobotPose();
+
+    Pose previous_pose;
     Pose current_pose;
     Pose target_pose;
     Pose projected_pose;
-};
-
-struct Ball
-{
-    Pose current_pose;
-    Pose projected_pose;
-
-    bool in_catchment;
-    bool in_alliance_catchment;
-};
-
-class Strategy
-{
-    void chaseBall();
 };
 
 // global variables
@@ -52,14 +43,13 @@ extern PacketSerial TeensySerial;
 
 extern Robot robot;
 extern Ball ball;
-extern Strategy strategy;
+extern Goal goal;
 
 extern BtRxDataUnion bt_rx_data;
 extern BtTxDataUnion bt_tx_data;
+extern CamRxDataUnion cam_rx_data;
+extern CamTxDataUnion cam_tx_data;
 extern Teensy1RxDataUnion teensy_1_rx_data;
 extern Teensy1TxDataUnion teensy_1_tx_data;
-
-void setUpLidar();
-void processLidar();
 
 #endif

@@ -5,6 +5,14 @@
 
 #include "utils.h"
 
+const int serial_baud = 512000;
+const int bt_serial_baud = 115200;
+const int cam_serial_baud = 1000000;
+const int imu_serial_baud = 512000;
+const int layer_1_serial_baud = 512000;
+const int teensy1_serial_baud = 1000000;
+const int serial_monitor_baud = 512000;
+
 struct BtTxData
 {
     bool ball_detected;
@@ -25,8 +33,10 @@ struct CamTxData
     bool ball_detected;
     int ball_x;
     int ball_y;
+    bool yellow_goal_detected;
     int yellow_goal_x;
     int yellow_goal_y;
+    bool blue_goal_detected;
     int blue_goal_x;
     int blue_goal_y;
 };
@@ -50,19 +60,19 @@ struct Layer1TxData
     double target_angle;
     double chord_length;
     double line_centre;
-    int ldr_reading;
     bool ball_in_catchment;
 };
 
 struct Layer1RxData
 {
     bool kick;
+    int line_start;
+    int line_end;
 };
 
 struct Teensy1TxData
 {
-    // double bearing;
-    Pose current_pose;
+    double bearing;
 };
 
 struct Teensy1RxData
@@ -70,7 +80,11 @@ struct Teensy1RxData
     Pose current_pose;
     Pose target_pose;
 
+    Goal yellow_goal;
+    Goal blue_goal;
+
     bool kick;
+    bool lidar_detected;
 };
 
 union BtTxDataUnion

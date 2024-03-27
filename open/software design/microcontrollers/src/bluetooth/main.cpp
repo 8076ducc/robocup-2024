@@ -186,12 +186,12 @@ class MyAdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
 void setup()
 {
 #ifdef SERIAL_DEBUG
-    Serial.begin(115200);
+    Serial.begin(serial_monitor_baud);
     Serial.println("Starting Arduino BLE Client application...");
     BLEDevice::init("");
 #endif
 
-    Serial0.begin(serial_baud);
+    Serial0.begin(bt_serial_baud);
     while (!Serial0)
     {
     }
@@ -337,10 +337,10 @@ class CharacteristicCallBack : public BLECharacteristicCallbacks
 void setup()
 {
 #ifdef SERIAL_DEBUG
-    Serial.begin(115200);
+    Serial.begin(serial_monitor_baud);
 #endif
 
-    Serial0.begin(serial_baud);
+    Serial0.begin(bt_serial_baud);
     while (!Serial0)
     {
     }
