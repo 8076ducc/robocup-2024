@@ -26,12 +26,24 @@ public:
 
     void setUpLidar();
     void processLidar();
+    void getLidarPose();
+
+    void getCameraPose(int yellow_goal_x, int yellow_goal_y, int blue_goal_x, int blue_goal_y);
+
     void getRobotPose();
 
     Pose previous_pose;
     Pose current_pose;
     Pose target_pose;
     Pose projected_pose;
+
+    Pose lidar_pose;
+    Pose camera_pose;
+
+    double lidar_confidence_x;
+    double lidar_confidence_y;
+    double camera_confidence_x;
+    double camera_confidence_y;
 };
 
 // global variables
@@ -43,7 +55,8 @@ extern PacketSerial TeensySerial;
 
 extern Robot robot;
 extern Ball ball;
-extern Goal goal;
+extern Goal yellow_goal;
+extern Goal blue_goal;
 
 extern BtRxDataUnion bt_rx_data;
 extern BtTxDataUnion bt_tx_data;

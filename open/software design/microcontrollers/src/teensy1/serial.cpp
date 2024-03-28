@@ -61,6 +61,22 @@ void onTeensyReceived(const byte *buf, size_t size)
     robot.current_pose = data_received.data.current_pose;
     robot.target_pose = data_received.data.target_pose;
 
+    ball.current_pose = robot.target_pose;
+
+    Serial.print("Robot: ");
+    Serial.print(robot.current_pose.x);
+    Serial.print(" ");
+    Serial.print(robot.current_pose.y);
+    Serial.print(" ");
+    Serial.println(robot.current_pose.bearing);
+
+    Serial.print("Ball: ");
+    Serial.print(ball.current_pose.x);
+    Serial.print(" ");
+    Serial.print(ball.current_pose.y);
+    Serial.print(" ");
+    Serial.println(ball.current_pose.bearing);
+
     ball.distance_from_robot = sqrt(pow(data_received.data.target_pose.x, 2) + pow(data_received.data.target_pose.y, 2));
 
     // Serial.print(ball.current_pose.bearing);

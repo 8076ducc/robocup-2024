@@ -14,8 +14,8 @@ Teensy1RxDataUnion teensy_1_rx_data;
 
 Robot robot;
 Ball ball;
-Goal goal;
-// Strategy strategy;
+Goal yellow_goal;
+Goal blue_goal;
 
 void setup()
 {
@@ -29,4 +29,5 @@ void loop()
   robot.sendSerial();
 
   robot.processLidar();
+  robot.getRobotPose();
 }

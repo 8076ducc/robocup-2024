@@ -22,6 +22,7 @@ void setup()
   robot.dribbler.setUp();
   robot.base.setUp();
   robot.setUpSerial();
+  pinModeFast(LIDAR_PWM, OUTPUT);
 
   robot.previous_pose.x = 0;
   robot.previous_pose.y = 0;
@@ -40,18 +41,19 @@ void loop()
 
   if (robot.on_line)
   {
-    robot.base.move(0.6, robot.target_angle, 0);
+    robot.base.move(0.3, robot.target_angle, 0);
   }
   else
   {
-    if (ball.in_catchment)
-    {
-      robot.orbitScore();
-    }
-    else
-    {
-      robot.orbitToBall();
-    }
+    // if (ball.in_catchment)
+    // {
+    //   robot.orbitScore();
+    // }
+    // else
+    // {
+    robot.orbitToBall();
+    // robot.rotateToBall();
+    // }
     // robot.defendGoal();
     // robot.rotateToBall();
   }

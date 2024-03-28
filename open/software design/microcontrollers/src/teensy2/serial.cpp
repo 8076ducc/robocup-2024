@@ -20,29 +20,28 @@ void onCam2Received(const byte *buf, size_t size)
     {
         double ball_relative_x = getRegressedDistance(data_received.data.ball_x);
         double ball_relative_y = getRegressedDistance(data_received.data.ball_y);
-        double distance_from_ball = sqrt(pow(teensy_1_rx_data.data.target_pose.x, 2) + pow(teensy_1_rx_data.data.target_pose.y, 2));
+        double distance_from_ball = sqrt(pow(ball_relative_x, 2) + pow(ball_relative_y, 2));
         double ball_relative_bearing = degrees(atan2(data_received.data.ball_x, -data_received.data.ball_y));
 
-        ball.current_pose.x = robot.current_pose.x + cos(radians(ball_relative_bearing + robot.current_pose.bearing)) * distance_from_ball;
-        ball.current_pose.y = robot.current_pose.y + sin(radians(ball_relative_bearing + robot.current_pose.bearing)) * distance_from_ball;
         ball.current_pose.bearing = ball_relative_bearing + robot.current_pose.bearing;
-    } else {
+        ball.current_pose.x = robot.current_pose.x + cos(radians(ball.current_pose.bearing)) * distance_from_ball;
+        ball.current_pose.y = robot.current_pose.y + sin(radians(ball.current_pose.bearing)) * distance_from_ball;
+    }
+    else
+    {
         // compute ball's new bearing relative to robot based on new robot position
         double ball_relative_x = ball.current_pose.x - robot.current_pose.x;
         double ball_relative_y = ball.current_pose.y - robot.current_pose.y;
         double distance_from_ball = sqrt(pow(ball_relative_x, 2) + pow(ball_relative_y, 2));
         double ball_relative_bearing = degrees(atan2(ball_relative_x, -ball_relative_y));
+
+        ball.current_pose.bearing = ball_relative_bearing - robot.current_pose.bearing;
     }
 
-    teensy_1_rx_data.data.yellow_goal.current_pose.x = data_received.data.yellow_goal_x;
-    teensy_1_rx_data.data.yellow_goal.current_pose.y = data_received.data.yellow_goal_y;
-    double distance_from_yellow_goal = sqrt(pow(data_received.data.yellow_goal_x, 2) + pow(data_received.data.yellow_goal_y, 2));
-    teensy_1_rx_data.data.yellow_goal.current_pose.bearing = degrees(atan2(data_received.data.yellow_goal_x, -data_received.data.yellow_goal_y));
-
-    teensy_1_rx_data.data.blue_goal.current_pose.x = data_received.data.blue_goal_x;
-    teensy_1_rx_data.data.blue_goal.current_pose.y = data_received.data.blue_goal_y;
-    double distance_from_blue_goal = sqrt(pow(data_received.data.blue_goal_x, 2) + pow(data_received.data.blue_goal_y, 2));
-    teensy_1_rx_data.data.blue_goal.current_pose.bearing = degrees(atan2(data_received.data.blue_goal_x, -data_received.data.blue_goal_y));
+    if (data_received.data.yellow_goal_detected && data_received.data.blue_goal_detected)
+    {
+        robot.getCameraPose(data_received.data.yellow_goal_x, data_received.data.yellow_goal_y, data_received.data.blue_goal_x, data_received.data.blue_goal_y);
+    }
 }
 
 void onBtReceived(const byte *buf, size_t size)
@@ -65,6 +64,8 @@ void onTeensyReceived(const byte *buf, size_t size)
         return;
 
     std::copy(buf, buf + size, std::begin(data_received.bytes));
+
+    robot.current_pose.bearing = data_received.data.bearing;
 }
 
 void Robot::setUpSerial()

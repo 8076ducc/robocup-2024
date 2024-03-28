@@ -65,7 +65,7 @@ void Base::motorOut(int motor, double speed)
     digitalWriteFast(INA, dir);
 }
 
-double kp = 0.001;
+double kp = 0.0017;
 double ki = 0.00;
 double kd = 0.005;
 double proportional = 0;
@@ -82,6 +82,11 @@ void Base::move(double vel, double angle, double bearing)
 
     double turn_angle = bearing - robot.current_pose.bearing;
 
+    // Serial.print("bearing ");
+    // Serial.println(bearing);
+    // Serial.print(" robot pose ");
+    // Serial.println(robot.current_pose.bearing);
+
     if (turn_angle > 180)
     {
         turn_angle -= 360;
@@ -93,7 +98,7 @@ void Base::move(double vel, double angle, double bearing)
 
     proportional = kp * turn_angle;
     integral += ki * turn_angle;
-    derivative = kd * abs(turn_angle - prev_error);
+    derivative = kd * (abs(turn_angle) - abs(prev_error));
 
     ang_vel = proportional + integral + derivative;
     prev_error = turn_angle;

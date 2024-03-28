@@ -5,32 +5,7 @@ void Robot::moveToTargetPose()
     x_diff = (target_pose.x - current_pose.x) == (target_pose.x - current_pose.x) ? (target_pose.x - current_pose.x) : x_diff;
     y_diff = (target_pose.y - current_pose.y) == (target_pose.y - current_pose.y) ? (target_pose.y - current_pose.y) : y_diff;
     angle_diff = atan2(x_diff, y_diff) == atan2(x_diff, y_diff) ? atan2(x_diff, y_diff) : angle_diff;
-    double actual_angle_diff = degrees(angle_diff) - current_pose.bearing;
-
-    if (actual_angle_diff > 360)
-    {
-        actual_angle_diff = actual_angle_diff - 360;
-    }
-
-    // if (atan2(x_diff, y_diff) == atan2(x_diff, y_diff)) {
-    //     angle_diff = y_diff < 0 ? atan2(x_diff, y_diff) : atan2(x_diff, y_diff);
-    // } else {
-    //     angle_diff = angle_diff;
-    // }
-    // double vel = sqrt(x_diff * x_diff + y_diff * y_diff) / 1000;
-
-    // print values
-    //  Serial.print("(");
-    //  Serial.print(robot.current_pose.x);
-    //  Serial.print(", ");
-    //  Serial.print(robot.current_pose.y);
-    //  Serial.print(") ");
-    //  Serial.print("x_diff: ");
-    //  Serial.print(x_diff);
-    //  Serial.print(" y_diff: ");
-    //  Serial.print(y_diff);
-    //  Serial.print(" angle_diff: ");
-    //  Serial.println(angle_diff);
+    double actual_angle_diff = correctBearing(degrees(angle_diff) - current_pose.bearing);
 
     double distance = sqrt(x_diff * x_diff + y_diff * y_diff);
 
@@ -128,11 +103,11 @@ void Robot::orbitToBall()
         offset = fmax((ball.current_pose.bearing - 360) * 1.05, -90);
     }
 
-    double factor = 1 - (ball.distance_from_robot) / 2000;
+    double factor = 1 - (ball.distance_from_robot) / 2800;
 
-    multiplier = fmin(1.1, 0.031 * exp(factor * 4.4));
+    multiplier = fmin(1.1, 0.035 * exp(factor * 4.4));
 
-    base.move(min(max(0.2, 0.0009 * ball.distance_from_robot), 0.35), correctBearing(ball.current_pose.bearing + multiplier * offset), 0);
+    base.move(min(max(0.15, 0.00007 * ball.distance_from_robot), 0.3), correctBearing(ball.current_pose.bearing + multiplier * offset), 0);
 }
 
 void Robot::orbitScore()
