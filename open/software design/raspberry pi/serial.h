@@ -14,9 +14,14 @@ int serialDeviceId;
 struct CamTxData
 {
     bool ball_detected;
-    // Pose ball_pose;
-    int ball_pose_x;
-    int ball_pose_y;
+    int ball_x;
+    int ball_y;
+    bool yellow_goal_detected;
+    int yellow_goal_x;
+    int yellow_goal_y;
+    bool blue_goal_detected;
+    int blue_goal_x;
+    int blue_goal_y;
 };
 
 struct CamRxData
@@ -44,7 +49,7 @@ void setUpSerial()
     wiringPiSetup();
     wiringPiSetupGpio();
 
-    serialDeviceId = serialOpen("/dev/serial0", 115200);
+    serialDeviceId = serialOpen("/dev/serial0", 1000000);
 
     if (serialDeviceId < 0)
     {

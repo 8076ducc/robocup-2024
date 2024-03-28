@@ -1,6 +1,15 @@
 {
     "files.associations": {
         "vector": "cpp",
-        "chrono": "cpp"
+        "chrono": "cpp",
+        "array": "cpp",
+        "string_view": "cpp",
+        "__hash_table": "cpp",
+        "__split_buffer": "cpp",
+        "bitset": "cpp",
+        "initializer_list": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "ios": "cpp"
     }
 }
