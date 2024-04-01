@@ -1,18 +1,28 @@
 #include "main.h"
 
-void Dribbler::setUp()
-{
-    pinMode(DRIBBLER_PWM, OUTPUT);
+bool armed = false;
+unsigned long armTime;
 
-    analogWriteFrequency(DRIBBLER_PWM, 1000);
-    analogWrite(DRIBBLER_PWM, DRIBBLER_LOWER_LIMIT);
-    delay(3000);
-    analogWrite(DRIBBLER_PWM, DRIBBLER_UPPER_LIMIT);
-    delay(1000);
-    // analogWrite(DRIBBLER_PWM, DRIBBLER_LOWER_LIMIT);
-}
-
-void Dribbler::setSpeed(int speed)
+void Dribbler::update()
 {
-    analogWrite(DRIBBLER_PWM, speed);
+    analogWriteResolution(8);
+
+    if (!armed)
+    {
+        analogWriteFrequency(DRIBBLER_PWM, 1000);
+        analogWrite(DRIBBLER_PWM, DRIBBLER_LOWER_LIMIT);
+        armed = true;
+        armTime = millis();
+    }
+    if (millis() - armTime > 3000)
+    {
+        // if (dribbling)
+        // {
+        analogWrite(DRIBBLER_PWM, 40);
+        // }
+        // else
+        // {
+        //     analogWrite(DRIBBLER_PWM, DRIBBLER_LOWER_LIMIT);
+        // }
+    }
 }

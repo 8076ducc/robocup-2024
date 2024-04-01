@@ -28,7 +28,8 @@ public:
     void processLidar();
     void getLidarPose();
 
-    void getCameraPose(int yellow_goal_x, int yellow_goal_y, int blue_goal_x, int blue_goal_y);
+    void getCameraPose(double yellow_goal_x, double yellow_goal_y, double blue_goal_x, double blue_goal_y);
+    void getSingleCameraPose(int x, int y);
 
     void getRobotPose();
 
@@ -53,7 +54,7 @@ extern PacketSerial Cam2Serial;
 extern PacketSerial BtSerial;
 extern PacketSerial TeensySerial;
 
-extern Robot robot;
+extern volatile Robot robot;
 extern Ball ball;
 extern Goal yellow_goal;
 extern Goal blue_goal;
@@ -64,5 +65,8 @@ extern CamRxDataUnion cam_rx_data;
 extern CamTxDataUnion cam_tx_data;
 extern Teensy1RxDataUnion teensy_1_rx_data;
 extern Teensy1TxDataUnion teensy_1_tx_data;
+
+void processLidar();
+void getLidarPose();
 
 #endif

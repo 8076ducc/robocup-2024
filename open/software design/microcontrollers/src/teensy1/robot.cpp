@@ -2,86 +2,122 @@
 
 void Robot::moveToTargetPose()
 {
-    x_diff = (target_pose.x - current_pose.x) == (target_pose.x - current_pose.x) ? (target_pose.x - current_pose.x) : x_diff;
-    y_diff = (target_pose.y - current_pose.y) == (target_pose.y - current_pose.y) ? (target_pose.y - current_pose.y) : y_diff;
-    angle_diff = atan2(x_diff, y_diff) == atan2(x_diff, y_diff) ? atan2(x_diff, y_diff) : angle_diff;
+    x_diff = target_pose.x - current_pose.x;
+    y_diff = target_pose.y - current_pose.y;
+    angle_diff = atan2(x_diff, y_diff);
     double actual_angle_diff = correctBearing(degrees(angle_diff) - current_pose.bearing);
 
     double distance = sqrt(x_diff * x_diff + y_diff * y_diff);
 
-    double correction = 0.0005 * distance + 0.0008 * (distance - prev_distance);
+    Serial.print(x_diff);
+    Serial.print(" ");
+    Serial.print(y_diff);
+    Serial.print(" ");
+    Serial.println(actual_angle_diff);
 
-    base.move(correction, actual_angle_diff, target_pose.bearing);
+    double correction = 0.0007 * distance + 0.0008 * (distance - prev_distance);
+
+    Serial.println(target_pose.bearing);
+
+    move_data.speed = correction;
+    move_data.target_angle = correctBearing(actual_angle_diff);
+    move_data.target_bearing = correctBearing(target_pose.bearing);
     prev_distance = distance;
+}
+
+void Robot::trackLine(double speed, double angle, int offset)
+{
+    double correction = 0;
+
+    offset = angle > 180 ? offset : -offset;
+
+    float ldr_angles_offsetted[32];
+
+    double x_offset = -sin(radians(offset * 11.25)) * 49;
+
+    if (offset == 0)
+    {
+        for (int i = 0; i < 32; i++)
+        {
+            ldr_angles_offsetted[i] = line_data.ldr_angles[i];
+        }
+    }
+    else
+    {
+        for (int i = 0; i < 32; i++)
+        {
+            double x = sin(radians(line_data.ldr_angles[i])) * 49;
+            double y = cos(radians(line_data.ldr_angles[i])) * 49;
+
+            double x_offsetted = x - x_offset;
+            ldr_angles_offsetted[i] = correctBearing(degrees(atan2(x_offsetted, y)));
+
+            // Serial.print(i);
+            // Serial.print(": ");
+            // // Serial.print(x);
+            // // Serial.print(" ");
+            // // Serial.print(y);
+            // // Serial.print(" ");
+            // // Serial.print(x_offsetted);
+            // // Serial.print(" ");
+            // Serial.println(ldr_angles_offsetted[i]);
+        }
+    }
+
+    double ldr_start_angle = ldr_angles_offsetted[31 - (int)line_data.line_start_ldr] + current_pose.bearing;
+    double ldr_end_angle = ldr_angles_offsetted[31 - (int)line_data.line_end_ldr] + current_pose.bearing;
+
+    double ldr_start_correct_angle = correctBearing(angle - ldr_start_angle);
+    double ldr_end_correct_angle = correctBearing(angle - ldr_end_angle);
+
+    if (ldr_start_correct_angle > 180)
+    {
+        ldr_start_correct_angle -= 360;
+    }
+    else if (ldr_start_correct_angle < -180)
+    {
+        ldr_start_correct_angle += 360;
+    }
+
+    if (ldr_end_correct_angle > 180)
+    {
+        ldr_end_correct_angle -= 360;
+    }
+    else if (ldr_end_correct_angle < -180)
+    {
+        ldr_end_correct_angle += 360;
+    }
+
+    if (abs(ldr_start_correct_angle) < abs(ldr_end_correct_angle))
+    {
+        correction = ldr_start_angle;
+    }
+    else
+    {
+        correction = ldr_end_angle;
+    }
+
+    move_data.speed = speed;
+    move_data.target_angle = correctBearing(correction);
+    move_data.target_bearing = 0;
 }
 
 void Robot::defendGoal()
 {
-    target_pose = ball.current_pose;
-
-    double kp = -4;
-    double correction;
-
-    if (target_pose.x - current_pose.x > 0)
+    if (line_data.on_line && current_pose.y < 600)
     {
-        correction = 90 + kp * (robot.chord_length - 12);
-    }
-    else if (target_pose.x - current_pose.x < 0)
-    {
-        correction = 270 - kp * (robot.chord_length - 12);
+        target_pose = ball.current_pose;
+        trackLine(min(0.003 * ball.distance_from_robot, 0.3), target_pose.bearing, 1);
     }
     else
     {
-        correction = 0;
+        // target_pose.x = 910;
+        // target_pose.y = 300;
+        // moveToTargetPose();
+        move_data.speed = 0.3;
+        move_data.target_angle = yellow_goal.current_pose.bearing;
+        move_data.target_bearing = 0;
     }
-
-    // correction = 270 - kp * (robot.chord_length - 8);
-
-    if (correction < 0)
-    {
-        correction = correction + 360;
-    }
-    else if (correction > 360)
-    {
-        correction = correction - 360;
-    }
-
-    double angular_corr = current_pose.bearing + (15.5 - robot.line_centre) * (360 / 32);
-
-    if (angular_corr > 360)
-    {
-        angular_corr = angular_corr - 360;
-    }
-    else if (angular_corr < 0)
-    {
-        angular_corr = angular_corr + 360;
-    }
-
-    double speed = max(0.00055 * abs(target_pose.x - current_pose.x), 0.1);
-
-    // Serial.println(speed);
-    if (current_pose.bearing > 50 && current_pose.bearing < 180)
-    {
-        if (correction < 180)
-        {
-            speed = 0;
-            angular_corr = current_pose.bearing;
-        }
-        else if (correction > 180)
-            ;
-    }
-    else if (current_pose.bearing > 180 && current_pose.bearing < 310)
-    {
-        if (correction > 180)
-        {
-            speed = 0;
-            angular_corr = current_pose.bearing;
-        }
-        else if (correction < 180)
-            ;
-    }
-
-    base.move(speed, correction, angular_corr);
 }
 
 void Robot::rotateToBall()
@@ -103,25 +139,49 @@ void Robot::orbitToBall()
         offset = fmax((ball.current_pose.bearing - 360) * 1.05, -90);
     }
 
-    double factor = 1 - (ball.distance_from_robot) / 2800;
+    double factor = 1 - (ball.distance_from_robot) / 2000;
 
-    multiplier = fmin(1.1, 0.035 * exp(factor * 4.4));
+    multiplier = fmin(1.1, 0.02 * exp(factor * 4.4));
 
-    base.move(min(max(0.15, 0.00007 * ball.distance_from_robot), 0.3), correctBearing(ball.current_pose.bearing + multiplier * offset), 0);
+    double speed = min(max(0.15, 0.0000003 * pow(ball.distance_from_robot, 2)), 0.3);
+    double correction = correctBearing(ball.current_pose.bearing + multiplier * offset);
+
+    if (line_data.on_line && abs(correction - line_data.initial_line_angle) > 90)
+    {
+        trackLine(speed, correction, 0);
+    }
+    else
+    {
+        move_data.speed = speed;
+        move_data.target_angle = correction;
+        move_data.target_bearing = 0;
+    }
 }
 
 void Robot::orbitScore()
 {
-    base.move(0.3, 0, yellow_goal.current_pose.bearing);
+    if (robot.current_pose.y > 1900 || line_data.on_line)
+    {
+        move_data.speed = 0;
+        move_data.target_angle = 0;
+        move_data.target_bearing = blue_goal.current_pose.bearing;
+        layer_1_rx_data.data.kick = true;
+    }
+    else
+    {
+        move_data.speed = 0.2;
+        move_data.target_angle = 0;
+        move_data.target_bearing = blue_goal.current_pose.bearing;
+    }
 }
 
 void Robot::rotateScore()
 {
     if (abs(target_pose.x - current_pose.x) < 10 && abs(target_pose.y - current_pose.y) < 10 && abs(target_pose.bearing - current_pose.bearing) < 1)
     {
-        dribbler.setSpeed(40);
         base.move(0, 0, 0);
         layer_1_rx_data.data.kick = true;
+        robot.sendSerial();
     }
     else
     {
@@ -129,5 +189,6 @@ void Robot::rotateScore()
         target_pose.y = 1900;
         target_pose.bearing = 0;
         moveToTargetPose();
+        layer_1_rx_data.data.kick = false;
     }
 }

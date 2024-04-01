@@ -23,7 +23,8 @@
 
 // global variables
 
-const int ball_threshold = 3500;
+const int ball_threshold = 1000;
+extern int line_track_ldr;
 extern Layer1TxDataUnion tx_data;
 extern Layer1RxData rx_data;
 

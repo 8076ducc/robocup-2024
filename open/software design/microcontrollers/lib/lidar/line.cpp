@@ -23,11 +23,6 @@ void Line::horizontalLinearRegression()
     }
     slope = numerator / denominator;
     intercept = y_mean - slope * x_mean;
-
-    //   Serial.print("y = ");
-    //   Serial.print(slope);
-    //   Serial.print("x + ");
-    //   Serial.println(intercept);
 }
 
 void Line::verticalLinearRegression()
@@ -43,9 +38,4 @@ void Line::verticalLinearRegression()
     }
     slope = numerator / denominator;
     intercept = x_mean - slope * y_mean;
-
-    //   Serial.print("x = ");
-    //   Serial.print(slope);
-    //   Serial.print("y + ");
-    //   Serial.println(intercept);
 }

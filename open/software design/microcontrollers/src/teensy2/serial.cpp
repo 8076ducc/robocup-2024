@@ -16,32 +16,61 @@ void onCam2Received(const byte *buf, size_t size)
 
     std::copy(buf, buf + size, std::begin(data_received.bytes));
 
-    if (data_received.data.ball_detected)
-    {
-        double ball_relative_x = getRegressedDistance(data_received.data.ball_x);
-        double ball_relative_y = getRegressedDistance(data_received.data.ball_y);
-        double distance_from_ball = sqrt(pow(ball_relative_x, 2) + pow(ball_relative_y, 2));
-        double ball_relative_bearing = degrees(atan2(data_received.data.ball_x, -data_received.data.ball_y));
-
-        ball.current_pose.bearing = ball_relative_bearing + robot.current_pose.bearing;
-        ball.current_pose.x = robot.current_pose.x + cos(radians(ball.current_pose.bearing)) * distance_from_ball;
-        ball.current_pose.y = robot.current_pose.y + sin(radians(ball.current_pose.bearing)) * distance_from_ball;
-    }
-    else
-    {
-        // compute ball's new bearing relative to robot based on new robot position
-        double ball_relative_x = ball.current_pose.x - robot.current_pose.x;
-        double ball_relative_y = ball.current_pose.y - robot.current_pose.y;
-        double distance_from_ball = sqrt(pow(ball_relative_x, 2) + pow(ball_relative_y, 2));
-        double ball_relative_bearing = degrees(atan2(ball_relative_x, -ball_relative_y));
-
-        ball.current_pose.bearing = ball_relative_bearing - robot.current_pose.bearing;
-    }
+    Serial.print("Yellow goal: ");
+    Serial.print(data_received.data.yellow_goal_detected);
+    Serial.print(" ");
+    Serial.print(data_received.data.yellow_goal_x);
+    Serial.print(" ");
+    Serial.print(data_received.data.yellow_goal_y);
+    Serial.print(" ");
+    Serial.print(" Blue goal: ");
+    Serial.print(data_received.data.blue_goal_detected);
+    Serial.print(" ");
+    Serial.print(data_received.data.blue_goal_x);
+    Serial.print(" ");
+    Serial.print(data_received.data.blue_goal_y);
+    Serial.print(" Ball: ");
+    Serial.print(data_received.data.ball_detected);
+    Serial.print(" ");
+    Serial.print(data_received.data.ball_x);
+    Serial.print(" ");
+    Serial.println(data_received.data.ball_y);
 
     if (data_received.data.yellow_goal_detected && data_received.data.blue_goal_detected)
     {
+        Serial.println("Both goals detected");
         robot.getCameraPose(data_received.data.yellow_goal_x, data_received.data.yellow_goal_y, data_received.data.blue_goal_x, data_received.data.blue_goal_y);
+        yellow_goal.current_pose.bearing = robot.current_pose.bearing + degrees(atan2(data_received.data.yellow_goal_x, data_received.data.yellow_goal_y));
+        blue_goal.current_pose.bearing = robot.current_pose.bearing + degrees(atan2(data_received.data.blue_goal_x, data_received.data.blue_goal_y));
     }
+    else if (data_received.data.yellow_goal_detected)
+    {
+        Serial.println("Yellow goal detected");
+        yellow_goal.current_pose.bearing = robot.current_pose.bearing + degrees(atan2(data_received.data.yellow_goal_x, data_received.data.yellow_goal_y));
+        robot.getSingleCameraPose(data_received.data.yellow_goal_x, data_received.data.yellow_goal_y);
+    }
+    else if (data_received.data.blue_goal_detected)
+    {
+        Serial.println("Blue goal detected");
+        blue_goal.current_pose.bearing = robot.current_pose.bearing + degrees(atan2(data_received.data.blue_goal_x, data_received.data.blue_goal_y));
+        robot.getSingleCameraPose(data_received.data.blue_goal_x, data_received.data.blue_goal_y);
+    }
+
+    if (data_received.data.ball_detected)
+    {
+        double ball_relative_bearing = degrees(atan2(data_received.data.ball_x, data_received.data.ball_y));
+
+        ball.current_pose.bearing = correctBearing(ball_relative_bearing + robot.current_pose.bearing);
+        ball.current_pose.x = robot.current_pose.x + data_received.data.ball_x;
+        ball.current_pose.y = robot.current_pose.y + data_received.data.ball_y;
+        ball.detected = true;
+    }
+    else
+    {
+        ball.detected = false;
+    }
+
+    teensy_1_rx_data.data.ball_detected = ball.detected;
 }
 
 void onBtReceived(const byte *buf, size_t size)
@@ -71,7 +100,7 @@ void onTeensyReceived(const byte *buf, size_t size)
 void Robot::setUpSerial()
 {
 #ifdef DEBUG
-    Serial.begin(115200);
+    Serial.begin(serial_monitor_baud);
     while (!Serial)
     {
     }
@@ -128,10 +157,14 @@ void Robot::sendSerial()
         BtSerial.send(bt_rx_data.bytes, sizeof(bt_rx_data.bytes));
     }
 
+    unsigned long last_micros = micros();
+
     if (Serial5.availableForWrite())
     {
         teensy_1_rx_data.data.current_pose = current_pose;
         teensy_1_rx_data.data.target_pose = ball.current_pose;
         TeensySerial.send(teensy_1_rx_data.bytes, sizeof(teensy_1_rx_data.bytes));
     }
+    // Serial.print("Time taken: ");
+    // Serial.println(micros() - last_micros);
 }

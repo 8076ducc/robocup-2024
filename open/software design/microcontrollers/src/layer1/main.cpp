@@ -10,8 +10,7 @@ LightRing light_ring;
 
 void detectBall()
 {
-  Serial.println(analogRead(LIGHTGATE));
-  if (analogRead(LIGHTGATE) < ball_threshold)
+  if (analogRead(LIGHTGATE) < ball_threshold && !rx_data.kick)
   {
     tx_data.data.ball_in_catchment = true;
   }
@@ -21,11 +20,27 @@ void detectBall()
   }
 }
 
+unsigned long start_kick_time = 0;
+bool kicking = false;
+
 void kick()
 {
-  digitalWrite(KICKER, HIGH);
-  delay(180);
-  digitalWrite(KICKER, LOW);
+  if (rx_data.kick && !kicking)
+  {
+    digitalWrite(KICKER, HIGH);
+    tx_data.data.ball_in_catchment = false;
+    start_kick_time = millis();
+    kicking = true;
+  }
+  else if (kicking && millis() - start_kick_time < 180)
+  {
+    tx_data.data.ball_in_catchment = false;
+  }
+  else
+  {
+    digitalWrite(KICKER, LOW);
+    kicking = false;
+  }
 }
 
 void onTeensyReceived(const byte *buf, size_t size)
@@ -37,12 +52,8 @@ void onTeensyReceived(const byte *buf, size_t size)
     return;
   std::copy(buf, buf + size, std::begin(data_received.bytes));
 
-  if (data_received.data.kick)
-  {
-    kick();
-  }
-  rx_data.line_start = data_received.data.line_start;
-  rx_data.line_end = data_received.data.line_end;
+  rx_data.kick = data_received.data.kick;
+  rx_data.line_track_ldr = data_received.data.line_track_ldr;
 }
 
 void setup()
@@ -75,6 +86,8 @@ void loop()
   TeensySerial.update();
   light_ring.read();
   detectBall();
+  kick();
+
   TeensySerial.send(tx_data.bytes, sizeof(tx_data.bytes));
 #endif
 }

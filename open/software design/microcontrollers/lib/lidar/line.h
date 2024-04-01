@@ -18,7 +18,6 @@ public:
     // Function to calculate the slope and intercept of a linear regression line
     void horizontalLinearRegression();
     void verticalLinearRegression();
-    void orthogonalLinearRegression();
 };
 
 #endif

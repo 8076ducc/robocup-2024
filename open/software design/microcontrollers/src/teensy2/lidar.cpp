@@ -9,9 +9,10 @@ Line front_wall, left_wall, back_wall, right_wall;
 const double y_bounds[2] = {-1215, 1215};
 const double x_bounds[2] = {-910, 910};
 
-double getRegressedDistance(double distance_between_goals, double distance)
+double regressedDistance(double distance)
 {
-  return (2298 / distance_between_goals) * distance;
+  double regressed_distance = pow(0.0009606260 * distance, 3) - pow(0.1161190388 * distance, 2) + 8.8058432711 * distance;
+  return regressed_distance;
 }
 
 void Robot::setUpLidar()
@@ -149,58 +150,67 @@ void Robot::getLidarPose()
 
   double current_pose_x = 0, current_pose_y = 0;
 
+  bool left_wall_invalid = left_wall.x.size() < 5 || left_dist != left_dist;
+  bool right_wall_invalid = right_wall.x.size() < 5 || right_dist != right_dist;
+
   // get the robot's pose
-  if (right_dist != right_dist && left_dist != left_dist)
+  if (left_wall_invalid && right_wall_invalid)
   {
     lidar_confidence_x = 0;
   }
-  else if (right_wall.x.size() < 5 || right_dist != right_dist)
+  else if (right_wall_invalid)
   {
     current_pose_x = left_dist;
-    lidar_confidence_x = 0.35;
+    lidar_confidence_x = 1;
   }
-  else if (left_wall.x.size() < 5 || left_dist != left_dist)
+  else if (left_wall_invalid)
   {
     current_pose_x = 1820 - right_dist;
-    lidar_confidence_x = 0.35;
+    lidar_confidence_x = 1;
   }
   else
   {
     current_pose_x = (1820 / (left_dist + right_dist)) * left_dist;
-    lidar_confidence_x = 0.5;
+    lidar_confidence_x = 1;
   }
 
-  if (front_dist != front_dist && back_dist != back_dist)
+  bool front_wall_invalid = front_wall.x.size() < 5 || front_dist != front_dist;
+  bool back_wall_invalid = back_wall.x.size() < 5 || back_dist != back_dist;
+
+  if (front_wall_invalid && back_wall_invalid)
   {
     lidar_confidence_y = 0;
   }
-  else if (front_wall.x.size() < 5 || front_dist != front_dist)
+  else if (front_wall_invalid)
   {
     current_pose_y = 2430 - back_dist;
-    lidar_confidence_y = 0.35;
+    lidar_confidence_y = 1;
   }
-  else if (back_wall.x.size() < 5 || back_dist != back_dist)
+  else if (back_wall_invalid)
   {
     current_pose_y = front_dist;
-    lidar_confidence_y = 0.35;
+    lidar_confidence_y = 1;
   }
   else
   {
     current_pose_y = (2430 / (front_dist + back_dist)) * front_dist;
-    lidar_confidence_y = 0.5;
+    lidar_confidence_y = 1;
   }
 
   if (current_pose_x == current_pose_x)
   {
-    // current_pose.x = (current_pose_x * ema_const) + (previous_pose.x * (1 - ema_const));
     lidar_pose.x = current_pose_x;
   }
 
   if (current_pose_y == current_pose_y)
   {
-    // current_pose.y = (current_pose_y * ema_const) + (previous_pose.y * (1 - ema_const));
     lidar_pose.y = current_pose_y;
   }
+
+  // Serial.print("Lidar: ");
+  // Serial.print(lidar_pose.x);
+  // Serial.print(", ");
+  // Serial.println(lidar_pose.y);
 
   // Serial.print(robot.current_pose.x);
   // Serial.print(", ");
@@ -279,11 +289,11 @@ void Robot::processLidar()
         break;
       }
 
-      // Serial.print("(");
-      // Serial.print(x);
-      // Serial.print(", ");
-      // Serial.print(y);
-      // Serial.println(")");
+      Serial.print("(");
+      Serial.print(x);
+      Serial.print(", ");
+      Serial.print(y);
+      Serial.println(")");
     }
 
     if (lidar_loop_count == 120)
@@ -305,9 +315,9 @@ void Robot::processLidar()
     teensy_1_rx_data.data.lidar_detected = false;
     sendSerial();
 
-#ifdef SERIAL_DEBUG
+    // #ifdef SERIAL_DEBUG
     Serial.println("Connecting to RPLIDAR A2M12...");
-#endif
+    // #endif
 
     // try to detect RPLIDAR...
     rplidar_response_device_info_t info;
@@ -325,23 +335,22 @@ void Robot::processLidar()
   }
 }
 
-void Robot::getCameraPose(int yellow_goal_x, int yellow_goal_y, int blue_goal_x, int blue_goal_y)
+void Robot::getCameraPose(double yellow_goal_x, double yellow_goal_y, double blue_goal_x, double blue_goal_y)
 {
   Pose centre_of_field;
 
   centre_of_field.x = (yellow_goal_x + blue_goal_x) / 2;
-  centre_of_field.y = (yellow_goal_y + blue_goal_y) / 2;
-  centre_of_field.bearing = degrees(atan2(centre_of_field.x, -centre_of_field.y));
+  centre_of_field.y = ((abs(yellow_goal_y) + abs(blue_goal_y)) / 2298) * (yellow_goal_y + blue_goal_y) / 2;
+  centre_of_field.bearing = degrees(atan2(regressedDistance(centre_of_field.x), regressedDistance(centre_of_field.y)));
 
-  double distance_between_goals = sqrt(pow(yellow_goal_x - blue_goal_x, 2) + pow(yellow_goal_y - blue_goal_y, 2));
   double distance_from_centre = sqrt(pow(centre_of_field.x, 2) + pow(centre_of_field.y, 2));
 
   centre_of_field.bearing += current_pose.bearing;
-  centre_of_field.x = cos(radians(centre_of_field.bearing)) * distance_from_centre;
-  centre_of_field.y = sin(radians(centre_of_field.bearing)) * distance_from_centre;
+  centre_of_field.x = sin(radians(centre_of_field.bearing)) * distance_from_centre;
+  centre_of_field.y = cos(radians(centre_of_field.bearing)) * distance_from_centre;
 
-  camera_pose.x = 1820 / 2 - getRegressedDistance(distance_between_goals, centre_of_field.x);
-  camera_pose.y = 2430 / 2 - getRegressedDistance(distance_between_goals, centre_of_field.y);
+  camera_pose.x = 1820 / 2 - centre_of_field.x;
+  camera_pose.y = 2430 / 2 - centre_of_field.y;
 
   camera_confidence_x = 1 - lidar_confidence_x;
   camera_confidence_y = 1 - lidar_confidence_y;
@@ -352,18 +361,35 @@ void Robot::getCameraPose(int yellow_goal_x, int yellow_goal_y, int blue_goal_x,
   Serial.println(camera_pose.y);
 }
 
+void Robot::getSingleCameraPose(int x, int y)
+{
+  double angle_from_robot = degrees(atan2(x, y));
+
+  camera_pose.bearing = correctBearing(angle_from_robot + current_pose.bearing);
+  camera_pose.x = 1820 / 2 - x;
+  camera_pose.y = cos(radians(camera_pose.bearing)) > 0 ? 2298 - y : 0 - y;
+
+  Serial.print("Camera: ");
+  Serial.print(camera_pose.x);
+  Serial.print(", ");
+  Serial.println(camera_pose.y);
+}
+
 void Robot::getRobotPose()
 {
-  lidar_confidence_x = 0;
-  lidar_confidence_y = 0;
+  // lidar_confidence_x = 0;
+  // lidar_confidence_y = 0;"
+  camera_confidence_x = 1 - lidar_confidence_x;
+  camera_confidence_y = 1 - lidar_confidence_y;
 
   current_pose.x = lidar_confidence_x * lidar_pose.x + camera_confidence_x * camera_pose.x;
   current_pose.y = lidar_confidence_y * lidar_pose.y + camera_confidence_y * camera_pose.y;
 
-  double ema_const = 0.2;
+  // Serial.print(current_pose.x);
+  // Serial.print(", ");
+  // Serial.println(current_pose.y);
 
-  // current_pose.x = lidar_pose.x * ema_const + (1 - ema_const) * previous_pose.x;
-  // current_pose.y = lidar_pose.y * ema  _const + (1 - ema_const) * previous_pose.y;
+  double ema_const = 0.2;
 
   current_pose.x = (current_pose.x * ema_const) + (previous_pose.x * (1 - ema_const));
   current_pose.y = (current_pose.y * ema_const) + (previous_pose.y * (1 - ema_const));

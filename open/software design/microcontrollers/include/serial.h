@@ -39,6 +39,7 @@ struct CamTxData
     bool blue_goal_detected;
     int blue_goal_x;
     int blue_goal_y;
+    double fps;
 };
 
 struct CamRxData
@@ -57,17 +58,19 @@ struct ImuRxData
 struct Layer1TxData
 {
     bool on_line;
-    double target_angle;
+    double line_angle;
     double chord_length;
     double line_centre;
+    int line_track_error;
     bool ball_in_catchment;
+    int line_start_ldr;
+    int line_end_ldr;
 };
 
 struct Layer1RxData
 {
     bool kick;
-    int line_start;
-    int line_end;
+    int line_track_ldr;
 };
 
 struct Teensy1TxData
@@ -83,8 +86,8 @@ struct Teensy1RxData
     Goal yellow_goal;
     Goal blue_goal;
 
-    bool kick;
     bool lidar_detected;
+    bool ball_detected;
 };
 
 union BtTxDataUnion

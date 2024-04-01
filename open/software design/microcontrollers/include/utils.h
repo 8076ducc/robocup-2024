@@ -20,6 +20,7 @@ struct Ball
 
     bool in_catchment;
     bool in_alliance_catchment;
+    bool detected;
 };
 
 struct Goal

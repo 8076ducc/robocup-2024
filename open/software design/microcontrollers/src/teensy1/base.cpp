@@ -52,6 +52,11 @@ void Base::motorOut(int motor, double speed)
         break;
     }
 
+    if (abs(speed) > 3500)
+    {
+        speed = sgn(speed) * 3500;
+    }
+
     // stop motor from stalling out if speed is below minimum threshold
     if (abs(speed) > 150)
     {
@@ -100,7 +105,7 @@ void Base::move(double vel, double angle, double bearing)
     integral += ki * turn_angle;
     derivative = kd * (abs(turn_angle) - abs(prev_error));
 
-    ang_vel = proportional + integral + derivative;
+    ang_vel = min(proportional + integral + derivative, 0.2);
     prev_error = turn_angle;
 
     double a = x_vel + y_vel;

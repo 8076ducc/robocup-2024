@@ -10,18 +10,29 @@ void onLayer1Received(const byte *buf, size_t size)
 
     std::copy(buf, buf + size, std::begin(data_received.bytes));
 
-    robot.on_line = data_received.data.on_line;
-    if (robot.on_line)
+    robot.line_data.on_line = data_received.data.on_line;
+
+    if (robot.line_data.on_line)
     {
-        robot.target_angle = data_received.data.target_angle;
+        robot.line_data.line_angle = data_received.data.line_angle;
+        if (!robot.line_data.already_on_line)
+        {
+            robot.line_data.initial_line_angle = robot.line_data.line_angle;
+            robot.line_data.already_on_line = true;
+        }
     }
     else
     {
-        robot.target_angle = 0;
+        robot.line_data.line_angle = 0;
+        robot.line_data.initial_line_angle = 0;
+        robot.line_data.already_on_line = false;
     }
+
     ball.in_catchment = data_received.data.ball_in_catchment;
-    robot.line_centre = data_received.data.line_centre;
-    robot.chord_length = data_received.data.chord_length;
+    robot.line_data.line_centre = data_received.data.line_centre;
+    robot.line_data.chord_length = data_received.data.chord_length;
+    robot.line_data.line_start_ldr = data_received.data.line_start_ldr;
+    robot.line_data.line_end_ldr = data_received.data.line_end_ldr;
 }
 
 void onImuReceived(const byte *buf, size_t size)
@@ -62,6 +73,7 @@ void onTeensyReceived(const byte *buf, size_t size)
     robot.target_pose = data_received.data.target_pose;
 
     ball.current_pose = robot.target_pose;
+    ball.detected = data_received.data.ball_detected;
 
     Serial.print("Robot: ");
     Serial.print(robot.current_pose.x);
@@ -70,21 +82,21 @@ void onTeensyReceived(const byte *buf, size_t size)
     Serial.print(" ");
     Serial.println(robot.current_pose.bearing);
 
-    Serial.print("Ball: ");
-    Serial.print(ball.current_pose.x);
-    Serial.print(" ");
-    Serial.print(ball.current_pose.y);
-    Serial.print(" ");
-    Serial.println(ball.current_pose.bearing);
+    // Serial.print("Ball: ");
+    // Serial.print(ball.current_pose.x);
+    // Serial.print(" ");
+    // Serial.print(ball.current_pose.y);
+    // Serial.print(" ");
+    // Serial.println(ball.current_pose.bearing);
 
-    ball.distance_from_robot = sqrt(pow(data_received.data.target_pose.x, 2) + pow(data_received.data.target_pose.y, 2));
+    ball.distance_from_robot = sqrt(pow(data_received.data.target_pose.x - data_received.data.current_pose.x, 2) + pow(data_received.data.target_pose.y - data_received.data.current_pose.y, 2));
 
     // Serial.print(ball.current_pose.bearing);
     // Serial.print(" ");
     // Serial.println(ball.distance_from_robot);
 
-    yellow_goal.current_pose.bearing = robot.current_pose.bearing + data_received.data.yellow_goal.current_pose.bearing;
-    blue_goal.current_pose.bearing = robot.current_pose.bearing + data_received.data.blue_goal.current_pose.bearing;
+    yellow_goal.current_pose.bearing = data_received.data.yellow_goal.current_pose.bearing;
+    blue_goal.current_pose.bearing = data_received.data.blue_goal.current_pose.bearing;
 }
 
 void Robot::setUpSerial()
