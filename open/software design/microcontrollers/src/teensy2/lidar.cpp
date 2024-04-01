@@ -197,6 +197,8 @@ void Robot::getLidarPose()
     lidar_confidence_y = 1;
   }
 
+  Threads::Scope m(lidar_data_lock);
+
   if (current_pose_x == current_pose_x)
   {
     lidar_pose.x = current_pose_x;
@@ -289,11 +291,11 @@ void Robot::processLidar()
         break;
       }
 
-      Serial.print("(");
-      Serial.print(x);
-      Serial.print(", ");
-      Serial.print(y);
-      Serial.println(")");
+      // Serial.print("(");
+      // Serial.print(x);
+      // Serial.print(", ");
+      // Serial.print(y);
+      // Serial.println(")");
     }
 
     if (lidar_loop_count == 120)
@@ -378,10 +380,11 @@ void Robot::getSingleCameraPose(int x, int y)
 void Robot::getRobotPose()
 {
   // lidar_confidence_x = 0;
-  // lidar_confidence_y = 0;"
+  // lidar_confidence_y = 0;
   camera_confidence_x = 1 - lidar_confidence_x;
   camera_confidence_y = 1 - lidar_confidence_y;
 
+  Threads::Scope m(lidar_data_lock);
   current_pose.x = lidar_confidence_x * lidar_pose.x + camera_confidence_x * camera_pose.x;
   current_pose.y = lidar_confidence_y * lidar_pose.y + camera_confidence_y * camera_pose.y;
 

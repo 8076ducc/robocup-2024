@@ -1,5 +1,4 @@
 #include "main.h"
-#include <TeensyThreads.h>
 
 PacketSerial Cam1Serial;
 PacketSerial Cam2Serial;
@@ -13,12 +12,13 @@ CamRxDataUnion cam_rx_data;
 Teensy1TxDataUnion teensy_1_tx_data;
 Teensy1RxDataUnion teensy_1_rx_data;
 
-volatile Robot robot;
+Robot robot;
 Ball ball;
 Goal yellow_goal;
 Goal blue_goal;
+Threads::Mutex lidar_data_lock;
 
-void thread1()
+void lidarThread()
 {
   while (true)
   {
@@ -30,7 +30,7 @@ void setup()
 {
   robot.setUpSerial();
   robot.setUpLidar();
-  threads.addThread(thread1);
+  threads.addThread(lidarThread);
 }
 
 void loop()

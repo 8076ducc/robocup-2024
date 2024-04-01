@@ -71,6 +71,8 @@ void setup()
   pinMode(KICKER, OUTPUT);
 
   Serial0.begin(layer_1_serial_baud);
+  Serial0.setTxBufferSize(120);
+  Serial0.setRxBufferSize(120);
   while (!Serial0)
   {
   }

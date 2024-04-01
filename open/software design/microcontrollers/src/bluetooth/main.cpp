@@ -192,6 +192,8 @@ void setup()
 #endif
 
     Serial0.begin(bt_serial_baud);
+    Serial0.setTxBufferSize(120);
+    Serial0.setRxBufferSize(120);
     while (!Serial0)
     {
     }
@@ -341,6 +343,8 @@ void setup()
 #endif
 
     Serial0.begin(bt_serial_baud);
+    Serial0.setTxBufferSize(120);
+    Serial0.setRxBufferSize(120);
     while (!Serial0)
     {
     }

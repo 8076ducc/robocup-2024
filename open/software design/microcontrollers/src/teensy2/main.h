@@ -9,6 +9,7 @@
 // #define BLACK_BOT
 
 #include <common.h>
+#include <TeensyThreads.h>
 
 #define LED 13
 
@@ -16,6 +17,8 @@
 #define DIP_2 3
 #define DIP_3 4
 #define DIP_4 5
+
+#define SERIAL5_TX_BUFFER_SIZE 100
 
 class Robot
 {
@@ -41,6 +44,9 @@ public:
     Pose lidar_pose;
     Pose camera_pose;
 
+    bool update_lidar_pose;
+    bool has_updated_lidar_pose;
+
     double lidar_confidence_x;
     double lidar_confidence_y;
     double camera_confidence_x;
@@ -54,10 +60,12 @@ extern PacketSerial Cam2Serial;
 extern PacketSerial BtSerial;
 extern PacketSerial TeensySerial;
 
-extern volatile Robot robot;
+extern Robot robot;
 extern Ball ball;
 extern Goal yellow_goal;
 extern Goal blue_goal;
+
+extern Threads::Mutex lidar_data_lock;
 
 extern BtRxDataUnion bt_rx_data;
 extern BtTxDataUnion bt_tx_data;

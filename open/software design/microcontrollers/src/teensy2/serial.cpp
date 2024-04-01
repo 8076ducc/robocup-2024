@@ -147,24 +147,20 @@ void Robot::updateSerial()
 
 void Robot::sendSerial()
 {
-    if (Serial2.availableForWrite())
+    if (Serial2.availableForWrite() > sizeof(cam_rx_data.bytes))
     {
         Cam2Serial.send(cam_rx_data.bytes, sizeof(cam_rx_data.bytes));
     }
 
-    if (Serial4.availableForWrite())
+    if (Serial4.availableForWrite() > sizeof(bt_tx_data.bytes))
     {
         BtSerial.send(bt_rx_data.bytes, sizeof(bt_rx_data.bytes));
     }
 
-    unsigned long last_micros = micros();
-
-    if (Serial5.availableForWrite())
+    if (Serial5.availableForWrite() > sizeof(teensy_1_rx_data.bytes))
     {
         teensy_1_rx_data.data.current_pose = current_pose;
         teensy_1_rx_data.data.target_pose = ball.current_pose;
         TeensySerial.send(teensy_1_rx_data.bytes, sizeof(teensy_1_rx_data.bytes));
     }
-    // Serial.print("Time taken: ");
-    // Serial.println(micros() - last_micros);
 }

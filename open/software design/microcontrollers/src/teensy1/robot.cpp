@@ -31,41 +31,8 @@ void Robot::trackLine(double speed, double angle, int offset)
 
     offset = angle > 180 ? offset : -offset;
 
-    float ldr_angles_offsetted[32];
-
-    double x_offset = -sin(radians(offset * 11.25)) * 49;
-
-    if (offset == 0)
-    {
-        for (int i = 0; i < 32; i++)
-        {
-            ldr_angles_offsetted[i] = line_data.ldr_angles[i];
-        }
-    }
-    else
-    {
-        for (int i = 0; i < 32; i++)
-        {
-            double x = sin(radians(line_data.ldr_angles[i])) * 49;
-            double y = cos(radians(line_data.ldr_angles[i])) * 49;
-
-            double x_offsetted = x - x_offset;
-            ldr_angles_offsetted[i] = correctBearing(degrees(atan2(x_offsetted, y)));
-
-            // Serial.print(i);
-            // Serial.print(": ");
-            // // Serial.print(x);
-            // // Serial.print(" ");
-            // // Serial.print(y);
-            // // Serial.print(" ");
-            // // Serial.print(x_offsetted);
-            // // Serial.print(" ");
-            // Serial.println(ldr_angles_offsetted[i]);
-        }
-    }
-
-    double ldr_start_angle = ldr_angles_offsetted[31 - (int)line_data.line_start_ldr] + current_pose.bearing;
-    double ldr_end_angle = ldr_angles_offsetted[31 - (int)line_data.line_end_ldr] + current_pose.bearing;
+    double ldr_start_angle = line_data.ldr_angles[7 + offset][31 - (int)line_data.line_start_ldr] + current_pose.bearing;
+    double ldr_end_angle = line_data.ldr_angles[7 + offset][31 - (int)line_data.line_end_ldr] + current_pose.bearing;
 
     double ldr_start_correct_angle = correctBearing(angle - ldr_start_angle);
     double ldr_end_correct_angle = correctBearing(angle - ldr_end_angle);

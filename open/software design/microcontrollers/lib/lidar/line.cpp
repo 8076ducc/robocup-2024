@@ -29,6 +29,10 @@ void Line::verticalLinearRegression()
 {
     double x_mean = mean(x);
     double y_mean = mean(y);
+    // TODO: maybe write average code
+    // for (int i = 0; i < x.size(); i++)
+    // {
+    // }
     double numerator = 0.0;
     double denominator = 0.0;
     for (int i = 0; i < x.size(); i++)
