@@ -40,6 +40,9 @@ void loop()
 
   teensy_1_rx_data.data.yellow_goal.current_pose = yellow_goal.current_pose;
   teensy_1_rx_data.data.blue_goal.current_pose = blue_goal.current_pose;
+  cam_rx_data.data.track_orange = true;
+  cam_rx_data.data.track_yellow = false;
+  cam_rx_data.data.track_blue = false;
 
   robot.getRobotPose();
 }

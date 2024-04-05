@@ -10,6 +10,8 @@ void onCam2Received(const byte *buf, size_t size)
 {
     CamTxDataUnion data_received;
 
+    Serial.println("Received data");
+
     // Don't continue if the payload is invalid
     if (size != sizeof(data_received))
         return;
@@ -36,6 +38,9 @@ void onCam2Received(const byte *buf, size_t size)
     Serial.print(" ");
     Serial.println(data_received.data.ball_y);
 
+    Serial.print("fps: ");
+    Serial.println(data_received.data.fps);
+
     if (data_received.data.yellow_goal_detected && data_received.data.blue_goal_detected)
     {
         Serial.println("Both goals detected");
@@ -61,8 +66,8 @@ void onCam2Received(const byte *buf, size_t size)
         double ball_relative_bearing = degrees(atan2(data_received.data.ball_x, data_received.data.ball_y));
 
         ball.current_pose.bearing = correctBearing(ball_relative_bearing + robot.current_pose.bearing);
-        ball.current_pose.x = robot.current_pose.x + data_received.data.ball_x;
-        ball.current_pose.y = robot.current_pose.y + data_received.data.ball_y;
+        ball.current_pose.x = bound(robot.current_pose.x + data_received.data.ball_x, 0, 1820);
+        ball.current_pose.y = bound(robot.current_pose.y + data_received.data.ball_y, 0, 2430);
         ball.detected = true;
     }
     else

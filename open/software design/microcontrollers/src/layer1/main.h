@@ -3,8 +3,8 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-// #define DEBUG
-// #define SERIAL_DEBUG
+#define DEBUG
+#define SERIAL_DEBUG
 // #define WHITE_BOT
 // #define BLACK_BOT
 
@@ -23,7 +23,7 @@
 
 // global variables
 
-const int ball_threshold = 1000;
+const int ball_threshold = 2000;
 extern int line_track_ldr;
 extern Layer1TxDataUnion tx_data;
 extern Layer1RxData rx_data;

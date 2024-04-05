@@ -1,0 +1,10 @@
+[Unit]
+Description=Configure GPIO
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=raspi-gpio set 14 a5
+
+[Install]
+WantedBy=multi-user.target

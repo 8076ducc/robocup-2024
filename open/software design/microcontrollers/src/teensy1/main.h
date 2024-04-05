@@ -5,9 +5,7 @@
 
 // #define DEBUG
 // #define SERIAL_DEBUG
-#define STRATEGY 1
-// #define WHITE_BOT
-// #define BLACK_BOT
+// #define BOT1
 
 #include <common.h>
 
@@ -35,14 +33,14 @@ class Base
 {
 public:
     void setUp();
-    void move(double vel, double angle, double bearing);
+    void move(double vel, double angle, double bearing, double kp = 0.0013, double ki = 0.0, double kd = 0.005);
     void motorOut(int motor, double speed);
     double getAggregateSpeed(int motor);
 
     const double wheel_angle = 50 * M_PI / 180.0;
     const int max_pwm = 8192;
     const int min_speed = 800;
-    const double ema_constant = 0.03;
+    const double ema_constant = 0.01;
 
     const double fl_voltage = 2.500;
     const double fr_voltage = 2.300;
@@ -621,8 +619,11 @@ public:
     void orbitToBall();
     void rotateScore();
     void orbitScore();
+    void moveToNeutralPoint(int neutral_point, bool behind_line);
 
     void trackLine(double speed, double angle, int offset);
+    void trackLineGoalie(double speed, double angle, int offset);
+    void rejectLine();
 
     Base base;
     Dribbler dribbler;
@@ -635,8 +636,6 @@ public:
     LineData line_data;
 
     int task;
-
-    double x_diff, y_diff, angle_diff, prev_distance;
 };
 
 // global variables

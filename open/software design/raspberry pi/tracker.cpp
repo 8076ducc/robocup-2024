@@ -31,10 +31,25 @@ void getNewImage()
     }
 }
 
+void transmitData()
+{
+    while (true)
+    {
+        serialWrite(tx_data.bytes, sizeof(tx_data.bytes));
+    }
+}
+
+void receiveData()
+{
+    while (true)
+    {
+        serialRead(rx_data.bytes, sizeof(rx_data.bytes));
+    }
+}
+
 int main()
 {
     setUpSerial();
-    // lccv::PiCamera cam;
     cam.options->video_width = video_x;
     cam.options->video_height = video_y;
     cam.options->framerate = 120;
@@ -52,12 +67,17 @@ int main()
         std::thread trackYellow(trackColour, 1);
         std::thread trackBlue(trackColour, 2);
         std::thread getImage(getNewImage);
+        std::thread transmit(transmitData);
+        std::thread receive(receiveData);
 
         trackOrange.join();
         trackYellow.join();
         trackBlue.join();
         getImage.join();
+        transmit.join();
+        receive.join();
     }
+
     cam.stopVideo();
     cv::destroyAllWindows();
 }

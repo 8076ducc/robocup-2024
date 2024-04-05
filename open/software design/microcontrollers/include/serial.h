@@ -7,7 +7,7 @@
 
 const int serial_baud = 512000;
 const int bt_serial_baud = 115200;
-const int cam_serial_baud = 1000000;
+const int cam_serial_baud = 2000000;
 const int imu_serial_baud = 512000;
 const int layer_1_serial_baud = 512000;
 const int teensy1_serial_baud = 1000000;
@@ -36,14 +36,21 @@ struct CamTxData
     bool yellow_goal_detected;
     int yellow_goal_x;
     int yellow_goal_y;
+    int yellow_open_x;
+    int yellow_open_y;
     bool blue_goal_detected;
     int blue_goal_x;
     int blue_goal_y;
+    int blue_open_x;
+    int blue_open_y;
     double fps;
 };
 
 struct CamRxData
 {
+    bool track_orange;
+    bool track_yellow;
+    bool track_blue;
 };
 
 struct ImuTxData

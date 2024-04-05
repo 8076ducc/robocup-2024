@@ -29,3 +29,7 @@ int sgn(double val)
         return 0;
     }
 }
+
+double bound(double a, double b, double c) {
+    return min(max(a, b), c);
+}
