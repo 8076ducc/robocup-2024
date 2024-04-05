@@ -1,3 +1,4 @@
+
 //
 // Copyright (c) 2011 Christopher Baker <https://christopherbaker.net>
 // Copyright (c) 2011 Jacques Fortier <https://github.com/jacquesf/COBS-Consistent-Overhead-Byte-Stuffing>

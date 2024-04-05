@@ -26,6 +26,7 @@ void Base::setUp()
 
 void Base::motorOut(int motor, double speed)
 {
+    analogWriteResolution(13);
     int INA = 0, dir = 0, pwm = 0;
 
     switch (motor)
@@ -52,9 +53,9 @@ void Base::motorOut(int motor, double speed)
         break;
     }
 
-    if (abs(speed) > 3500)
+    if (abs(speed) > 5000)
     {
-        speed = sgn(speed) * 3500;
+        speed = sgn(speed) * 5000;
     }
 
     // stop motor from stalling out if speed is below minimum threshold
@@ -70,16 +71,16 @@ void Base::motorOut(int motor, double speed)
     digitalWriteFast(INA, dir);
 }
 
-double kp = 0.0017;
-double ki = 0.00;
-double kd = 0.005;
+// double kp = 0.0013;
+// double ki = 0.00;
+// double kd = 0.005;
 double proportional = 0;
 double integral = 0;
 double derivative = 0;
 double prev_error = 0;
 double turn_angle = 0;
 
-void Base::move(double vel, double angle, double bearing)
+void Base::move(double vel, double angle, double bearing, double kp = 0.0013, double ki = 0.0, double kd = 0.005)
 {
     double x_vel = sin(radians(angle)) * sin(wheel_angle);
     double y_vel = cos(radians(angle)) * cos(wheel_angle);

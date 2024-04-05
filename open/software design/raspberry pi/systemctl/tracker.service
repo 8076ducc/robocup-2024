@@ -1,0 +1,12 @@
+[Unit]
+Description=ducc RoboCup Tracker
+After=multi-user.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ducc/Desktop
+ExecStart=/home/ducc/Desktop/tracker
+Restart=on-abort
+
+[Install]
+WantedBy=multi-user.target

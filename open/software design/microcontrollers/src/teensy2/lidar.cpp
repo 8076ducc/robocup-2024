@@ -199,12 +199,12 @@ void Robot::getLidarPose()
 
   Threads::Scope m(lidar_data_lock);
 
-  if (current_pose_x == current_pose_x)
+  if (current_pose_x == current_pose_x && current_pose_x != 0)
   {
     lidar_pose.x = current_pose_x;
   }
 
-  if (current_pose_y == current_pose_y)
+  if (current_pose_y == current_pose_y && current_pose_y != 0)
   {
     lidar_pose.y = current_pose_y;
   }
@@ -379,8 +379,8 @@ void Robot::getSingleCameraPose(int x, int y)
 
 void Robot::getRobotPose()
 {
-  // lidar_confidence_x = 0;
-  // lidar_confidence_y = 0;
+  lidar_confidence_x = 1;
+  lidar_confidence_y = 1;
   camera_confidence_x = 1 - lidar_confidence_x;
   camera_confidence_y = 1 - lidar_confidence_y;
 

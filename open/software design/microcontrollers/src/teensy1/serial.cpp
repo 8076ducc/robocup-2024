@@ -70,27 +70,32 @@ void onTeensyReceived(const byte *buf, size_t size)
     }
 
     robot.current_pose = data_received.data.current_pose;
-    robot.target_pose = data_received.data.target_pose;
+    // robot.target_pose = data_received.data.target_pose;
 
-    ball.current_pose = robot.target_pose;
+    // ball.current_pose = robot.target_pose;
+    ball.current_pose = data_received.data.target_pose;
+    // ball.current_pose.bearing -= robot.current_pose.bearing;
+    // ball.current_pose.bearing = correctBearing(ball.current_pose.bearing);
     ball.detected = data_received.data.ball_detected;
 
-    Serial.print("Robot: ");
-    Serial.print(robot.current_pose.x);
-    Serial.print(" ");
-    Serial.print(robot.current_pose.y);
-    Serial.print(" ");
-    Serial.println(robot.current_pose.bearing);
+    // Serial.print("Robot: ");
+    // Serial.print(robot.current_pose.x);
+    // Serial.print(" ");
+    // Serial.print(robot.current_pose.y);
+    // Serial.print(" ");
+    // Serial.println(robot.current_pose.bearing);
 
     // Serial.print("Ball: ");
     // Serial.print(ball.current_pose.x);
     // Serial.print(" ");
     // Serial.print(ball.current_pose.y);
     // Serial.print(" ");
-    // Serial.println(ball.current_pose.bearing);
+    // Serial.print(ball.current_pose.bearing);
 
     ball.distance_from_robot = sqrt(pow(data_received.data.target_pose.x - data_received.data.current_pose.x, 2) + pow(data_received.data.target_pose.y - data_received.data.current_pose.y, 2));
 
+    // Serial.print(" ");
+    // Serial.println(ball.distance_from_robot);
     // Serial.print(ball.current_pose.bearing);
     // Serial.print(" ");
     // Serial.println(ball.distance_from_robot);
@@ -102,7 +107,7 @@ void onTeensyReceived(const byte *buf, size_t size)
 void Robot::setUpSerial()
 {
 #ifdef SERIAL_DEBUG
-    Serial.begin(1000000);
+    Serial.begin(serial_monitor_baud);
     while (!Serial)
     {
     }

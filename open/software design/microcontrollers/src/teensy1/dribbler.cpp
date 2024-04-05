@@ -16,13 +16,13 @@ void Dribbler::update()
     }
     if (millis() - armTime > 3000)
     {
-        // if (dribbling)
-        // {
-        analogWrite(DRIBBLER_PWM, 40);
-        // }
-        // else
-        // {
-        //     analogWrite(DRIBBLER_PWM, DRIBBLER_LOWER_LIMIT);
-        // }
+        if (dribbling)
+        {
+            analogWrite(DRIBBLER_PWM, 48);
+        }
+        else
+        {
+            analogWrite(DRIBBLER_PWM, DRIBBLER_LOWER_LIMIT);
+        }
     }
 }
