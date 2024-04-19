@@ -34,7 +34,7 @@ void Robot::moveToTargetPose()
 
     double distance = sqrt(x_diff * x_diff + y_diff * y_diff);
 
-    double correction = 0.0005 * distance + 0.0008 * (distance - prev_distance);
+    double correction = 0.0003 * distance + 0.0008 * (distance - prev_distance);
 
     base.move(correction, actual_angle_diff, target_pose.bearing);
     prev_distance = distance;
@@ -128,11 +128,14 @@ void Robot::orbitToBall()
         offset = fmax((ball.current_pose.bearing - 360) * 1.05, -90);
     }
 
-    double factor = 1 - (ball.distance_from_robot) / 2000;
+    // double factor = 1 - (ball.distance_from_robot) / 2000;
 
-    multiplier = fmin(1.1, 0.031 * exp(factor * 4.4));
+    double factor = ball.distance_from_robot / 100;
+
+    multiplier = fmin(1.1, 0.03 * exp(factor * 4.1));
 
     base.move(min(max(0.2, 0.0009 * ball.distance_from_robot), 0.35), correctBearing(ball.current_pose.bearing + multiplier * offset), 0);
+    Serial.println(correctBearing(ball.current_pose.bearing + multiplier * offset));
 }
 
 void Robot::orbitScore()
@@ -156,7 +159,7 @@ void Robot::rotateScore()
     }
 }
 
-double getRegressedDistance(double distance_between_goals, double distance)
+double getAdjustedDistance(double distance_between_goals, double distance)
 {
   return (2298 / distance_between_goals) * distance;
 }
@@ -167,20 +170,20 @@ void Robot::getCameraPose(int yellow_goal_x, int yellow_goal_y, int blue_goal_x,
 
     centre_of_field.x = (yellow_goal_x + blue_goal_x) / 2;
     centre_of_field.y = (yellow_goal_y + blue_goal_y) / 2;
-    centre_of_field.bearing = degrees(atan2(centre_of_field.x, -centre_of_field.y));
+    centre_of_field.bearing = degrees(atan2(centre_of_field.x, centre_of_field.y));
 
     double distance_between_goals = sqrt(pow(yellow_goal_x - blue_goal_x, 2) + pow(yellow_goal_y - blue_goal_y, 2));
     double distance_from_centre = sqrt(pow(centre_of_field.x, 2) + pow(centre_of_field.y, 2));
 
     centre_of_field.bearing += current_pose.bearing;
-    centre_of_field.x = cos(radians(centre_of_field.bearing)) * distance_from_centre;
-    centre_of_field.y = sin(radians(centre_of_field.bearing)) * distance_from_centre;
+    centre_of_field.x = sin(radians(centre_of_field.bearing)) * distance_from_centre;
+    centre_of_field.y = cos(radians(centre_of_field.bearing)) * distance_from_centre;
 
-    robot.current_pose.x = 1820 / 2 - getRegressedDistance(distance_between_goals, centre_of_field.x);
-    robot.current_pose.y = 2430 / 2 - getRegressedDistance(distance_between_goals, centre_of_field.y);
+    robot.current_pose.x = 1820 / 2 + getAdjustedDistance(distance_between_goals, centre_of_field.x);
+    robot.current_pose.y = 2430 / 2 - getAdjustedDistance(distance_between_goals, centre_of_field.y);
 
-    Serial.print("Camera: ");
-    Serial.print(robot.current_pose.x);
-    Serial.print(", ");
-    Serial.println(robot.current_pose.y);
+    // Serial.print("pose: ");
+    // Serial.print(robot.current_pose.x);
+    // Serial.print(", ");
+    // Serial.println(robot.current_pose.y);
 }

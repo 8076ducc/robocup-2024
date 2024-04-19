@@ -32,12 +32,12 @@ void Base::motorOut(int motor, double speed)
     {
     case 1:
         INA = FL_INA;
-        dir = speed > 0 ? LOW : HIGH;
+        dir = speed < 0 ? LOW : HIGH;
         pwm = FL_PWM;
         break;
     case 2:
         INA = FR_INA;
-        dir = speed > 0 ? HIGH : LOW;
+        dir = speed < 0 ? HIGH : LOW;
         pwm = FR_PWM;
         break;
     case 3:
@@ -47,13 +47,13 @@ void Base::motorOut(int motor, double speed)
         break;
     case 4:
         INA = BR_INA;
-        dir = speed > 0 ? HIGH : LOW;
+        dir = speed < 0 ? HIGH : LOW;
         pwm = BR_PWM;
         break;
     }
 
     // stop motor from stalling out if speed is below minimum threshold
-    if (abs(speed) > 150)
+    if (abs(speed) > 100)
     {
         analogWrite(pwm, abs(speed) > min_speed ? abs(speed) : min_speed);
     }
@@ -65,7 +65,7 @@ void Base::motorOut(int motor, double speed)
     digitalWriteFast(INA, dir);
 }
 
-double kp = 0.001;
+double kp = 0.002;
 double ki = 0.00;
 double kd = 0.005;
 double proportional = 0;
@@ -97,6 +97,8 @@ void Base::move(double vel, double angle, double bearing)
 
     ang_vel = proportional + integral + derivative;
     prev_error = turn_angle;
+
+    
 
     double a = x_vel + y_vel;
     double b = y_vel - x_vel;
@@ -142,14 +144,14 @@ void Base::move(double vel, double angle, double bearing)
     prev_br_out = br_out;
 
 #ifdef SERIAL_DEBUG
-    Serial.print("1: ");
-    Serial.print(fl_out);
-    Serial.print("  2: ");
-    Serial.print(fr_out);
-    Serial.print("  3: ");
-    Serial.print(bl_out);
-    Serial.print("  4: ");
-    Serial.println(br_out);
+    // Serial.print("1: ");
+    // Serial.print(fl_out);
+    // Serial.print("  2: ");
+    // Serial.print(fr_out);
+    // Serial.print("  3: ");
+    // Serial.print(bl_out);
+    // Serial.print("  4: ");
+    // Serial.println(br_out);
 #endif
 
     motorOut(1, round(fl_out));

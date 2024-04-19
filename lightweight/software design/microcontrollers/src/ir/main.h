@@ -5,6 +5,7 @@
 #include <common.h>
 #include <numeric>
 #include <stm32f103c_variant_generic.h>
+#include <movingAvg.h>
 
 #define STM_LED PA3
 

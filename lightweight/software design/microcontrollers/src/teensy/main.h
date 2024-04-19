@@ -14,15 +14,15 @@
 #define DRIBBLER_LOWER_LIMIT 32
 #define DRIBBLER_UPPER_LIMIT 48
 
-#define FL_PWM 3
-#define FR_PWM 2
+#define FL_PWM 2
+#define FR_PWM 3
 #define BL_PWM 4
 #define BR_PWM 5
 #define LIDAR_PWM 6
 #define DRIBBLER_PWM 23
 
-#define FL_INA 10
-#define FR_INA 9
+#define FL_INA 9
+#define FR_INA 10
 #define BL_INA 11
 #define BR_INA 12
 
@@ -41,7 +41,7 @@ public:
 
     const double wheel_angle = 50 * M_PI / 180.0;
     const int max_pwm = 8192;
-    const int min_speed = 800;
+    const int min_speed = 1100;
     const double ema_constant = 0.03;
 
     const double fl_voltage = 2.500;
@@ -73,6 +73,9 @@ public:
     void setUpSerial();
     void updateSerial();
     void sendSerial();
+
+    void setupIMU();
+    void readIMU();
 
     void defendGoal();
     void rotateToBall();

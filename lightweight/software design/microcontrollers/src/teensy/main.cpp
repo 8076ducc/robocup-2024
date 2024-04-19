@@ -11,6 +11,8 @@ Ball ball;
 Goal yellow_goal;
 Goal blue_goal;
 
+int ball_catchment = 0;
+
 unsigned long last_time = 0;
 int real = 0;
 int points = 0;
@@ -18,30 +20,45 @@ int points = 0;
 void setup()
 {
   robot.base.setUp();
+  pinMode(BL_PWM, OUTPUT);
+  pinMode(BL_INA,  OUTPUT);
+  digitalWrite(BL_INA, LOW);
+  analogWrite(BL_PWM, 100);
   robot.setUpSerial();
+  robot.setupIMU();
 
   robot.previous_pose.x = 0;
   robot.previous_pose.y = 0;
   robot.previous_pose.bearing = 0;
 
-  last_time = millis();
 }
 
 void loop()
 {
-#ifdef DEBUG
-#else
   layer_1_rx_data.data.kick = false;
+  robot.readIMU();
   robot.updateSerial();
   robot.sendSerial();
 
-  if (robot.on_line)
+  Serial.print(robot.on_line);
+
+  if (ball.in_catchment)
   {
-    robot.base.move(0.6, robot.target_angle, 0);
+    Serial.println("Ball in catchment");
+    ++ball_catchment;
   }
   else
   {
-    if (ball.in_catchment)
+    ball_catchment = 0;
+  }
+
+  if (robot.on_line)
+  {
+    robot.base.move(0.7, correctBearing(robot.target_angle + 180), 0);
+  }
+  else
+  {
+    if (false)
     {
       robot.orbitScore();
     }
@@ -49,8 +66,7 @@ void loop()
     {
       robot.orbitToBall();
     }
-    // robot.defendGoal();
-    // robot.rotateToBall();
+  // //   // robot.defendGoal();
+  // //   // robot.rotateToBall();
   }
-#endif
 }

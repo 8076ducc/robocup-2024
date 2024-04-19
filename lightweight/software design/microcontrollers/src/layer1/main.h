@@ -9,6 +9,7 @@
 // #define BLACK_BOT
 
 #include <common.h>
+#include <Arduino.h>
 
 #define S0 D2
 #define S1 D3
@@ -23,7 +24,8 @@
 
 // global variables
 
-const int ball_threshold = 3500;
+const int ball_threshold = 3200;
+extern int line_track_ldr;
 extern Layer1TxDataUnion tx_data;
 extern Layer1RxData rx_data;
 

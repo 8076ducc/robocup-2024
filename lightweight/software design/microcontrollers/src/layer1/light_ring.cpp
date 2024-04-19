@@ -32,8 +32,6 @@ void LightRing::printThresholds()
 
 void LightRing::calibrate()
 {
-    Serial.println("Calibrating...");
-
     for (int i = 0; i < 32; i++)
     {
         ldr_min_readings[i] = 0;
@@ -42,7 +40,7 @@ void LightRing::calibrate()
 
     while (true)
     {
-        for (int i = 0; i < 16; i++)
+        for (int i = 0; i < 16; i += 2)
         {
             digitalWriteFast(S0, mux_signals[i][0]);
             digitalWriteFast(S1, mux_signals[i][1]);
@@ -71,7 +69,7 @@ void LightRing::calibrate()
             }
         }
 
-        for (int i = 0; i < 32; i++)
+        for (int i = 0; i < 32; i += 2)
         {
             Serial.print(i);
             Serial.print(": | ");
@@ -80,17 +78,16 @@ void LightRing::calibrate()
             Serial.println(ldr_max_readings[i]);
         }
 
-        Serial.println();
-
         printThresholds();
     }
 }
 
 void LightRing::read()
 {
+    //Serial.println("reading");
     int line_start = 31, line_end = 0;
 
-    for (int i = 0; i < 16; i++)
+    for (int i = 0; i < 16; i += 2)
     {
         digitalWriteFast(S0, mux_signals[i][0]);
         digitalWriteFast(S1, mux_signals[i][1]);
@@ -114,21 +111,18 @@ void LightRing::read()
 
         if (ldr_readings[i + 16] > ldr_thresholds[i + 16])
         {
-            if (i < line_start)
+            if ((i + 16) < line_start)
             {
                 line_start = i + 16;
             }
-            if (i > line_end)
+            if ((i + 16) > line_end)
             {
                 line_end = i + 16;
             }
         }
     }
 
-    // tx_data.data.line_start_reading = ldr_readings[rx_data.line_start];
-    // tx_data.data.line_start_threshold = ldr_thresholds[rx_data.line_end];
-    // tx_data.data.line_end_reading = ldr_readings[rx_data.line_end];
-    // tx_data.data.line_end_threshold = ldr_thresholds[rx_data.line_end];
+    tx_data.data.line_track_error = ldr_readings[rx_data.line_track_ldr] - ldr_thresholds[rx_data.line_track_ldr];
 
     if (line_start == 31 && line_end == 0)
     {
@@ -136,26 +130,42 @@ void LightRing::read()
         return;
     }
 
-    double approach_angle = (line_end - line_start) < 16 ? (line_start + (line_end - line_start) / 2) * ldr_angle : 360 - ((line_end - line_start) * ldr_angle) - ((32 - line_end) * ldr_angle);
+    double approach_angle = (line_end - line_start) < 16 ? (line_start + (line_end - line_start) / 2) * ldr_angle + ldr_angle / 2 : 360 - ((line_end - line_start) * ldr_angle) - ((32 - line_end) * ldr_angle);
     if (approach_angle != 0)
     {
         approach_angle = 360 - approach_angle;
     }
-    double target_angle = approach_angle < 180 ? approach_angle + 180 : approach_angle - 180;
 
     tx_data.data.on_line = true;
-    tx_data.data.target_angle = target_angle;
+    tx_data.data.line_angle = approach_angle;
     tx_data.data.chord_length = min(abs(line_end - line_start), abs(line_start - line_end));
     tx_data.data.line_centre = (line_start + line_end) / 2;
+    tx_data.data.line_start_ldr = line_start;
+    tx_data.data.line_end_ldr = line_end;
+    Serial.print("Line start: ");
+    Serial.print(line_start);
+    Serial.print(" Line end: ");
+    Serial.print(line_end);
+    Serial.print(" Line centre: ");
+    Serial.print((line_start + (line_end - line_start) / 2));
+    Serial.print(" Approach angle: ");
+    Serial.println(approach_angle);
 
 #ifdef SERIAL_DEBUG
     Serial.print("Line start: ");
     Serial.print(line_start);
     Serial.print(" Line end: ");
     Serial.print(line_end);
+    Serial.print(" Line centre: ");
+    Serial.print((line_start + (line_end - line_start) / 2));
     Serial.print(" Approach angle: ");
-    Serial.print(approach_angle);
-    Serial.print(" Target angle: ");
-    Serial.println(target_angle);
+    Serial.println(approach_angle);
+
+    // for (int i = 0; i < 32; i++)
+    // {
+    //     Serial.print(i);
+    //     Serial.print(": | ");
+    //     Serial.println(ldr_readings[i]);
+    // }
 #endif
 }
