@@ -53,10 +53,10 @@ void Base::motorOut(int motor, double speed)
         break;
     }
 
-    if (abs(speed) > 5000)
-    {
-        speed = sgn(speed) * 5000;
-    }
+    // if (abs(speed) > 5000)
+    // {
+    //     speed = sgn(speed) * 5000;
+    // }
 
     // stop motor from stalling out if speed is below minimum threshold
     if (abs(speed) > 150)
@@ -80,8 +80,9 @@ double derivative = 0;
 double prev_error = 0;
 double turn_angle = 0;
 
-void Base::move(double vel, double angle, double bearing, double kp = 0.0013, double ki = 0.0, double kd = 0.005)
+void Base::move(double vel, double angle, double bearing, double kp = 0.0013, double ki = 0.0, double kd = 0.005, double ema_constant)
 {
+    ema_constant = 0.005;
     double x_vel = sin(radians(angle)) * sin(wheel_angle);
     double y_vel = cos(radians(angle)) * cos(wheel_angle);
     double ang_vel = 0;

@@ -153,12 +153,5 @@ void LightRing::read()
     Serial.print((line_start + (line_end - line_start) / 2));
     Serial.print(" Approach angle: ");
     Serial.println(approach_angle);
-
-    for (int i = 0; i < 32; i++)
-    {
-        Serial.print(i);
-        Serial.print(": | ");
-        Serial.println(ldr_readings[i]);
-    }
 #endif
 }

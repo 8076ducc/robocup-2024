@@ -87,6 +87,8 @@ struct Teensy1TxData
 
 struct Teensy1RxData
 {
+    bool robot_detected;
+
     Pose current_pose;
     Pose target_pose;
 
@@ -95,6 +97,11 @@ struct Teensy1RxData
 
     bool lidar_detected;
     bool ball_detected;
+
+    bool dip_1_on;
+    bool dip_2_on;
+    bool dip_3_on;
+    bool dip_4_on;
 };
 
 union BtTxDataUnion

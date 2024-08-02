@@ -18,7 +18,7 @@ void Dribbler::update()
     {
         if (dribbling)
         {
-            analogWrite(DRIBBLER_PWM, 48);
+            analogWrite(DRIBBLER_PWM, 40);
         }
         else
         {

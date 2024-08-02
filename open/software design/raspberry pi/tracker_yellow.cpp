@@ -12,8 +12,8 @@ int video_x = 1000;
 int video_y = 1000;
 lccv::PiCamera cam;
 
-bool tune_orange = true;
-bool tune_yellow = false;
+bool tune_orange = false;
+bool tune_yellow = true;
 bool tune_blue = false;
 
 void getNewImage()
@@ -50,28 +50,29 @@ void receiveData()
     {
         serialRead();
         
-        //if (tune_orange) {
-		//	rx_data.track_orange = true;
-		//} else {
-		//	rx_data.track_orange = false;
-		//}
+        if (tune_orange) {
+			rx_data.track_orange = true;
+		} else {
+			rx_data.track_orange = false;
+		}
 		
-		//if (tune_yellow) {
-		//	rx_data.track_yellow = true;
-		//} else {
-		//	rx_data.track_yellow = false;
-		//}
+		if (tune_yellow) {
+			rx_data.track_yellow = true;
+		} else {
+			rx_data.track_yellow = false;
+		}
 		
-		//if (tune_blue) {
-		//	rx_data.track_blue = true;
-		//} else {
-		//	rx_data.track_blue = false;
-		//}
+		if (tune_blue) {
+			rx_data.track_blue = true;
+		} else {
+			rx_data.track_blue = false;
+		}
     }
 }
 
 int main()
 {
+	show_debug_windows = true;
     setUpSerial();
     cam.options->video_width = video_x;
     cam.options->video_height = video_y;
@@ -88,16 +89,16 @@ int main()
 
     while (true)
     {
-        std::thread trackOrange(trackColour, 0);
+        //std::thread trackOrange(trackColour, 0);
         std::thread trackYellow(trackColour, 1);
-        std::thread trackBlue(trackColour, 2);
+        //std::thread trackBlue(trackColour, 2);
         std::thread getImage(getNewImage);
         std::thread transmit(transmitData);
         std::thread receive(receiveData);
 
-        trackOrange.join();
+        //trackOrange.join();
         trackYellow.join();
-        trackBlue.join();
+        //trackBlue.join();
         getImage.join();
         transmit.join();
         receive.join();

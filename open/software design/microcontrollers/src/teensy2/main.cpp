@@ -41,8 +41,49 @@ void loop()
   teensy_1_rx_data.data.yellow_goal.current_pose = yellow_goal.current_pose;
   teensy_1_rx_data.data.blue_goal.current_pose = blue_goal.current_pose;
   cam_rx_data.data.track_orange = true;
+
+  if (!digitalRead(DIP_1))
+  {
+    teensy_1_rx_data.data.dip_1_on = true;
+  }
+  else
+  {
+    teensy_1_rx_data.data.dip_1_on = false;
+  }
+
+  if (!digitalRead(DIP_2))
+  {
+    teensy_1_rx_data.data.dip_2_on = true;
+  }
+  else
+  {
+    teensy_1_rx_data.data.dip_2_on = false;
+  }
+
+  if (!digitalRead(DIP_3))
+  {
+    teensy_1_rx_data.data.dip_3_on = true;
+  }
+  else
+  {
+    teensy_1_rx_data.data.dip_3_on = false;
+  }
+
+  if (!digitalRead(DIP_4))
+  {
+    teensy_1_rx_data.data.dip_4_on = true;
+    cam_rx_data.data.track_yellow = true;
+    cam_rx_data.data.track_blue = false;
+  }
+  else
+  {
+    teensy_1_rx_data.data.dip_4_on = false;
+    cam_rx_data.data.track_yellow = false;
+    cam_rx_data.data.track_blue = true;
+  }
+
+  cam_rx_data.data.track_blue = true;
   cam_rx_data.data.track_yellow = false;
-  cam_rx_data.data.track_blue = false;
 
   robot.getRobotPose();
 }

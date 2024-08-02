@@ -17,13 +17,14 @@ void Robot::moveToTargetPose()
     // Serial.print(" ");
     // Serial.println(actual_angle_diff);
 
-    double speed = min(0.0002 * distance + 0.0008 * (distance - prev_distance), 0.3);
+    double speed = fmin(0.0005 * distance + 0.0008 * (distance - prev_distance), 0.4);
 
     // Serial.println(target_pose.bearing);
 
     move_data.speed = speed;
     move_data.target_angle = correctBearing(actual_angle_diff);
     move_data.target_bearing = correctBearing(target_pose.bearing);
+    move_data.ema_constant = 0.0002;
     prev_distance = distance;
 }
 
@@ -69,13 +70,15 @@ void Robot::trackLine(double speed, double angle, int offset)
     move_data.speed = speed;
     move_data.target_angle = correctBearing(correction);
     move_data.target_bearing = 0;
+    move_data.ema_constant = 0.0002;
 }
 
-void Robot::rejectLine()
+void Robot::rejectLine(double bearing)
 {
-    move_data.speed = 0.01 * line_data.chord_length;
+    move_data.speed = 0.03 * line_data.chord_length;
     move_data.target_angle = correctBearing(line_data.line_angle + 180);
-    move_data.target_bearing = 0;
+    move_data.target_bearing = bearing;
+    move_data.ema_constant = 0.005;
 }
 
 void Robot::trackLineGoalie(double speed, double angle, int offset)
@@ -130,17 +133,18 @@ void Robot::trackLineGoalie(double speed, double angle, int offset)
     //     move_data.target_bearing = 0;
     // }
 
-    if (abs(correction - 180) < 50)
+    if (abs(correction - 180) < 20)
     {
         move_data.speed = 0;
         move_data.target_angle = correction - 180 > 0 ? 130 : 230;
         move_data.target_bearing = 0;
+        move_data.ema_constant = 0.0002;
     }
     else
     {
         move_data.speed = speed;
         move_data.target_angle = correctBearing(correction);
         move_data.target_bearing = 0;
+        move_data.ema_constant = 0.0002;
     }
-    
 }

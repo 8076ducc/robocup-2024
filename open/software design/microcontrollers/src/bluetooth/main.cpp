@@ -19,7 +19,6 @@ BtRxDataUnion rx_data;
 PacketSerial TeensySerial;
 
 #define BOT1
-// #define BOT2
 
 void onTeensyReceived(const byte *buf, size_t size)
 {
@@ -34,27 +33,28 @@ void onTeensyReceived(const byte *buf, size_t size)
     rx_data.data.ball_pose = data_received.data.ball_pose;
     rx_data.data.robot_pose = data_received.data.robot_pose;
 
-    Serial.print("Robot Pose: ");
-    Serial.print(rx_data.data.robot_pose.x);
-    Serial.print(", ");
-    Serial.print(rx_data.data.robot_pose.y);
-    Serial.print(", ");
-    Serial.println(rx_data.data.robot_pose.bearing);
+    // Serial.print("Robot Pose: ");
+    // Serial.print(rx_data.data.robot_pose.x);
+    // Serial.print(", ");
+    // Serial.print(rx_data.data.robot_pose.y);
+    // Serial.print(", ");
+    // Serial.println(rx_data.data.robot_pose.bearing);
 }
 
-#ifdef BOT2
+#ifdef BOT1
 #include "BLEDevice.h"
 // #include "BLEScan.h"
 
 // Define UUIDs:
-static BLEUUID serviceUUID("4fafc201-1fb5-459e-8fcc-c5c9c331914b");
-static BLEUUID charUUID_1("beb5483e-36e1-4688-b7f5-ea07361b26a8");
-static BLEUUID charUUID_2("1c95d5e3-d8f7-413a-bf3d-7a2e5d7be87e");
+static BLEUUID serviceUUID("d9c3070a-96b8-4053-8115-e3af0af0207f");
+static BLEUUID charUUID_1("1ad3eb69-dbe5-496d-a66e-5c3c9cf44d56");
+static BLEUUID charUUID_2("66857cb2-b396-44da-99bc-029e6b4731d4");
 
 // Some variables to keep track on device connected
 static boolean doConnect = false;
 static boolean connected = false;
 static boolean doScan = false;
+int last_connect_time = 99999999;
 
 // Define pointer for the BLE connection
 static BLEAdvertisedDevice *myDevice;
@@ -96,7 +96,6 @@ class MyClientCallback : public BLEClientCallbacks
     void onDisconnect(BLEClient *pclient)
     {
         connected = false;
-        Serial.println("onDisconnect");
     }
 };
 
@@ -169,6 +168,7 @@ class MyAdvertisedDeviceCallbacks : public BLEAdvertisedDeviceCallbacks
     {
         Serial.print("BLE Advertised Device found: ");
         Serial.println(advertisedDevice.toString().c_str());
+        tx_data.data.robot_detected = false;
 
         // We have found a device, let us now see if it contains the service we are looking for.
         if (advertisedDevice.haveServiceUUID() && advertisedDevice.isAdvertisingService(serviceUUID))
@@ -192,8 +192,8 @@ void setup()
 #endif
 
     Serial0.begin(bt_serial_baud);
-    Serial0.setTxBufferSize(120);
-    Serial0.setRxBufferSize(120);
+    // Serial0.setTxBufferSize(120);
+    // Serial0.setRxBufferSize(120);
     while (!Serial0)
     {
     }
@@ -237,6 +237,7 @@ void loop()
         // std::string rxValue = pRemoteChar_2->readValue();
         uint8_t buff = pRemoteChar_2->readUInt8();
         uint8_t *buf = &buff;
+
         std::copy(buf, buf + sizeof(buf), std::begin(external_rx_data.bytes));
 
         tx_data.data.robot_detected = true;
@@ -246,9 +247,9 @@ void loop()
 
         // Serial.print("Characteristic 2 (readValue): ");
         // Serial.println(rxValue.c_str());
-        Serial.print(tx_data.data.robot_pose.x);
-        Serial.print(", ");
-        Serial.println(tx_data.data.robot_pose.y);
+        // Serial.print(tx_data.data.robot_pose.x);
+        // Serial.print(", ");
+        // Serial.println(tx_data.data.robot_pose.y);
 
         // String txValue = "String with random value from client: " + String(-random(1000));
         // Serial.println("Characteristic 2 (writeValue): " + txValue);
@@ -258,19 +259,26 @@ void loop()
     }
     else if (doScan)
     {
+        Serial.println("missing data");
         BLEDevice::getScan()->start(0); // this is just example to start scan after disconnect, most likely there is better way to do it in arduino
         tx_data.data.robot_detected = false;
     }
 
+    // tx_data.data.robot_pose.x = 10;
+    // tx_data.data.robot_pose.y = 30;
+
+    // Serial.print("Robot Pose: ");
+    // Serial.print(tx_data.data.robot_pose.x);
+    // Serial.print(", ");
+    // Serial.println(tx_data.data.robot_pose.y);
+    Serial.println(tx_data.data.robot_detected);
     TeensySerial.send(tx_data.bytes, sizeof(tx_data.bytes));
 
     // In this example "delay" is used to delay with one second. This is of course a very basic
     // implementation to keep things simple. I recommend to use millis() for any production code
-    delay(10);
 }
-#endif
 
-#ifdef BOT1
+#else
 #include <BLEDevice.h>
 #include <BLEServer.h>
 #include <BLEUtils.h>
@@ -287,6 +295,7 @@ BLE2902 *pBLE2902_2;                         // Pointer to BLE2902 of Characteri
 // Some variables to keep track on device connected
 bool deviceConnected = false;
 bool oldDeviceConnected = false;
+int last_write_time = 999999999;
 
 // Variable that will continuously be increased and written to the client
 uint32_t value = 0;
@@ -294,21 +303,25 @@ uint32_t value = 0;
 // See the following for generating UUIDs:
 // https://www.uuidgenerator.net/
 // UUIDs used in this example:
-#define SERVICE_UUID "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
-#define CHARACTERISTIC_UUID_1 "beb5483e-36e1-4688-b7f5-ea07361b26a8"
-#define CHARACTERISTIC_UUID_2 "1c95d5e3-d8f7-413a-bf3d-7a2e5d7be87e"
+#define SERVICE_UUID "d9c3070a-96b8-4053-8115-e3af0af0207f"
+#define CHARACTERISTIC_UUID_1 "1ad3eb69-dbe5-496d-a66e-5c3c9cf44d56"
+#define CHARACTERISTIC_UUID_2 "66857cb2-b396-44da-99bc-029e6b4731d4"
 
 // Callback function that is called whenever a client is connected or disconnected
 class MyServerCallbacks : public BLEServerCallbacks
 {
     void onConnect(BLEServer *pServer)
     {
+        Serial.println("connected");
         deviceConnected = true;
     };
 
     void onDisconnect(BLEServer *pServer)
     {
         deviceConnected = false;
+        Serial.println("disconnected");
+        tx_data.data.robot_detected = false;
+        TeensySerial.send(tx_data.bytes, sizeof(tx_data.bytes));
     }
 };
 
@@ -323,6 +336,7 @@ class CharacteristicCallBack : public BLECharacteristicCallbacks
         std::copy(buf, buf + sizeof(buf), std::begin(external_rx_data.bytes));
 
         tx_data.data.robot_detected = true;
+        TeensySerial.send(tx_data.bytes, sizeof(tx_data.bytes));
         tx_data.data.ball_detected = external_rx_data.data.ball_detected;
         tx_data.data.ball_pose = external_rx_data.data.ball_pose;
         tx_data.data.robot_pose = external_rx_data.data.robot_pose;
@@ -332,7 +346,10 @@ class CharacteristicCallBack : public BLECharacteristicCallbacks
         Serial.println(tx_data.data.robot_detected);
 
         String txValue = "hello from server";
-        pCharacteristic_2->setValue(rx_data.bytes, sizeof(rx_data.bytes));
+        uint8_t identify = 36;
+        uint8_t *identifier = &identify;
+        pCharacteristic_2->setValue(identifier, sizeof(identifier));
+        last_write_time = millis();
     }
 };
 
@@ -343,8 +360,8 @@ void setup()
 #endif
 
     Serial0.begin(bt_serial_baud);
-    Serial0.setTxBufferSize(120);
-    Serial0.setRxBufferSize(120);
+    // Serial0.setTxBufferSize(120);
+    // Serial0.setRxBufferSize(120);
     while (!Serial0)
     {
     }
@@ -411,7 +428,7 @@ void loop()
     {
         delay(500);                  // give the bluetooth stack the chance to get things ready
         pServer->startAdvertising(); // restart advertising
-        Serial.println("start advertising");
+        // Serial.println("start advertising");
         oldDeviceConnected = deviceConnected;
     }
     // Connecting
@@ -421,6 +438,14 @@ void loop()
         oldDeviceConnected = deviceConnected;
     }
 
-    TeensySerial.send(tx_data.bytes, sizeof(tx_data.bytes));
+    tx_data.data.ball_pose.x = 10;
+    tx_data.data.ball_pose.y = 30;
+
+    if (millis() - last_write_time > 1000)
+    {
+        tx_data.data.robot_detected = false;
+        TeensySerial.send(tx_data.bytes, sizeof(tx_data.bytes));
+        // Serial.println("No data received from client");
+    }
 }
 #endif

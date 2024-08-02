@@ -10,7 +10,7 @@ void onCam2Received(const byte *buf, size_t size)
 {
     CamTxDataUnion data_received;
 
-    Serial.println("Received data");
+    // Serial.println("Received data");
 
     // Don't continue if the payload is invalid
     if (size != sizeof(data_received))
@@ -18,28 +18,28 @@ void onCam2Received(const byte *buf, size_t size)
 
     std::copy(buf, buf + size, std::begin(data_received.bytes));
 
-    Serial.print("Yellow goal: ");
-    Serial.print(data_received.data.yellow_goal_detected);
-    Serial.print(" ");
-    Serial.print(data_received.data.yellow_goal_x);
-    Serial.print(" ");
-    Serial.print(data_received.data.yellow_goal_y);
-    Serial.print(" ");
-    Serial.print(" Blue goal: ");
-    Serial.print(data_received.data.blue_goal_detected);
-    Serial.print(" ");
-    Serial.print(data_received.data.blue_goal_x);
-    Serial.print(" ");
-    Serial.print(data_received.data.blue_goal_y);
-    Serial.print(" Ball: ");
-    Serial.print(data_received.data.ball_detected);
-    Serial.print(" ");
-    Serial.print(data_received.data.ball_x);
-    Serial.print(" ");
-    Serial.println(data_received.data.ball_y);
+    // Serial.print("Yellow goal: ");
+    // Serial.print(data_received.data.yellow_goal_detected);
+    // Serial.print(" ");
+    // Serial.print(data_received.data.yellow_goal_x);
+    // Serial.print(" ");
+    // Serial.print(data_received.data.yellow_goal_y);
+    // Serial.print(" ");
+    // Serial.print(" Blue goal: ");
+    // Serial.print(data_received.data.blue_goal_detected);
+    // Serial.print(" ");
+    // Serial.print(data_received.data.blue_goal_x);
+    // Serial.print(" ");
+    // Serial.print(data_received.data.blue_goal_y);
+    // Serial.print(" Ball: ");
+    // Serial.print(data_received.data.ball_detected);
+    // Serial.print(" ");
+    // Serial.print(data_received.data.ball_x);
+    // Serial.print(" ");
+    // Serial.println(data_received.data.ball_y);
 
-    Serial.print("fps: ");
-    Serial.println(data_received.data.fps);
+    // Serial.print("fps: ");
+    // Serial.println(data_received.data.fps);
 
     if (data_received.data.yellow_goal_detected && data_received.data.blue_goal_detected)
     {
@@ -78,6 +78,8 @@ void onCam2Received(const byte *buf, size_t size)
     teensy_1_rx_data.data.ball_detected = ball.detected;
 }
 
+unsigned long last_bt_received_time = 0;
+
 void onBtReceived(const byte *buf, size_t size)
 {
     BtTxDataUnion data_received;
@@ -87,6 +89,12 @@ void onBtReceived(const byte *buf, size_t size)
         return;
 
     std::copy(buf, buf + size, std::begin(data_received.bytes));
+    // Serial.print("other robot detected: ");
+    // Serial.println(data_received.data.robot_detected);
+    // Serial.print(data_received.data.robot_pose.x);
+    // Serial.print(" ");
+    teensy_1_rx_data.data.robot_detected = data_received.data.robot_detected;
+    last_bt_received_time = millis();
 }
 
 void onTeensyReceived(const byte *buf, size_t size)
@@ -129,7 +137,7 @@ void Robot::setUpSerial()
     BtSerial.setStream(&Serial4);
     BtSerial.setPacketHandler(&onBtReceived);
 #ifdef DEBUG
-    Serial.println("Teensy serial connection established.");
+    Serial.println("Bluetooth serial connection established.");
 #endif
 
     Serial5.begin(teensy1_serial_baud);
@@ -166,6 +174,14 @@ void Robot::sendSerial()
     {
         teensy_1_rx_data.data.current_pose = current_pose;
         teensy_1_rx_data.data.target_pose = ball.current_pose;
+
+#ifdef BOT1
+        if (millis() - last_bt_received_time > 1000)
+        {
+            teensy_1_rx_data.data.robot_detected = false;
+        }
+#endif
+
         TeensySerial.send(teensy_1_rx_data.bytes, sizeof(teensy_1_rx_data.bytes));
     }
 }

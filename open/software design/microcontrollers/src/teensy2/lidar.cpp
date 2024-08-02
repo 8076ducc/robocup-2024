@@ -209,10 +209,10 @@ void Robot::getLidarPose()
     lidar_pose.y = current_pose_y;
   }
 
-  // Serial.print("Lidar: ");
-  // Serial.print(lidar_pose.x);
-  // Serial.print(", ");
-  // Serial.println(lidar_pose.y);
+  Serial.print("Lidar: ");
+  Serial.print(lidar_pose.x);
+  Serial.print(", ");
+  Serial.println(lidar_pose.y);
 
   // Serial.print(robot.current_pose.x);
   // Serial.print(", ");

@@ -13,7 +13,7 @@ void setupIMU()
 {
     if (!bno.begin_I2C())
     {
-        Serial.println("Failed to find BNO085!!");
+        // Serial.println("Failed to find BNO085!!");
         // Blink the debug LED on failure
         // while (1) {
         // digitalWrite(PIN_LED_BUILTIN, HIGH);
@@ -24,14 +24,14 @@ void setupIMU()
     }
     else
     {
-        Serial.println("BNO085 started");
+        // Serial.println("BNO085 started");
     }
     // TODO: try SH2_ROTATION_VECTOR, SH2_GYRO_INTEGRATED_RV
     // The SH2_GAME_ROTATION_VECTOR mode uses fusion of gyroscope and
     // accelerometer data to determine a rotation vector in quaternions
     if (!bno.enableReport(SH2_GAME_ROTATION_VECTOR))
     {
-        Serial.println("Could not enable game rotation vector!!");
+        // Serial.println("Could not enable game rotation vector!!");
         // Blink the debug LED on failure
         // while (1) {
         //     digitalWrite(LED_BUILTIN, HIGH);
@@ -86,8 +86,6 @@ void setup()
 #endif
 
     Serial0.begin(imu_serial_baud, SERIAL_8N1, 6, 5);
-    Serial0.setTxBufferSize(120);
-    Serial0.setRxBufferSize(120);
     while (!Serial0)
     {
     }
@@ -99,7 +97,7 @@ void setup()
 void loop()
 {
     readIMUHeading();
-    Serial.println(bearing);
+    // Serial.println(bearing);
     tx_data.data.bearing = bearing;
     TeensySerial.send(tx_data.bytes, sizeof(tx_data.bytes));
 }

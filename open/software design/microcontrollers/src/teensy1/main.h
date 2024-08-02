@@ -5,13 +5,14 @@
 
 // #define DEBUG
 // #define SERIAL_DEBUG
-// #define BOT1
+#define BOT1
 
 #include <common.h>
 
 #define DRIBBLER_LOWER_LIMIT 32
 #define DRIBBLER_UPPER_LIMIT 48
 
+#ifdef BOT1
 #define FL_PWM 3
 #define FR_PWM 2
 #define BL_PWM 4
@@ -24,6 +25,22 @@
 #define BL_INA 11
 #define BR_INA 12
 
+#else
+
+#define FL_PWM 2
+#define FR_PWM 3
+#define BL_PWM 4
+#define BR_PWM 5
+#define LIDAR_PWM 6
+#define DRIBBLER_PWM 23
+
+#define FL_INA 9
+#define FR_INA 10
+#define BL_INA 11
+#define BR_INA 12
+
+#endif
+
 #define FL_CS 17
 #define FR_CS 16
 #define BL_CS 18
@@ -33,14 +50,14 @@ class Base
 {
 public:
     void setUp();
-    void move(double vel, double angle, double bearing, double kp = 0.0013, double ki = 0.0, double kd = 0.005);
+    void move(double vel, double angle, double bearing, double kp = 0.0013, double ki = 0.0, double kd = 0.005, double ema_constant = 0.02);
     void motorOut(int motor, double speed);
     double getAggregateSpeed(int motor);
 
     const double wheel_angle = 50 * M_PI / 180.0;
     const int max_pwm = 8192;
     const int min_speed = 800;
-    const double ema_constant = 0.01;
+    // const double ema_constant = 0.0002;
 
     const double fl_voltage = 2.500;
     const double fr_voltage = 2.300;
@@ -69,6 +86,7 @@ struct MoveData
     double speed;
     double target_angle;
     double target_bearing;
+    double ema_constant;
 };
 
 struct LineData
@@ -616,14 +634,14 @@ public:
 
     void defendGoal();
     void rotateToBall();
-    void orbitToBall();
+    void orbitToBall(double bearing);
     void rotateScore();
     void orbitScore();
     void moveToNeutralPoint(int neutral_point, bool behind_line);
 
     void trackLine(double speed, double angle, int offset);
     void trackLineGoalie(double speed, double angle, int offset);
-    void rejectLine();
+    void rejectLine(double bearing);
 
     Base base;
     Dribbler dribbler;
@@ -635,7 +653,14 @@ public:
     MoveData move_data;
     LineData line_data;
 
+    bool dip_1_on;
+    bool dip_2_on;
+    bool dip_3_on;
+    bool dip_4_on;
+
     int task;
+
+    bool alliance_robot_detected;
 };
 
 // global variables

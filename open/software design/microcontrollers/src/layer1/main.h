@@ -3,10 +3,9 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-#define DEBUG
-#define SERIAL_DEBUG
-// #define WHITE_BOT
-// #define BLACK_BOT
+// #define DEBUG
+// #define SERIAL_DEBUG
+// #define BOT1
 
 #include <common.h>
 
@@ -23,7 +22,11 @@
 
 // global variables
 
-const int ball_threshold = 2000;
+#ifdef BOT1
+const int ball_threshold = 1500;
+#else
+const int ball_threshold = 1000;
+#endif
 extern int line_track_ldr;
 extern Layer1TxDataUnion tx_data;
 extern Layer1RxData rx_data;

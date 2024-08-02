@@ -92,7 +92,7 @@ void serialWrite(const uint8_t *buffer, size_t size)
     write(serialDeviceId, &_encodeBuffer, numEncoded);
     write(serialDeviceId, &PacketMarker, 1);
 
-    std::cout << "sending serial" << std::endl;
+    //std::cout << "sending serial" << std::endl;
 }
 
 void serialRead()

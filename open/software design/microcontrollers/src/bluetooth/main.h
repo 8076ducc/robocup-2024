@@ -5,4 +5,6 @@
 
 #include <common.h>
 
+// #define SERIAL_DEBUG
+
 #endif

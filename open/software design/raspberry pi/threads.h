@@ -27,7 +27,7 @@ public:
 void trackColour(int icase)
 {
     Colour colour({0}, 0);
-    Colour orange({0, 16, 60, 255, 120, 255}, 10);
+    Colour orange({0, 20, 140, 255, 53, 255}, 10);
     // Colour orange({0, 30, 150, 255, 53, 255}, 10);
     Colour yellow({25, 45, 175, 255, 130, 255}, 40);
     // Colour yellow({35, 38, 200, 255, 180, 255}, 40);

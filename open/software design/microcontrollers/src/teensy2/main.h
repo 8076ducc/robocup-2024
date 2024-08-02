@@ -13,10 +13,10 @@
 
 #define LED 13
 
-#define DIP_1 2
-#define DIP_2 3
-#define DIP_3 4
-#define DIP_4 5
+#define DIP_1 5
+#define DIP_2 4
+#define DIP_3 3
+#define DIP_4 2
 
 #define SERIAL5_TX_BUFFER_SIZE 100
 

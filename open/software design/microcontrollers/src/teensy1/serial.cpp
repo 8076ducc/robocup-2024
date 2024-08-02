@@ -2,6 +2,7 @@
 
 void onLayer1Received(const byte *buf, size_t size)
 {
+    Serial.println("Received data from L1");
     Layer1TxDataUnion data_received;
 
     // Don't continue if the payload is invalid
@@ -33,6 +34,10 @@ void onLayer1Received(const byte *buf, size_t size)
     robot.line_data.chord_length = data_received.data.chord_length;
     robot.line_data.line_start_ldr = data_received.data.line_start_ldr;
     robot.line_data.line_end_ldr = data_received.data.line_end_ldr;
+
+    Serial.println("Line data:");
+    Serial.print("On line: ");
+    Serial.println(robot.line_data.on_line);
 }
 
 void onImuReceived(const byte *buf, size_t size)
@@ -78,30 +83,39 @@ void onTeensyReceived(const byte *buf, size_t size)
     // ball.current_pose.bearing = correctBearing(ball.current_pose.bearing);
     ball.detected = data_received.data.ball_detected;
 
-    // Serial.print("Robot: ");
-    // Serial.print(robot.current_pose.x);
-    // Serial.print(" ");
-    // Serial.print(robot.current_pose.y);
-    // Serial.print(" ");
-    // Serial.println(robot.current_pose.bearing);
+    robot.alliance_robot_detected = data_received.data.robot_detected;
 
-    // Serial.print("Ball: ");
-    // Serial.print(ball.current_pose.x);
-    // Serial.print(" ");
-    // Serial.print(ball.current_pose.y);
-    // Serial.print(" ");
-    // Serial.print(ball.current_pose.bearing);
+    Serial.print("robot detected: ");
+    Serial.println(robot.alliance_robot_detected);
+
+    Serial.print("Robot: ");
+    Serial.print(robot.current_pose.x);
+    Serial.print(" ");
+    Serial.print(robot.current_pose.y);
+    Serial.print(" ");
+    Serial.println(robot.current_pose.bearing);
+
+    Serial.print("Ball: ");
+    Serial.print(ball.current_pose.x);
+    Serial.print(" ");
+    Serial.print(ball.current_pose.y);
+    Serial.print(" ");
+    Serial.print(ball.current_pose.bearing);
 
     ball.distance_from_robot = sqrt(pow(data_received.data.target_pose.x - data_received.data.current_pose.x, 2) + pow(data_received.data.target_pose.y - data_received.data.current_pose.y, 2));
 
-    // Serial.print(" ");
-    // Serial.println(ball.distance_from_robot);
-    // Serial.print(ball.current_pose.bearing);
-    // Serial.print(" ");
-    // Serial.println(ball.distance_from_robot);
+    Serial.print(" ");
+    Serial.print(ball.current_pose.bearing);
+    Serial.print(" ");
+    Serial.println(ball.distance_from_robot);
 
     yellow_goal.current_pose.bearing = data_received.data.yellow_goal.current_pose.bearing;
     blue_goal.current_pose.bearing = data_received.data.blue_goal.current_pose.bearing;
+
+    robot.dip_1_on = data_received.data.dip_1_on;
+    robot.dip_2_on = data_received.data.dip_2_on;
+    robot.dip_3_on = data_received.data.dip_3_on;
+    robot.dip_4_on = data_received.data.dip_4_on;
 }
 
 void Robot::setUpSerial()

@@ -10,6 +10,7 @@ LightRing light_ring;
 
 void detectBall()
 {
+  // Serial.println(analogRead(LIGHTGATE));
   if (analogRead(LIGHTGATE) < ball_threshold && !rx_data.kick)
   {
     tx_data.data.ball_in_catchment = true;
@@ -26,11 +27,11 @@ bool kicking = false;
 
 void kick()
 {
-  Serial.print(kicking);
-  Serial.print(" ");
-  Serial.print(millis() - start_kick_time);
-  Serial.print(" ");
-  Serial.println(millis() - last_kick_time);
+  //   Serial.print(kicking);
+  //   Serial.print(" ");
+  //   Serial.print(millis() - start_kick_time);
+  //   Serial.print(" ");
+  //   Serial.println(millis() - last_kick_time);
   if ((!kicking && millis() - last_kick_time > 1000) || millis() - start_kick_time < 180)
   {
     if (rx_data.kick && !kicking)
@@ -85,8 +86,8 @@ void setup()
   digitalWrite(KICKER, LOW);
 
   Serial0.begin(layer_1_serial_baud);
-  // Serial0.setTxBufferSize(120);
-  // Serial0.setRxBufferSize(120);
+  Serial0.setTxBufferSize(120);
+  Serial0.setRxBufferSize(120);
   while (!Serial0)
   {
   }
