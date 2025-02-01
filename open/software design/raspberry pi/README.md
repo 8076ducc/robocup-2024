@@ -25,9 +25,11 @@ sudo ln -s /usr/include/libcamera/libcamera /usr/local/include/libcamera
 sudo g++ -Wall -o "%e" "%f" -lopencv_core -lopencv_videoio -lopencv_highgui -lopencv_imgproc -lopencv_video -llccv -lwiringPi
 ```
 
-9. Transfer the two files in the `systemctl` folder in this repository to the `/lib/systemd/system` folder on the Raspberry Pi.
+9. Test Geany compilation by pressing the brown brick button in your desired file (e.g. `tracker.cpp`; don't compile in `threads.h` or some other header file) THEN run the code by clicking the airplane symbol. You may wish to use the function row keyboard shortcuts at your convenience.
 
-10. Individually check that the services are working using the following commands:
+10. Transfer the two files in the `systemctl` folder in this repository to the `/lib/systemd/system` folder on the Raspberry Pi.
+
+11. Individually check that the services are working using the following commands:
 ```bash
 sudo systemctl start configure-gpio.service
 sudo systemctl status configure-gpio.service
@@ -38,10 +40,14 @@ sudo systemctl status tracker.service
 sudo systemctl stop tracker.service
 ```
 
-11. Enable both services to run on startup using the following commands:
+12. Enable both services to run on startup using the following commands:
 ```bash
 sudo systemctl enable configure-gpio.service
 sudo systemctl enable tracker.service
 ```
 
 13. Run `sudo systemctl disable NetworkManager-wait-online.service` in the terminal.
+
+Other notes:
+- DO NOT 千万不要 plug or unplug the camera module while power is still connected. Shut the RPi down and unplug all power cables before doing anything with the camera module.
+- Placing everything in the Desktop is a personal decision I made so that it's more convenient for me to open files when I VNC into the RPi. You might want to pull the entire repository directly into the RPi (I highly recomend that); in which case you should change the directories to the executables in the `configure-gpio.service` and `tracker.service` files.
