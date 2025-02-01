@@ -1,0 +1,22 @@
+{
+  "name": "PacketIO",
+  "description": "Packetizing wrapper for arduino Streams",
+  "keywords": "Print, Stream, packet, framing, COBS, SLIP",
+  "authors":
+  {
+    "name": "Eric Wieser"
+  },
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/eric-wieser/packet-io.git"
+  },
+  "version": "0.3.0",
+  "license": "MIT",
+  "homepage": "https://packetio.readthedocs.io",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "build": {
+    "flags": "-std=gnu++11 -Wall -Werror -Wpedantic -O2"
+  }
+}
